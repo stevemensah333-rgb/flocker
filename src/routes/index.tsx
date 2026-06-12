@@ -169,7 +169,7 @@ function ModuleGrid() {
     <section className="bg-flock-soil">
       <div className="mx-auto max-w-6xl px-4 py-16">
         <h2 className="font-display text-[32px] text-flock-cream">
-          Five tools. One flock.
+          Four tools. One flock.
         </h2>
         <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3">
           {MODULES.map((m) => (
