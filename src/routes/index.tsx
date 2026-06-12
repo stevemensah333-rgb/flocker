@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { FlaskConical, Egg, Bird, Pill, Store } from "lucide-react";
+import { FlaskConical, Egg, Bird, Pill } from "lucide-react";
 import Ticker from "@/components/landing/Ticker";
 import RationProWidget from "@/components/ration/RationProWidget";
 
@@ -46,7 +46,6 @@ const MODULES = [
   { icon: Egg, name: "EggLedger", line: "Log eggs + feed daily → profit per bird, per cycle" },
   { icon: Bird, name: "FlockCheck", line: "30-sec video → AI count + anomaly flags" },
   { icon: Pill, name: "VetLine", line: "Photo + symptoms → AI diagnosis + nearest agrovet" },
-  { icon: Store, name: "Soko", line: "Post eggs or birds → buyer price alerts" },
 ];
 
 function Landing() {
