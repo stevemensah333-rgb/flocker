@@ -37,12 +37,12 @@ const statusIcon: Record<NutrientStatus, string> = {
   deficit: "✗",
 };
 
-function defaultRows(): RationRow[] {
-  const pick = (name: string, kg: number, price: number): RationRow => ({
+function defaultRows(priceMap?: Record<string, number>): RationRow[] {
+  const pick = (name: string, kg: number, fallback: number): RationRow => ({
     id: newId(),
     name,
     kg,
-    pricePerKg: price,
+    pricePerKg: priceMap?.[name] ?? fallback,
   });
   return [
     pick("Maize (yellow)", 55, 1.8),
@@ -60,6 +60,7 @@ export default function RationProWidget({
   onSave,
   initialRows,
   initialStage,
+  priceMap,
 }: {
   onSave?: (data: {
     rows: RationRow[];
@@ -68,8 +69,11 @@ export default function RationProWidget({
   }) => void;
   initialRows?: RationRow[];
   initialStage?: string;
+  priceMap?: Record<string, number>;
 } = {}) {
-  const [rows, setRows] = useState<RationRow[]>(initialRows ?? defaultRows);
+  const [rows, setRows] = useState<RationRow[]>(
+    initialRows ?? (() => defaultRows(priceMap)),
+  );
   const [stageName, setStageName] = useState(initialStage ?? STAGE_TARGETS[3].stage);
   const [search, setSearch] = useState("");
   const [cat, setCat] = useState<"All" | IngredientCategory>("All");
@@ -99,9 +103,12 @@ export default function RationProWidget({
   const addIngredient = useCallback((name: string) => {
     if (inRation.has(name)) return;
     const id = newId();
-    setRows((r) => [...r, { id, name, kg: 0, pricePerKg: 0 }]);
+    setRows((r) => [
+      ...r,
+      { id, name, kg: 0, pricePerKg: priceMap?.[name] ?? 0 },
+    ]);
     setTimeout(() => qtyRefs.current[id]?.focus(), 0);
-  }, [inRation]);
+  }, [inRation, priceMap]);
 
   const updateRow = (id: string, patch: Partial<RationRow>) =>
     setRows((r) => r.map((row) => (row.id === id ? { ...row, ...patch } : row)));
