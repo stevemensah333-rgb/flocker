@@ -1,0 +1,72 @@
+// Flock — built-in poultry feed ingredient database (per 100 kg basis).
+// Values from the spec ration table.
+
+export type IngredientCategory =
+  | "Energy"
+  | "Protein"
+  | "Minerals"
+  | "Additives";
+
+export interface Ingredient {
+  name: string;
+  category: IngredientCategory;
+  me: number; // ME kcal/kg
+  cp: number; // crude protein %
+  cf: number; // crude fibre %
+  ca: number; // calcium %
+  p: number; // total phosphorus %
+  avP: number; // available phosphorus %
+  lys: number; // lysine %
+  meth: number; // methionine %
+}
+
+export const INGREDIENTS: Ingredient[] = [
+  { name: "Maize (yellow)", category: "Energy", me: 3300, cp: 8.5, cf: 2.2, ca: 0.02, p: 0.28, avP: 0.08, lys: 0.24, meth: 0.18 },
+  { name: "Sorghum (guinea corn)", category: "Energy", me: 3140, cp: 10.0, cf: 2.5, ca: 0.04, p: 0.30, avP: 0.09, lys: 0.26, meth: 0.15 },
+  { name: "Cassava meal", category: "Energy", me: 3100, cp: 2.5, cf: 3.0, ca: 0.20, p: 0.10, avP: 0.03, lys: 0.10, meth: 0.03 },
+  { name: "Glycerine (crude)", category: "Energy", me: 1860, cp: 0, cf: 0, ca: 0, p: 0, avP: 0, lys: 0, meth: 0 },
+  { name: "Rice bran", category: "Energy", me: 2640, cp: 12.0, cf: 11.5, ca: 0.07, p: 1.40, avP: 0.30, lys: 0.46, meth: 0.20 },
+  { name: "Wheat bran", category: "Energy", me: 1680, cp: 15.5, cf: 9.0, ca: 0.10, p: 0.90, avP: 0.20, lys: 0.58, meth: 0.22 },
+  { name: "Palm kernel cake", category: "Energy", me: 1600, cp: 17.0, cf: 17.0, ca: 0.29, p: 0.55, avP: 0.15, lys: 0.68, meth: 0.30 },
+  { name: "Copra cake", category: "Energy", me: 1870, cp: 21.0, cf: 15.0, ca: 0.20, p: 0.55, avP: 0.25, lys: 0.60, meth: 0.28 },
+  { name: "Soya bean meal (full-fat)", category: "Protein", me: 3200, cp: 36.0, cf: 5.5, ca: 0.25, p: 0.60, avP: 0.18, lys: 2.20, meth: 0.52 },
+  { name: "Soya bean meal (solvent-ext.)", category: "Protein", me: 2230, cp: 44.0, cf: 6.5, ca: 0.29, p: 0.65, avP: 0.22, lys: 2.76, meth: 0.62 },
+  { name: "Groundnut cake", category: "Protein", me: 2200, cp: 45.0, cf: 8.0, ca: 0.20, p: 0.55, avP: 0.16, lys: 1.60, meth: 0.48 },
+  { name: "Fish meal (72% CP)", category: "Protein", me: 2880, cp: 72.0, cf: 0.5, ca: 5.10, p: 2.80, avP: 2.52, lys: 5.30, meth: 2.00 },
+  { name: "Fish meal (65% CP)", category: "Protein", me: 2650, cp: 65.0, cf: 1.0, ca: 4.50, p: 2.60, avP: 2.30, lys: 4.80, meth: 1.80 },
+  { name: "Blood meal", category: "Protein", me: 2790, cp: 80.0, cf: 1.2, ca: 0.30, p: 0.22, avP: 0.18, lys: 6.70, meth: 0.90 },
+  { name: "Concentrate (broiler 38% CP)", category: "Protein", me: 2400, cp: 38.0, cf: 5.0, ca: 1.20, p: 0.80, avP: 0.45, lys: 2.00, meth: 0.65 },
+  { name: "Concentrate (layer 35% CP)", category: "Protein", me: 2200, cp: 35.0, cf: 5.0, ca: 8.00, p: 0.70, avP: 0.40, lys: 1.80, meth: 0.55 },
+  { name: "Oyster shell", category: "Minerals", me: 0, cp: 0, cf: 0, ca: 38.0, p: 0.02, avP: 0, lys: 0, meth: 0 },
+  { name: "Limestone", category: "Minerals", me: 0, cp: 0, cf: 0, ca: 36.0, p: 0.02, avP: 0, lys: 0, meth: 0 },
+  { name: "Dicalcium phosphate (DCP)", category: "Minerals", me: 0, cp: 0, cf: 0, ca: 22.0, p: 18.0, avP: 17.50, lys: 0, meth: 0 },
+  { name: "Bone meal", category: "Minerals", me: 0, cp: 0, cf: 0, ca: 24.0, p: 11.0, avP: 9.80, lys: 0, meth: 0 },
+  { name: "Salt (NaCl)", category: "Minerals", me: 0, cp: 0, cf: 0, ca: 0, p: 0, avP: 0, lys: 0, meth: 0 },
+  { name: "Vitamin-mineral premix", category: "Additives", me: 0, cp: 0, cf: 0, ca: 0, p: 0, avP: 0, lys: 0, meth: 0 },
+  { name: "Lysine (L-Lys HCl)", category: "Additives", me: 0, cp: 0, cf: 0, ca: 0, p: 0, avP: 0, lys: 78.0, meth: 0 },
+  { name: "Methionine (DL-Meth)", category: "Additives", me: 0, cp: 0, cf: 0, ca: 0, p: 0, avP: 0, lys: 0, meth: 99.0 },
+];
+
+export interface NutrientTarget {
+  stage: string;
+  me: number;
+  cp: number;
+  ca: number;
+  avP: number;
+  lys: number;
+  meth: number;
+  cfMax: number;
+}
+
+export const STAGE_TARGETS: NutrientTarget[] = [
+  { stage: "Layer Starter (0–8wk)", me: 2900, cp: 20.0, ca: 1.0, avP: 0.45, lys: 1.10, meth: 0.45, cfMax: 6.0 },
+  { stage: "Layer Grower (8–18wk)", me: 2750, cp: 16.0, ca: 1.0, avP: 0.40, lys: 0.80, meth: 0.35, cfMax: 7.0 },
+  { stage: "Layer Pre-lay (18–22wk)", me: 2750, cp: 17.0, ca: 2.0, avP: 0.42, lys: 0.85, meth: 0.36, cfMax: 7.0 },
+  { stage: "Layer Production (22wk+)", me: 2700, cp: 18.0, ca: 3.5, avP: 0.35, lys: 0.85, meth: 0.36, cfMax: 7.0 },
+  { stage: "Broiler Starter (0–2wk)", me: 3000, cp: 23.0, ca: 1.0, avP: 0.48, lys: 1.20, meth: 0.50, cfMax: 5.0 },
+  { stage: "Broiler Grower (2–4wk)", me: 3100, cp: 21.0, ca: 0.9, avP: 0.42, lys: 1.10, meth: 0.45, cfMax: 5.5 },
+  { stage: "Broiler Finisher (4–6wk)", me: 3200, cp: 19.0, ca: 0.9, avP: 0.38, lys: 1.00, meth: 0.40, cfMax: 6.0 },
+  { stage: "Cockerel Starter", me: 2900, cp: 22.0, ca: 1.0, avP: 0.45, lys: 1.10, meth: 0.45, cfMax: 5.5 },
+  { stage: "Cockerel Grower", me: 2750, cp: 18.0, ca: 1.0, avP: 0.40, lys: 0.85, meth: 0.36, cfMax: 6.5 },
+  { stage: "Pullet Grower", me: 2750, cp: 17.0, ca: 1.0, avP: 0.40, lys: 0.82, meth: 0.35, cfMax: 7.0 },
+];
