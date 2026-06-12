@@ -2,6 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { FlaskConical, Egg, Bird, Pill } from "lucide-react";
 import Ticker from "@/components/landing/Ticker";
 import RationProWidget from "@/components/ration/RationProWidget";
+import farmerImg from "@/assets/farmer.jpg";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
