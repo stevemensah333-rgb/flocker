@@ -234,7 +234,7 @@ function Footer() {
     <footer className="bg-flock-soil py-8 text-center">
       <span className="font-display text-lg text-flock-cream">Flock</span>
       <p className="mt-1 font-sans text-[12px] text-flock-cream/50">
-        Poultry Farm OS · Built for West African farms
+        Poultry Farm OS · Built for Ghanaian farms
       </p>
     </footer>
   );
