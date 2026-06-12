@@ -26,6 +26,8 @@ function RationProPage() {
   const [userId, setUserId] = useState<string | null>(null);
   const [saved, setSaved] = useState<SavedRation[]>([]);
   const [loaded, setLoaded] = useState<SavedRation | null>(null);
+  const [priceMap, setPriceMap] = useState<Record<string, number>>({});
+  const [pricesReady, setPricesReady] = useState(false);
 
   const loadSaved = useCallback(async (fid: string) => {
     const { data } = await supabase
@@ -39,7 +41,10 @@ function RationProPage() {
   useEffect(() => {
     (async () => {
       const { data: u } = await supabase.auth.getUser();
-      if (!u.user) return;
+      if (!u.user) {
+        setPricesReady(true);
+        return;
+      }
       setUserId(u.user.id);
       const { data: f } = await supabase
         .from("farms")
@@ -51,7 +56,15 @@ function RationProPage() {
       if (f) {
         setFarmId(f.id);
         loadSaved(f.id);
+        const { data: prices } = await supabase
+          .from("ingredient_prices")
+          .select("ingredient_name, price_per_kg")
+          .eq("farm_id", f.id);
+        const map: Record<string, number> = {};
+        for (const p of prices ?? []) map[p.ingredient_name] = p.price_per_kg;
+        setPriceMap(map);
       }
+      setPricesReady(true);
     })();
   }, [loadSaved]);
 
@@ -97,11 +110,17 @@ function RationProPage() {
       subtitle="Build and balance least-cost feed rations on a 100 kg basis."
     >
       <RationProWidget
-        key={loaded?.id ?? "new"}
+        key={loaded?.id ?? (pricesReady ? "new" : "loading")}
         onSave={handleSave}
         initialRows={loaded?.rows}
         initialStage={loaded?.stage ?? undefined}
+        priceMap={priceMap}
       />
+      {Object.keys(priceMap).length > 0 && !loaded && (
+        <p className="mt-2 font-sans text-[12px] text-flock-stone">
+          Prices auto-filled from your Feed Store where available.
+        </p>
+      )}
 
       <h2 className="mb-3 mt-8 font-display text-xl text-flock-soil">
         Saved formulas
