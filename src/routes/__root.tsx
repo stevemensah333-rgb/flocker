@@ -88,18 +88,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "Flock — The Poultry Farm Operating System" },
+      { name: "twitter:description", content: "Feed formulation, egg tracking, health alerts and your ledger — one app for African poultry farmers." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/93370dcc-a5d9-4662-8945-c522f210e291/id-preview-c410c8c0--849cff1e-dc59-4d05-8b03-94e12ff77332.lovable.app-1781303922577.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/93370dcc-a5d9-4662-8945-c522f210e291/id-preview-c410c8c0--849cff1e-dc59-4d05-8b03-94e12ff77332.lovable.app-1781303922577.png" },
     ],
     links: [
-      { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      {
-        rel: "preconnect",
-        href: "https://fonts.gstatic.com",
-        crossOrigin: "anonymous",
-      },
-      {
-        rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=JetBrains+Mono:wght@400..700&display=swap",
-      },
       {
         rel: "stylesheet",
         href: appCss,
