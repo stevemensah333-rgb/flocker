@@ -56,9 +56,21 @@ function defaultRows(): RationRow[] {
   ];
 }
 
-export default function RationProWidget() {
-  const [rows, setRows] = useState<RationRow[]>(defaultRows);
-  const [stageName, setStageName] = useState(STAGE_TARGETS[3].stage);
+export default function RationProWidget({
+  onSave,
+  initialRows,
+  initialStage,
+}: {
+  onSave?: (data: {
+    rows: RationRow[];
+    stage: string;
+    costPerKg: number;
+  }) => void;
+  initialRows?: RationRow[];
+  initialStage?: string;
+} = {}) {
+  const [rows, setRows] = useState<RationRow[]>(initialRows ?? defaultRows);
+  const [stageName, setStageName] = useState(initialStage ?? STAGE_TARGETS[3].stage);
   const [search, setSearch] = useState("");
   const [cat, setCat] = useState<"All" | IngredientCategory>("All");
   const [showAdvice, setShowAdvice] = useState(false);
@@ -135,7 +147,18 @@ export default function RationProWidget() {
         >
           Calculate
         </button>
+        {onSave && (
+          <button
+            onClick={() =>
+              onSave({ rows, stage: stageName, costPerKg: totals.costPerKg })
+            }
+            className="rounded-sm border bg-flock-mist px-3 py-1 font-sans text-[12px] font-semibold text-flock-soil hover:bg-flock-fog"
+          >
+            Save formula
+          </button>
+        )}
       </div>
+
 
       <div className="grid grid-cols-1 md:grid-cols-[260px_1fr]">
         {/* Ingredient panel */}
