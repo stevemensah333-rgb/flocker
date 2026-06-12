@@ -164,41 +164,6 @@ function PhoneMock() {
   );
 }
 
-function StatsBar() {
-  const ref = useRef<HTMLDivElement>(null);
-  const [run, setRun] = useState(false);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([e]) => e.isIntersecting && setRun(true),
-      { threshold: 0.4 },
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
-  const farms = useCountUp(4200, run);
-  const saved = useCountUp(340, run);
-  const rate = useCountUp(88, run);
-  return (
-    <section ref={ref} className="border-b bg-flock-cream">
-      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-6 px-4 py-12 text-center md:grid-cols-3">
-        <Stat value={`${farms.toLocaleString()}+`} label="farms using Flock" />
-        <Stat value={`₵${saved}`} label="avg. feed cost saved per month" />
-        <Stat value={`${rate}%`} label="avg. laying rate on tracked flocks" />
-      </div>
-    </section>
-  );
-}
-
-function Stat({ value, label }: { value: string; label: string }) {
-  return (
-    <div>
-      <div className="font-mono text-[36px] font-bold text-flock-soil">{value}</div>
-      <div className="mt-1 font-sans text-[14px] text-flock-stone">{label}</div>
-    </div>
-  );
-}
 
 function ModuleGrid() {
   return (
