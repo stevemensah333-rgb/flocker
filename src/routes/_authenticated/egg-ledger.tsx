@@ -144,10 +144,39 @@ function EggLedgerPage() {
   const inputCls =
     "w-full rounded-lg border bg-flock-mist px-3 py-2 font-sans text-[14px] outline-none focus:ring-1 focus:ring-flock-harvest";
 
+  function exportCSV() {
+    if (records.length === 0) {
+      toast.error("No records to export.");
+      return;
+    }
+    const csv = toCSV(
+      ["Date", "Coop", "Collected", "Broken", "Sold", "Price/egg", "Revenue"],
+      records.map((r) => [
+        r.record_date,
+        coopName(r.coop_id),
+        r.eggs_collected,
+        r.eggs_broken,
+        r.eggs_sold,
+        fmt(r.price_per_egg, 2),
+        fmt(r.eggs_sold * r.price_per_egg, 2),
+      ]),
+    );
+    downloadCSV(`egg-records-${stamp()}.csv`, csv);
+    toast.success("Exported CSV");
+  }
+
   return (
     <AppShell
       title="EggLedger"
       subtitle="Log daily egg collection, breakages and sales."
+      actions={
+        <button
+          onClick={exportCSV}
+          className="flex items-center gap-1.5 rounded-lg border bg-flock-fog px-3 py-2 font-sans text-[13px] text-flock-soil transition hover:bg-flock-mist"
+        >
+          <Download className="h-4 w-4" /> Export CSV
+        </button>
+      }
     >
       {/* Stat tiles */}
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
