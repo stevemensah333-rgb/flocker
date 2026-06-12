@@ -37,10 +37,9 @@ function Landing() {
       <TopNav />
       <Hero />
       <Ticker />
-      <ModuleGrid />
       <DemoSection />
+      <ModuleGrid />
       <FinalCta />
-      <Ticker />
       <Footer />
     </div>
   );
