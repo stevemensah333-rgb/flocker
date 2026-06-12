@@ -10,6 +10,7 @@ import {
   TrendingDown,
   Wheat,
   BarChart3,
+  Stethoscope,
   ChevronRight,
   Plus,
 } from "lucide-react";
@@ -281,6 +282,13 @@ function Dashboard() {
                 title="Reports"
                 desc="Production & revenue trends"
                 accent="harvest"
+              />
+              <ModuleCard
+                to="/vetline"
+                icon={<Stethoscope className="h-5 w-5" />}
+                title="VetLine"
+                desc="AI flock health triage"
+                accent="field"
               />
             </div>
           </div>
