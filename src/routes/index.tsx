@@ -46,7 +46,6 @@ const MODULES = [
   { icon: Egg, name: "EggLedger", line: "Log eggs + feed daily → profit per bird, per cycle" },
   { icon: Bird, name: "FlockCheck", line: "30-sec video → AI count + anomaly flags" },
   { icon: Pill, name: "VetLine", line: "Photo + symptoms → AI diagnosis + nearest agrovet" },
-  { icon: Store, name: "Soko", line: "Post eggs or birds → buyer price alerts" },
 ];
 
 function Landing() {
