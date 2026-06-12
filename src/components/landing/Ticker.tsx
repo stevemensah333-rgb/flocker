@@ -1,11 +1,12 @@
 const ITEMS = [
-  "🐔 4,200 poultry farms",
-  "🥚 Avg. 88% laying rate tracked",
-  "⚗️ RationPro: ₵2.85/kg avg. feed cost",
-  "💊 VetLine: 3,200 diagnoses this week",
-  "🐣 Broiler avg. FCR: 1.84 across tracked flocks",
-  "🌡️ Heat alert: Kumasi farms — check ventilation",
+  "⚗️ RationPro — formulate least-cost feed in seconds",
+  "🥚 EggLedger — track profit per bird, per cycle",
+  "🐔 Broiler target FCR: ~1.8",
+  "🌡️ Heat stress? Boost ventilation & cool water access",
+  "💊 VetLine — photo + symptoms → guidance + nearest agrovet",
+  "🐣 Layer peak target: 90%+ lay rate at point-of-lay",
 ];
+
 
 export default function Ticker() {
   const sequence = [...ITEMS, ...ITEMS];
