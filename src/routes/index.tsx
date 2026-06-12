@@ -41,11 +41,13 @@ function Landing() {
       <Ticker />
       <DemoSection />
       <ModuleGrid />
+      <PhotoBand />
       <FinalCta />
       <Footer />
     </div>
   );
 }
+
 
 function TopNav() {
   return (
