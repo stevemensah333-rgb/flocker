@@ -37,10 +37,9 @@ function Landing() {
       <TopNav />
       <Hero />
       <Ticker />
-      <ModuleGrid />
       <DemoSection />
+      <ModuleGrid />
       <FinalCta />
-      <Ticker />
       <Footer />
     </div>
   );
@@ -90,7 +89,7 @@ function Hero() {
           </h1>
           <p className="mt-6 max-w-md font-sans text-[16px] text-flock-cream/80">
             Feed formulation, egg tracking, health alerts, and your ledger — one
-            app, built for how African poultry farmers actually work.
+            app, built for how Ghanaian poultry farmers actually work.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
@@ -107,7 +106,7 @@ function Hero() {
             </a>
           </div>
           <p className="mt-5 font-sans text-[13px] text-flock-cream/60">
-            Free for up to 500 birds · Works on WhatsApp · No credit card
+            Free for up to 500 birds · No credit card required
           </p>
         </div>
 
@@ -170,7 +169,7 @@ function ModuleGrid() {
     <section className="bg-flock-soil">
       <div className="mx-auto max-w-6xl px-4 py-16">
         <h2 className="font-display text-[32px] text-flock-cream">
-          Five tools. One flock.
+          Four tools. One flock.
         </h2>
         <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3">
           {MODULES.map((m) => (
@@ -235,7 +234,7 @@ function Footer() {
     <footer className="bg-flock-soil py-8 text-center">
       <span className="font-display text-lg text-flock-cream">Flock</span>
       <p className="mt-1 font-sans text-[12px] text-flock-cream/50">
-        Poultry Farm OS · Built for West African farms
+        Poultry Farm OS · Built for Ghanaian farms
       </p>
     </footer>
   );
