@@ -56,8 +56,20 @@ function defaultRows(): RationRow[] {
   ];
 }
 
-export default function RationProWidget() {
-  const [rows, setRows] = useState<RationRow[]>(defaultRows);
+export default function RationProWidget({
+  onSave,
+  initialRows,
+  initialStage,
+}: {
+  onSave?: (data: {
+    rows: RationRow[];
+    stage: string;
+    costPerKg: number;
+  }) => void;
+  initialRows?: RationRow[];
+  initialStage?: string;
+} = {}) {
+  const [rows, setRows] = useState<RationRow[]>(initialRows ?? defaultRows);
   const [stageName, setStageName] = useState(STAGE_TARGETS[3].stage);
   const [search, setSearch] = useState("");
   const [cat, setCat] = useState<"All" | IngredientCategory>("All");
