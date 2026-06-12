@@ -9,6 +9,7 @@ import {
   TrendingUp,
   TrendingDown,
   Wheat,
+  BarChart3,
   ChevronRight,
   Plus,
 } from "lucide-react";
@@ -273,6 +274,13 @@ function Dashboard() {
                 title="Feed Store"
                 desc="Manage ingredient prices"
                 accent="clay"
+              />
+              <ModuleCard
+                to="/reports"
+                icon={<BarChart3 className="h-5 w-5" />}
+                title="Reports"
+                desc="Production & revenue trends"
+                accent="harvest"
               />
             </div>
           </div>
