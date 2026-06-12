@@ -14,7 +14,145 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      coops: {
+        Row: {
+          age_weeks: number
+          breed: string | null
+          count: number
+          created_at: string
+          farm_id: string
+          id: string
+          name: string
+          owner_id: string
+          production_type: string | null
+        }
+        Insert: {
+          age_weeks?: number
+          breed?: string | null
+          count?: number
+          created_at?: string
+          farm_id: string
+          id?: string
+          name: string
+          owner_id: string
+          production_type?: string | null
+        }
+        Update: {
+          age_weeks?: number
+          breed?: string | null
+          count?: number
+          created_at?: string
+          farm_id?: string
+          id?: string
+          name?: string
+          owner_id?: string
+          production_type?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "coops_farm_id_fkey"
+            columns: ["farm_id"]
+            isOneToOne: false
+            referencedRelation: "farms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      farms: {
+        Row: {
+          country: string | null
+          created_at: string
+          egg_price: number
+          id: string
+          location: string | null
+          name: string
+          owner_id: string
+          region: string | null
+        }
+        Insert: {
+          country?: string | null
+          created_at?: string
+          egg_price?: number
+          id?: string
+          location?: string | null
+          name: string
+          owner_id: string
+          region?: string | null
+        }
+        Update: {
+          country?: string | null
+          created_at?: string
+          egg_price?: number
+          id?: string
+          location?: string | null
+          name?: string
+          owner_id?: string
+          region?: string | null
+        }
+        Relationships: []
+      }
+      ingredient_prices: {
+        Row: {
+          created_at: string
+          farm_id: string
+          id: string
+          ingredient_name: string
+          owner_id: string
+          price_per_kg: number
+        }
+        Insert: {
+          created_at?: string
+          farm_id: string
+          id?: string
+          ingredient_name: string
+          owner_id: string
+          price_per_kg?: number
+        }
+        Update: {
+          created_at?: string
+          farm_id?: string
+          id?: string
+          ingredient_name?: string
+          owner_id?: string
+          price_per_kg?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ingredient_prices_farm_id_fkey"
+            columns: ["farm_id"]
+            isOneToOne: false
+            referencedRelation: "farms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          country: string | null
+          created_at: string
+          full_name: string | null
+          id: string
+          onboarded: boolean
+          phone: string | null
+        }
+        Insert: {
+          country?: string | null
+          created_at?: string
+          full_name?: string | null
+          id: string
+          onboarded?: boolean
+          phone?: string | null
+        }
+        Update: {
+          country?: string | null
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          onboarded?: boolean
+          phone?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
