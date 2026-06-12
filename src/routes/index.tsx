@@ -2,6 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { FlaskConical, Egg, Bird, Pill } from "lucide-react";
 import Ticker from "@/components/landing/Ticker";
 import RationProWidget from "@/components/ration/RationProWidget";
+import farmerImg from "@/assets/farmer.jpg";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -39,11 +41,13 @@ function Landing() {
       <Ticker />
       <DemoSection />
       <ModuleGrid />
+      <PhotoBand />
       <FinalCta />
       <Footer />
     </div>
   );
 }
+
 
 function TopNav() {
   return (
@@ -75,7 +79,7 @@ function TopNav() {
 function Hero() {
   return (
     <section className="bg-flock-soil">
-      <div className="mx-auto grid max-w-6xl gap-10 px-4 py-16 md:grid-cols-2 md:py-24">
+      <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 md:grid-cols-2 md:py-24">
         <div className="animate-flock-enter">
           <span className="inline-block rounded-full border border-flock-harvest/40 px-3 py-1 font-sans text-[11px] font-semibold uppercase tracking-wide text-flock-harvest">
             Poultry Farm OS
@@ -94,13 +98,13 @@ function Hero() {
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
               to="/auth"
-              className="rounded-lg bg-flock-harvest px-5 py-3 font-sans text-[15px] font-semibold text-flock-soil"
+              className="rounded-lg bg-flock-harvest px-5 py-3 font-sans text-[15px] font-semibold text-flock-soil transition-transform hover:-translate-y-0.5"
             >
               Start free
             </Link>
             <a
               href="#demo"
-              className="rounded-lg border border-flock-cream/30 px-5 py-3 font-sans text-[15px] text-flock-cream"
+              className="rounded-lg border border-flock-cream/30 px-5 py-3 font-sans text-[15px] text-flock-cream transition-colors hover:bg-flock-cream/10"
             >
               See how it works →
             </a>
@@ -117,6 +121,7 @@ function Hero() {
     </section>
   );
 }
+
 
 function PhoneMock() {
   return (
@@ -171,21 +176,62 @@ function ModuleGrid() {
         <h2 className="font-display text-[32px] text-flock-cream">
           Four tools. One flock.
         </h2>
-        <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-3">
+        <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
           {MODULES.map((m) => (
             <div
               key={m.name}
-              className="rounded-lg border border-flock-cream/15 bg-flock-soil p-5"
+              className="rounded-xl border border-flock-cream/10 bg-flock-cream/[0.04] p-6 transition-all hover:-translate-y-1 hover:border-flock-harvest/40 hover:bg-flock-cream/[0.07]"
             >
-              <m.icon className="h-6 w-6 text-flock-harvest" />
-              <div className="mt-3 font-sans text-[16px] font-semibold text-flock-cream">
+              <div className="grid h-11 w-11 place-items-center rounded-lg bg-flock-harvest/15">
+                <m.icon className="h-6 w-6 text-flock-harvest" />
+              </div>
+              <div className="mt-4 font-sans text-[17px] font-semibold text-flock-cream">
                 {m.name}
               </div>
-              <p className="mt-1 font-sans text-[13px] text-flock-cream/70">
+              <p className="mt-1.5 font-sans text-[13px] leading-relaxed text-flock-cream/70">
                 {m.line}
               </p>
             </div>
           ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function PhotoBand() {
+  return (
+    <section className="bg-flock-cream">
+      <div className="mx-auto max-w-6xl px-4 py-16">
+        <div className="grid items-center gap-10 md:grid-cols-2">
+          <div className="overflow-hidden rounded-2xl shadow-flock">
+            <img
+              src={farmerImg}
+              alt="Ghanaian poultry farmer checking flock data on a phone in a sunlit coop"
+              width={1280}
+              height={960}
+              loading="lazy"
+              className="h-full w-full object-cover"
+            />
+          </div>
+          <div>
+            <h2 className="font-display text-[32px] leading-tight text-flock-soil">
+              Built for the farm,
+              <br />
+              not the spreadsheet.
+            </h2>
+            <p className="mt-4 max-w-md font-sans text-[15px] leading-relaxed text-flock-stone">
+              Every feature starts from a real question a Ghanaian farmer asks —
+              what does this batch cost, is the flock laying, why are birds off
+              feed. No jargon, no clutter, just the numbers that pay the bills.
+            </p>
+            <Link
+              to="/auth"
+              className="mt-6 inline-block rounded-lg bg-flock-soil px-5 py-3 font-sans text-[15px] font-semibold text-flock-cream transition-transform hover:-translate-y-0.5"
+            >
+              Start free
+            </Link>
+          </div>
         </div>
       </div>
     </section>
@@ -203,13 +249,24 @@ function DemoSection() {
           Type kilograms, watch nutrients update live. This is the real tool — no
           sign-up needed to formulate a ration.
         </p>
-        <div className="mt-8">
-          <RationProWidget />
+        <div className="mt-8 overflow-hidden rounded-xl border border-flock-fog bg-white shadow-flock">
+          <div className="flex items-center gap-2 border-b border-flock-fog bg-flock-mist px-4 py-2.5">
+            <span className="h-3 w-3 rounded-full bg-flock-harvest/70" />
+            <span className="h-3 w-3 rounded-full bg-flock-stone/40" />
+            <span className="h-3 w-3 rounded-full bg-flock-stone/40" />
+            <span className="ml-3 font-mono text-[11px] text-flock-stone">
+              live — edit any kg value
+            </span>
+          </div>
+          <div className="p-3 md:p-5">
+            <RationProWidget />
+          </div>
         </div>
       </div>
     </section>
   );
 }
+
 
 function FinalCta() {
   return (
