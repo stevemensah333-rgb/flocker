@@ -13,10 +13,12 @@ import {
   CartesianGrid,
   Tooltip,
 } from "recharts";
-import { Egg, Wallet, AlertTriangle, TrendingUp, BarChart3 } from "lucide-react";
+import { Egg, Wallet, AlertTriangle, TrendingUp, BarChart3, Download } from "lucide-react";
+import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import AppShell from "@/components/app/AppShell";
 import { fmt } from "@/lib/flock/ration";
+import { toCSV, downloadCSV, stamp } from "@/lib/flock/export";
 
 export const Route = createFileRoute("/_authenticated/reports")({
   component: ReportsPage,
