@@ -254,21 +254,21 @@ function Dashboard() {
             <SectionHead title="Modules" className="mt-8" />
             <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
               <ModuleCard
-                to="/"
+                to="/rationpro"
                 icon={<Calculator className="h-5 w-5" />}
                 title="RationPro"
                 desc="Balance least-cost feed rations"
                 accent="harvest"
               />
               <ModuleCard
-                to="/"
+                to="/egg-ledger"
                 icon={<Egg className="h-5 w-5" />}
                 title="EggLedger"
                 desc="Track daily eggs & production"
                 accent="field"
               />
               <ModuleCard
-                to="/"
+                to="/rationpro"
                 icon={<Wheat className="h-5 w-5" />}
                 title="Feed Store"
                 desc="Manage ingredient prices"
