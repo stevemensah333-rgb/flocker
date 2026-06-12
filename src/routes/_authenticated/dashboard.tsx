@@ -9,6 +9,7 @@ import {
   TrendingUp,
   TrendingDown,
   Wheat,
+  BarChart3,
   ChevronRight,
   Plus,
 } from "lucide-react";
