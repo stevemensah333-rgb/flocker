@@ -11,12 +11,12 @@ const ITEMS = [
 export default function Ticker() {
   const sequence = [...ITEMS, ...ITEMS];
   return (
-    <div className="overflow-hidden bg-flock-soil py-3">
+    <div className="overflow-hidden border-y border-flock-harvest/15 bg-flock-soil py-3.5">
       <div className="flex w-max animate-ticker whitespace-nowrap">
         {sequence.map((item, i) => (
           <span
             key={i}
-            className="mx-6 font-sans text-[13px] text-flock-harvest"
+            className="mx-7 font-sans text-[13.5px] font-medium text-flock-harvest"
           >
             {item}
           </span>
