@@ -75,7 +75,7 @@ function TopNav() {
 function Hero() {
   return (
     <section className="bg-flock-soil">
-      <div className="mx-auto grid max-w-6xl gap-10 px-4 py-16 md:grid-cols-2 md:py-24">
+      <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 md:grid-cols-2 md:py-24">
         <div className="animate-flock-enter">
           <span className="inline-block rounded-full border border-flock-harvest/40 px-3 py-1 font-sans text-[11px] font-semibold uppercase tracking-wide text-flock-harvest">
             Poultry Farm OS
@@ -94,13 +94,13 @@ function Hero() {
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
               to="/auth"
-              className="rounded-lg bg-flock-harvest px-5 py-3 font-sans text-[15px] font-semibold text-flock-soil"
+              className="rounded-lg bg-flock-harvest px-5 py-3 font-sans text-[15px] font-semibold text-flock-soil transition-transform hover:-translate-y-0.5"
             >
               Start free
             </Link>
             <a
               href="#demo"
-              className="rounded-lg border border-flock-cream/30 px-5 py-3 font-sans text-[15px] text-flock-cream"
+              className="rounded-lg border border-flock-cream/30 px-5 py-3 font-sans text-[15px] text-flock-cream transition-colors hover:bg-flock-cream/10"
             >
               See how it works →
             </a>
@@ -117,6 +117,7 @@ function Hero() {
     </section>
   );
 }
+
 
 function PhoneMock() {
   return (
