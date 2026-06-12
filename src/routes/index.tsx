@@ -37,7 +37,6 @@ function Landing() {
       <TopNav />
       <Hero />
       <Ticker />
-      <StatsBar />
       <ModuleGrid />
       <DemoSection />
       <FinalCta />
