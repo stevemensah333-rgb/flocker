@@ -1,5 +1,4 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
 import { FlaskConical, Egg, Bird, Pill } from "lucide-react";
 import Ticker from "@/components/landing/Ticker";
 import RationProWidget from "@/components/ration/RationProWidget";
