@@ -24,22 +24,6 @@ export const Route = createFileRoute("/")({
   component: Landing,
 });
 
-function useCountUp(end: number, run: boolean, duration = 1400) {
-  const [val, setVal] = useState(0);
-  useEffect(() => {
-    if (!run) return;
-    let raf = 0;
-    const start = performance.now();
-    const tick = (now: number) => {
-      const p = Math.min((now - start) / duration, 1);
-      setVal(Math.floor(end * (1 - Math.pow(1 - p, 3))));
-      if (p < 1) raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [end, run, duration]);
-  return val;
-}
 
 const MODULES = [
   { icon: FlaskConical, name: "RationPro", line: "PTC feed formulation — kg inputs, instant nutrient analysis" },
