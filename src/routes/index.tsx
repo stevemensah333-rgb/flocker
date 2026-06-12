@@ -89,7 +89,7 @@ function Hero() {
           </h1>
           <p className="mt-6 max-w-md font-sans text-[16px] text-flock-cream/80">
             Feed formulation, egg tracking, health alerts, and your ledger — one
-            app, built for how African poultry farmers actually work.
+            app, built for how Ghanaian poultry farmers actually work.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
