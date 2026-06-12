@@ -147,7 +147,18 @@ export default function RationProWidget({
         >
           Calculate
         </button>
+        {onSave && (
+          <button
+            onClick={() =>
+              onSave({ rows, stage: stageName, costPerKg: totals.costPerKg })
+            }
+            className="rounded-sm border bg-flock-mist px-3 py-1 font-sans text-[12px] font-semibold text-flock-soil hover:bg-flock-fog"
+          >
+            Save formula
+          </button>
+        )}
       </div>
+
 
       <div className="grid grid-cols-1 md:grid-cols-[260px_1fr]">
         {/* Ingredient panel */}
