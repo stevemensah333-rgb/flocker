@@ -106,7 +106,7 @@ function Hero() {
             </a>
           </div>
           <p className="mt-5 font-sans text-[13px] text-flock-cream/60">
-            Free for up to 500 birds · Works on WhatsApp · No credit card
+            Free for up to 500 birds · No credit card required
           </p>
         </div>
 
