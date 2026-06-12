@@ -13,10 +13,12 @@ import {
   CartesianGrid,
   Tooltip,
 } from "recharts";
-import { Egg, Wallet, AlertTriangle, TrendingUp, BarChart3 } from "lucide-react";
+import { Egg, Wallet, AlertTriangle, TrendingUp, BarChart3, Download } from "lucide-react";
+import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import AppShell from "@/components/app/AppShell";
 import { fmt } from "@/lib/flock/ration";
+import { toCSV, downloadCSV, stamp } from "@/lib/flock/export";
 
 export const Route = createFileRoute("/_authenticated/reports")({
   component: ReportsPage,
@@ -145,11 +147,41 @@ function ReportsPage() {
     </div>
   );
 
+  function exportCSV() {
+    if (daily.length === 0) {
+      toast.error("No data to export.");
+      return;
+    }
+    const csv = toCSV(
+      ["Date", "Collected", "Broken", "Sold", "Revenue", "Break rate %"],
+      daily.map((d) => [
+        d.date,
+        d.collected,
+        d.broken,
+        d.sold,
+        fmt(d.revenue, 2),
+        fmt(d.breakRate, 1),
+      ]),
+    );
+    downloadCSV(`report-${rangeDays}d-${stamp()}.csv`, csv);
+    toast.success("Exported CSV");
+  }
+
   return (
     <AppShell
       title="Reports"
       subtitle="Production, revenue and quality trends over time."
-      actions={rangePicker}
+      actions={
+        <div className="flex items-center gap-2">
+          {rangePicker}
+          <button
+            onClick={exportCSV}
+            className="flex items-center gap-1.5 rounded-lg border bg-flock-fog px-3 py-2 font-sans text-[13px] text-flock-soil transition hover:bg-flock-mist"
+          >
+            <Download className="h-4 w-4" /> Export
+          </button>
+        </div>
+      }
     >
       {!ready ? (
         <div className="space-y-3">
