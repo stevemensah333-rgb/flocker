@@ -26,6 +26,8 @@ function RationProPage() {
   const [userId, setUserId] = useState<string | null>(null);
   const [saved, setSaved] = useState<SavedRation[]>([]);
   const [loaded, setLoaded] = useState<SavedRation | null>(null);
+  const [priceMap, setPriceMap] = useState<Record<string, number>>({});
+  const [pricesReady, setPricesReady] = useState(false);
 
   const loadSaved = useCallback(async (fid: string) => {
     const { data } = await supabase
@@ -39,7 +41,10 @@ function RationProPage() {
   useEffect(() => {
     (async () => {
       const { data: u } = await supabase.auth.getUser();
-      if (!u.user) return;
+      if (!u.user) {
+        setPricesReady(true);
+        return;
+      }
       setUserId(u.user.id);
       const { data: f } = await supabase
         .from("farms")
@@ -51,7 +56,15 @@ function RationProPage() {
       if (f) {
         setFarmId(f.id);
         loadSaved(f.id);
+        const { data: prices } = await supabase
+          .from("ingredient_prices")
+          .select("ingredient_name, price_per_kg")
+          .eq("farm_id", f.id);
+        const map: Record<string, number> = {};
+        for (const p of prices ?? []) map[p.ingredient_name] = p.price_per_kg;
+        setPriceMap(map);
       }
+      setPricesReady(true);
     })();
   }, [loadSaved]);
 
