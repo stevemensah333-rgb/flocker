@@ -70,7 +70,7 @@ export default function RationProWidget({
   initialStage?: string;
 } = {}) {
   const [rows, setRows] = useState<RationRow[]>(initialRows ?? defaultRows);
-  const [stageName, setStageName] = useState(STAGE_TARGETS[3].stage);
+  const [stageName, setStageName] = useState(initialStage ?? STAGE_TARGETS[3].stage);
   const [search, setSearch] = useState("");
   const [cat, setCat] = useState<"All" | IngredientCategory>("All");
   const [showAdvice, setShowAdvice] = useState(false);
