@@ -8,6 +8,7 @@ const NAV = [
   { to: "/rationpro", label: "RationPro", icon: Calculator },
   { to: "/egg-ledger", label: "EggLedger", icon: Egg },
   { to: "/feed-store", label: "Feed Store", icon: Package },
+  { to: "/reports", label: "Reports", icon: BarChart3 },
 ] as const;
 
 export default function AppShell({
