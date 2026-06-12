@@ -268,7 +268,7 @@ function Dashboard() {
                 accent="field"
               />
               <ModuleCard
-                to="/rationpro"
+                to="/feed-store"
                 icon={<Wheat className="h-5 w-5" />}
                 title="Feed Store"
                 desc="Manage ingredient prices"

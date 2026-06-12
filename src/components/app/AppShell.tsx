@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Bird, LogOut, LayoutDashboard, Calculator, Egg } from "lucide-react";
+import { Bird, LogOut, LayoutDashboard, Calculator, Egg, Package } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -7,6 +7,7 @@ const NAV = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { to: "/rationpro", label: "RationPro", icon: Calculator },
   { to: "/egg-ledger", label: "EggLedger", icon: Egg },
+  { to: "/feed-store", label: "Feed Store", icon: Package },
 ] as const;
 
 export default function AppShell({

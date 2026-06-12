@@ -15,6 +15,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRationproRouteImport } from './routes/_authenticated/rationpro'
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
+import { Route as AuthenticatedFeedStoreRouteImport } from './routes/_authenticated/feed-store'
 import { Route as AuthenticatedEggLedgerRouteImport } from './routes/_authenticated/egg-ledger'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 
@@ -47,6 +48,11 @@ const AuthenticatedOnboardingRoute = AuthenticatedOnboardingRouteImport.update({
   path: '/onboarding',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedFeedStoreRoute = AuthenticatedFeedStoreRouteImport.update({
+  id: '/feed-store',
+  path: '/feed-store',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedEggLedgerRoute = AuthenticatedEggLedgerRouteImport.update({
   id: '/egg-ledger',
   path: '/egg-ledger',
@@ -64,6 +70,7 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/egg-ledger': typeof AuthenticatedEggLedgerRoute
+  '/feed-store': typeof AuthenticatedFeedStoreRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/rationpro': typeof AuthenticatedRationproRoute
 }
@@ -73,6 +80,7 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/egg-ledger': typeof AuthenticatedEggLedgerRoute
+  '/feed-store': typeof AuthenticatedFeedStoreRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/rationpro': typeof AuthenticatedRationproRoute
 }
@@ -84,6 +92,7 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/egg-ledger': typeof AuthenticatedEggLedgerRoute
+  '/_authenticated/feed-store': typeof AuthenticatedFeedStoreRoute
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
   '/_authenticated/rationpro': typeof AuthenticatedRationproRoute
 }
@@ -95,6 +104,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/dashboard'
     | '/egg-ledger'
+    | '/feed-store'
     | '/onboarding'
     | '/rationpro'
   fileRoutesByTo: FileRoutesByTo
@@ -104,6 +114,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/dashboard'
     | '/egg-ledger'
+    | '/feed-store'
     | '/onboarding'
     | '/rationpro'
   id:
@@ -114,6 +125,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/_authenticated/dashboard'
     | '/_authenticated/egg-ledger'
+    | '/_authenticated/feed-store'
     | '/_authenticated/onboarding'
     | '/_authenticated/rationpro'
   fileRoutesById: FileRoutesById
@@ -169,6 +181,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedOnboardingRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/feed-store': {
+      id: '/_authenticated/feed-store'
+      path: '/feed-store'
+      fullPath: '/feed-store'
+      preLoaderRoute: typeof AuthenticatedFeedStoreRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/egg-ledger': {
       id: '/_authenticated/egg-ledger'
       path: '/egg-ledger'
@@ -189,6 +208,7 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedEggLedgerRoute: typeof AuthenticatedEggLedgerRoute
+  AuthenticatedFeedStoreRoute: typeof AuthenticatedFeedStoreRoute
   AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
   AuthenticatedRationproRoute: typeof AuthenticatedRationproRoute
 }
@@ -196,6 +216,7 @@ interface AuthenticatedRouteRouteChildren {
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedEggLedgerRoute: AuthenticatedEggLedgerRoute,
+  AuthenticatedFeedStoreRoute: AuthenticatedFeedStoreRoute,
   AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
   AuthenticatedRationproRoute: AuthenticatedRationproRoute,
 }
