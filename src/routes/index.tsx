@@ -1,5 +1,4 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
 import { FlaskConical, Egg, Bird, Pill } from "lucide-react";
 import Ticker from "@/components/landing/Ticker";
 import RationProWidget from "@/components/ration/RationProWidget";
@@ -24,22 +23,6 @@ export const Route = createFileRoute("/")({
   component: Landing,
 });
 
-function useCountUp(end: number, run: boolean, duration = 1400) {
-  const [val, setVal] = useState(0);
-  useEffect(() => {
-    if (!run) return;
-    let raf = 0;
-    const start = performance.now();
-    const tick = (now: number) => {
-      const p = Math.min((now - start) / duration, 1);
-      setVal(Math.floor(end * (1 - Math.pow(1 - p, 3))));
-      if (p < 1) raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [end, run, duration]);
-  return val;
-}
 
 const MODULES = [
   { icon: FlaskConical, name: "RationPro", line: "PTC feed formulation — kg inputs, instant nutrient analysis" },
@@ -54,7 +37,6 @@ function Landing() {
       <TopNav />
       <Hero />
       <Ticker />
-      <StatsBar />
       <ModuleGrid />
       <DemoSection />
       <FinalCta />
@@ -182,41 +164,6 @@ function PhoneMock() {
   );
 }
 
-function StatsBar() {
-  const ref = useRef<HTMLDivElement>(null);
-  const [run, setRun] = useState(false);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const obs = new IntersectionObserver(
-      ([e]) => e.isIntersecting && setRun(true),
-      { threshold: 0.4 },
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
-  const farms = useCountUp(4200, run);
-  const saved = useCountUp(340, run);
-  const rate = useCountUp(88, run);
-  return (
-    <section ref={ref} className="border-b bg-flock-cream">
-      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-6 px-4 py-12 text-center md:grid-cols-3">
-        <Stat value={`${farms.toLocaleString()}+`} label="farms using Flock" />
-        <Stat value={`₵${saved}`} label="avg. feed cost saved per month" />
-        <Stat value={`${rate}%`} label="avg. laying rate on tracked flocks" />
-      </div>
-    </section>
-  );
-}
-
-function Stat({ value, label }: { value: string; label: string }) {
-  return (
-    <div>
-      <div className="font-mono text-[36px] font-bold text-flock-soil">{value}</div>
-      <div className="mt-1 font-sans text-[14px] text-flock-stone">{label}</div>
-    </div>
-  );
-}
 
 function ModuleGrid() {
   return (
