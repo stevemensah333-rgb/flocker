@@ -110,11 +110,17 @@ function RationProPage() {
       subtitle="Build and balance least-cost feed rations on a 100 kg basis."
     >
       <RationProWidget
-        key={loaded?.id ?? "new"}
+        key={loaded?.id ?? (pricesReady ? "new" : "loading")}
         onSave={handleSave}
         initialRows={loaded?.rows}
         initialStage={loaded?.stage ?? undefined}
+        priceMap={priceMap}
       />
+      {Object.keys(priceMap).length > 0 && !loaded && (
+        <p className="mt-2 font-sans text-[12px] text-flock-stone">
+          Prices auto-filled from your Feed Store where available.
+        </p>
+      )}
 
       <h2 className="mb-3 mt-8 font-display text-xl text-flock-soil">
         Saved formulas
