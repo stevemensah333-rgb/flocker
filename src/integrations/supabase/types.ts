@@ -58,6 +58,66 @@ export type Database = {
           },
         ]
       }
+      egg_records: {
+        Row: {
+          coop_id: string | null
+          created_at: string
+          eggs_broken: number
+          eggs_collected: number
+          eggs_sold: number
+          farm_id: string
+          id: string
+          note: string | null
+          owner_id: string
+          price_per_egg: number
+          record_date: string
+          updated_at: string
+        }
+        Insert: {
+          coop_id?: string | null
+          created_at?: string
+          eggs_broken?: number
+          eggs_collected?: number
+          eggs_sold?: number
+          farm_id: string
+          id?: string
+          note?: string | null
+          owner_id: string
+          price_per_egg?: number
+          record_date?: string
+          updated_at?: string
+        }
+        Update: {
+          coop_id?: string | null
+          created_at?: string
+          eggs_broken?: number
+          eggs_collected?: number
+          eggs_sold?: number
+          farm_id?: string
+          id?: string
+          note?: string | null
+          owner_id?: string
+          price_per_egg?: number
+          record_date?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "egg_records_coop_id_fkey"
+            columns: ["coop_id"]
+            isOneToOne: false
+            referencedRelation: "coops"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "egg_records_farm_id_fkey"
+            columns: ["farm_id"]
+            isOneToOne: false
+            referencedRelation: "farms"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       farms: {
         Row: {
           country: string | null
@@ -152,6 +212,50 @@ export type Database = {
           phone?: string | null
         }
         Relationships: []
+      }
+      saved_rations: {
+        Row: {
+          cost_per_kg: number
+          created_at: string
+          farm_id: string
+          id: string
+          name: string
+          owner_id: string
+          rows: Json
+          stage: string | null
+          updated_at: string
+        }
+        Insert: {
+          cost_per_kg?: number
+          created_at?: string
+          farm_id: string
+          id?: string
+          name: string
+          owner_id: string
+          rows?: Json
+          stage?: string | null
+          updated_at?: string
+        }
+        Update: {
+          cost_per_kg?: number
+          created_at?: string
+          farm_id?: string
+          id?: string
+          name?: string
+          owner_id?: string
+          rows?: Json
+          stage?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "saved_rations_farm_id_fkey"
+            columns: ["farm_id"]
+            isOneToOne: false
+            referencedRelation: "farms"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
