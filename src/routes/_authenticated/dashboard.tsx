@@ -275,6 +275,13 @@ function Dashboard() {
                 desc="Manage ingredient prices"
                 accent="clay"
               />
+              <ModuleCard
+                to="/reports"
+                icon={<BarChart3 className="h-5 w-5" />}
+                title="Reports"
+                desc="Production & revenue trends"
+                accent="harvest"
+              />
             </div>
           </div>
         ) : (
