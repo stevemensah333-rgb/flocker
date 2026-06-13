@@ -94,6 +94,57 @@ function Dashboard() {
           .eq("farm_id", f.id)
           .order("created_at");
         setCoops(c ?? []);
+
+        const [{ data: eggs }, { data: events }] = await Promise.all([
+          supabase
+            .from("egg_records")
+            .select("id, record_date, eggs_collected, eggs_sold, price_per_egg")
+            .eq("farm_id", f.id)
+            .order("record_date", { ascending: false })
+            .limit(15),
+          supabase
+            .from("flock_events")
+            .select("id, event_type, event_date, cost")
+            .eq("farm_id", f.id)
+            .order("event_date", { ascending: false })
+            .limit(15),
+        ]);
+
+        const acts: (Activity & { sort: number })[] = [];
+        for (const e of eggs ?? []) {
+          const revenue = e.eggs_sold * e.price_per_egg;
+          if (e.eggs_sold > 0) {
+            acts.push({
+              key: `egg-sale-${e.id}`,
+              label: `Egg sales — ${e.eggs_sold.toLocaleString()} eggs`,
+              amount: `₵${revenue.toLocaleString(undefined, { maximumFractionDigits: 0 })}`,
+              when: timeAgo(e.record_date),
+              in: true,
+              sort: new Date(e.record_date).getTime(),
+            });
+          } else if (e.eggs_collected > 0) {
+            acts.push({
+              key: `egg-collect-${e.id}`,
+              label: `Collected ${e.eggs_collected.toLocaleString()} eggs`,
+              amount: `${e.eggs_collected.toLocaleString()}`,
+              when: timeAgo(e.record_date),
+              in: null,
+              sort: new Date(e.record_date).getTime(),
+            });
+          }
+        }
+        for (const ev of events ?? []) {
+          acts.push({
+            key: `event-${ev.id}`,
+            label: ev.event_type,
+            amount: ev.cost > 0 ? `₵${ev.cost.toLocaleString(undefined, { maximumFractionDigits: 0 })}` : "—",
+            when: timeAgo(ev.event_date),
+            in: ev.cost > 0 ? false : null,
+            sort: new Date(ev.event_date).getTime(),
+          });
+        }
+        acts.sort((a, b) => b.sort - a.sort);
+        setActivity(acts.slice(0, 6).map(({ sort, ...rest }) => rest));
       }
       setReady(true);
     })();
