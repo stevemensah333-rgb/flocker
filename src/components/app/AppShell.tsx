@@ -55,9 +55,16 @@ export default function AppShell({
               </Link>
             ))}
           </nav>
+          <Link
+            to="/settings"
+            activeProps={{ className: "bg-flock-fog text-flock-soil" }}
+            className="ml-auto flex items-center gap-1.5 rounded-lg border bg-flock-fog px-3 py-1.5 font-sans text-[13px] text-flock-soil transition hover:bg-flock-mist"
+          >
+            <Settings className="h-3.5 w-3.5" /> Settings
+          </Link>
           <button
             onClick={signOut}
-            className="ml-auto flex items-center gap-1.5 rounded-lg border bg-flock-fog px-3 py-1.5 font-sans text-[13px] text-flock-soil transition hover:bg-flock-mist"
+            className="flex items-center gap-1.5 rounded-lg border bg-flock-fog px-3 py-1.5 font-sans text-[13px] text-flock-soil transition hover:bg-flock-mist"
           >
             <LogOut className="h-3.5 w-3.5" /> Sign out
           </button>
