@@ -69,10 +69,12 @@
   --flock-field: #3d6b35;
   --flock-clay: #c4764a;
   --flock-red: #b03a2e;
-  --flock-cream: #faf6ef;
-  --flock-fog: #ede8df;
+  --flock-cream: #f7f3ec;
+  --flock-paper: #ffffff;
+  --flock-fog: #efeae1;
   --flock-mist: #f5f1e8;
   --flock-stone: #8c7b6b;
+  --flock-line: rgba(44, 26, 14, 0.09);
   --flock-ink: #1c1209;
   --flock-sky: #4a7a8c;
 
