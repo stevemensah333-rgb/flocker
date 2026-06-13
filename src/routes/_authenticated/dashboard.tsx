@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import AppShell from "@/components/app/AppShell";
+import FlockCopilot from "@/components/app/FlockCopilot";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   component: Dashboard,
@@ -144,6 +145,8 @@ function Dashboard() {
     >
       {ready ? (
         <div>
+          <FlockCopilot />
+
           {/* KPI cards */}
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             <KpiCard
