@@ -94,7 +94,39 @@ function RationProPage() {
     [farmId, userId, loadSaved],
   );
 
-  async function remove(id: string) {
+  const handleSavePrices = useCallback(
+    async (prices: { name: string; pricePerKg: number }[]) => {
+      if (!farmId || !userId) {
+        toast.error("Set up your farm first.");
+        return;
+      }
+      if (prices.length === 0) {
+        toast.error("Enter at least one price first.");
+        return;
+      }
+      const { error } = await supabase.from("ingredient_prices").upsert(
+        prices.map((p) => ({
+          owner_id: userId,
+          farm_id: farmId,
+          ingredient_name: p.name,
+          price_per_kg: p.pricePerKg,
+        })),
+        { onConflict: "farm_id,ingredient_name" },
+      );
+      if (error) {
+        toast.error(`Couldn't save — ${error.message}`);
+        return;
+      }
+      setPriceMap((m) => {
+        const next = { ...m };
+        for (const p of prices) next[p.name] = p.pricePerKg;
+        return next;
+      });
+      toast.success("Feed prices saved");
+    },
+    [farmId, userId],
+  );
+
     const { error } = await supabase.from("saved_rations").delete().eq("id", id);
     if (error) {
       toast.error(error.message);
