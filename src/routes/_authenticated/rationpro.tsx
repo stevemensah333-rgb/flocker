@@ -94,6 +94,39 @@ function RationProPage() {
     [farmId, userId, loadSaved],
   );
 
+  const handleSavePrices = useCallback(
+    async (prices: { name: string; pricePerKg: number }[]) => {
+      if (!farmId || !userId) {
+        toast.error("Set up your farm first.");
+        return;
+      }
+      if (prices.length === 0) {
+        toast.error("Enter at least one price first.");
+        return;
+      }
+      const { error } = await supabase.from("ingredient_prices").upsert(
+        prices.map((p) => ({
+          owner_id: userId,
+          farm_id: farmId,
+          ingredient_name: p.name,
+          price_per_kg: p.pricePerKg,
+        })),
+        { onConflict: "farm_id,ingredient_name" },
+      );
+      if (error) {
+        toast.error(`Couldn't save — ${error.message}`);
+        return;
+      }
+      setPriceMap((m) => {
+        const next = { ...m };
+        for (const p of prices) next[p.name] = p.pricePerKg;
+        return next;
+      });
+      toast.success("Feed prices saved");
+    },
+    [farmId, userId],
+  );
+
   async function remove(id: string) {
     const { error } = await supabase.from("saved_rations").delete().eq("id", id);
     if (error) {
@@ -112,15 +145,15 @@ function RationProPage() {
       <RationProWidget
         key={loaded?.id ?? (pricesReady ? "new" : "loading")}
         onSave={handleSave}
+        onSavePrices={handleSavePrices}
         initialRows={loaded?.rows}
         initialStage={loaded?.stage ?? undefined}
         priceMap={priceMap}
       />
-      {Object.keys(priceMap).length > 0 && !loaded && (
-        <p className="mt-2 font-sans text-[12px] text-flock-stone">
-          Prices auto-filled from your Feed Store where available.
-        </p>
-      )}
+      <p className="mt-2 font-sans text-[12px] text-flock-stone">
+        Tap “Save prices” to store your feed prices — they’ll auto-fill next time.
+      </p>
+
 
       <h2 className="mb-3 mt-8 font-display text-xl text-flock-soil">
         Saved formulas

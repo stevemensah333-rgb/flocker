@@ -58,6 +58,7 @@ function defaultRows(priceMap?: Record<string, number>): RationRow[] {
 
 export default function RationProWidget({
   onSave,
+  onSavePrices,
   initialRows,
   initialStage,
   priceMap,
@@ -67,6 +68,7 @@ export default function RationProWidget({
     stage: string;
     costPerKg: number;
   }) => void;
+  onSavePrices?: (prices: { name: string; pricePerKg: number }[]) => void;
   initialRows?: RationRow[];
   initialStage?: string;
   priceMap?: Record<string, number>;
@@ -154,6 +156,20 @@ export default function RationProWidget({
         >
           Calculate
         </button>
+        {onSavePrices && (
+          <button
+            onClick={() =>
+              onSavePrices(
+                rows
+                  .filter((r) => r.pricePerKg > 0)
+                  .map((r) => ({ name: r.name, pricePerKg: r.pricePerKg })),
+              )
+            }
+            className="rounded-sm border bg-flock-mist px-3 py-1 font-sans text-[12px] font-semibold text-flock-soil hover:bg-flock-fog"
+          >
+            Save prices
+          </button>
+        )}
         {onSave && (
           <button
             onClick={() =>
