@@ -62,6 +62,7 @@ function Dashboard() {
   const [name, setName] = useState("");
   const [farm, setFarm] = useState<Farm | null>(null);
   const [coops, setCoops] = useState<Coop[]>([]);
+  const [activity, setActivity] = useState<Activity[]>([]);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
