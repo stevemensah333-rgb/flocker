@@ -18,7 +18,6 @@ import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedReportsRouteImport } from './routes/_authenticated/reports'
 import { Route as AuthenticatedRationproRouteImport } from './routes/_authenticated/rationpro'
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
-import { Route as AuthenticatedFeedStoreRouteImport } from './routes/_authenticated/feed-store'
 import { Route as AuthenticatedEventsRouteImport } from './routes/_authenticated/events'
 import { Route as AuthenticatedEggLedgerRouteImport } from './routes/_authenticated/egg-ledger'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
@@ -68,11 +67,6 @@ const AuthenticatedOnboardingRoute = AuthenticatedOnboardingRouteImport.update({
   path: '/onboarding',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedFeedStoreRoute = AuthenticatedFeedStoreRouteImport.update({
-  id: '/feed-store',
-  path: '/feed-store',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
 const AuthenticatedEventsRoute = AuthenticatedEventsRouteImport.update({
   id: '/events',
   path: '/events',
@@ -102,7 +96,6 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/egg-ledger': typeof AuthenticatedEggLedgerRoute
   '/events': typeof AuthenticatedEventsRoute
-  '/feed-store': typeof AuthenticatedFeedStoreRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/rationpro': typeof AuthenticatedRationproRoute
   '/reports': typeof AuthenticatedReportsRoute
@@ -117,7 +110,6 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/egg-ledger': typeof AuthenticatedEggLedgerRoute
   '/events': typeof AuthenticatedEventsRoute
-  '/feed-store': typeof AuthenticatedFeedStoreRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/rationpro': typeof AuthenticatedRationproRoute
   '/reports': typeof AuthenticatedReportsRoute
@@ -134,7 +126,6 @@ export interface FileRoutesById {
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/egg-ledger': typeof AuthenticatedEggLedgerRoute
   '/_authenticated/events': typeof AuthenticatedEventsRoute
-  '/_authenticated/feed-store': typeof AuthenticatedFeedStoreRoute
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
   '/_authenticated/rationpro': typeof AuthenticatedRationproRoute
   '/_authenticated/reports': typeof AuthenticatedReportsRoute
@@ -151,7 +142,6 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/egg-ledger'
     | '/events'
-    | '/feed-store'
     | '/onboarding'
     | '/rationpro'
     | '/reports'
@@ -166,7 +156,6 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/egg-ledger'
     | '/events'
-    | '/feed-store'
     | '/onboarding'
     | '/rationpro'
     | '/reports'
@@ -182,7 +171,6 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard'
     | '/_authenticated/egg-ledger'
     | '/_authenticated/events'
-    | '/_authenticated/feed-store'
     | '/_authenticated/onboarding'
     | '/_authenticated/rationpro'
     | '/_authenticated/reports'
@@ -262,13 +250,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedOnboardingRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/feed-store': {
-      id: '/_authenticated/feed-store'
-      path: '/feed-store'
-      fullPath: '/feed-store'
-      preLoaderRoute: typeof AuthenticatedFeedStoreRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/_authenticated/events': {
       id: '/_authenticated/events'
       path: '/events'
@@ -305,7 +286,6 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedEggLedgerRoute: typeof AuthenticatedEggLedgerRoute
   AuthenticatedEventsRoute: typeof AuthenticatedEventsRoute
-  AuthenticatedFeedStoreRoute: typeof AuthenticatedFeedStoreRoute
   AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
   AuthenticatedRationproRoute: typeof AuthenticatedRationproRoute
   AuthenticatedReportsRoute: typeof AuthenticatedReportsRoute
@@ -318,7 +298,6 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedEggLedgerRoute: AuthenticatedEggLedgerRoute,
   AuthenticatedEventsRoute: AuthenticatedEventsRoute,
-  AuthenticatedFeedStoreRoute: AuthenticatedFeedStoreRoute,
   AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
   AuthenticatedRationproRoute: AuthenticatedRationproRoute,
   AuthenticatedReportsRoute: AuthenticatedReportsRoute,

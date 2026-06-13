@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Bird, LogOut, LayoutDashboard, Calculator, Egg, Package, BarChart3, Stethoscope, Syringe, Settings } from "lucide-react";
+import { Bird, LogOut, LayoutDashboard, Calculator, Egg, BarChart3, Stethoscope, Syringe, Settings } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
