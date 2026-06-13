@@ -11,6 +11,9 @@ import {
   Settings,
   Bell,
   ChevronDown,
+  ChevronRight,
+  Info,
+  LifeBuoy,
 } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -23,6 +26,9 @@ const NAV = [
   { to: "/events", label: "Health Records", icon: Syringe },
   { to: "/reports", label: "Reports", icon: BarChart3 },
   { to: "/vetline", label: "VetLine", icon: Stethoscope },
+] as const;
+
+const BOTTOM_NAV = [
   { to: "/settings", label: "Settings", icon: Settings },
 ] as const;
 
