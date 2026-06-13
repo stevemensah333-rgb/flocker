@@ -1,4 +1,4 @@
-// Flock — built-in poultry feed ingredient database (per 100 kg basis).
+// Flocker — built-in poultry feed ingredient database (per 100 kg basis).
 // Values from the spec ration table.
 
 export type IngredientCategory =
