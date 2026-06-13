@@ -45,9 +45,11 @@
   --color-flock-clay: var(--flock-clay);
   --color-flock-red: var(--flock-red);
   --color-flock-cream: var(--flock-cream);
+  --color-flock-paper: var(--flock-paper);
   --color-flock-fog: var(--flock-fog);
   --color-flock-mist: var(--flock-mist);
   --color-flock-stone: var(--flock-stone);
+  --color-flock-line: var(--flock-line);
   --color-flock-ink: var(--flock-ink);
   --color-flock-sky: var(--flock-sky);
 
