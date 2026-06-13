@@ -40,7 +40,7 @@ export default function AppShell({
         <div className="mx-auto flex h-14 max-w-5xl items-center gap-4">
           <Link to="/dashboard" className="flex items-center gap-2">
             <Bird className="h-5 w-5 text-flock-harvest" />
-            <span className="font-display text-xl text-flock-soil">Flock</span>
+            <span className="font-display text-xl text-flock-soil">Flocker</span>
           </Link>
           <nav className="hidden items-center gap-1 sm:flex">
             {NAV.map((n) => (

@@ -8,10 +8,10 @@ import { lovable } from "@/integrations/lovable/index";
 export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
-      { title: "Sign in · Flock" },
+      { title: "Sign in · Flocker" },
       {
         name: "description",
-        content: "Sign in or create your Flock poultry farm account.",
+        content: "Sign in or create your Flocker poultry farm account.",
       },
     ],
   }),
@@ -98,7 +98,7 @@ function AuthPage() {
       <div className="w-full max-w-sm animate-flock-enter">
         <Link to="/" className="mb-6 flex items-center justify-center gap-2">
           <Bird className="h-6 w-6 text-flock-harvest" />
-          <span className="font-display text-2xl text-flock-soil">Flock</span>
+          <span className="font-display text-2xl text-flock-soil">Flocker</span>
         </Link>
 
         <div className="rounded-lg border bg-flock-fog p-6 shadow-flock">
@@ -185,7 +185,7 @@ function AuthPage() {
           </button>
 
           <p className="mt-5 text-center font-sans text-[13px] text-flock-stone">
-            {mode === "signin" ? "New to Flock?" : "Already have an account?"}{" "}
+            {mode === "signin" ? "New to Flocker?" : "Already have an account?"}{" "}
             <button
               onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
               className="font-semibold text-flock-soil underline"

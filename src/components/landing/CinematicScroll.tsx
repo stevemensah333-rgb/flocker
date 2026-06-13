@@ -157,7 +157,7 @@ export default function CinematicScroll() {
           className="fixed inset-0 -z-10 h-full w-full object-cover opacity-70"
         />
         <div className="mx-auto flex min-h-screen max-w-2xl flex-col justify-center gap-10 px-6 py-28">
-          <Overlay tag="THE FLOCK FARM OS" title="Every bird. Every batch. Every cedi." />
+          <Overlay tag="THE FLOCKER FARM OS" title="Every bird. Every batch. Every cedi." />
           <Overlay tag="PRECISION NUTRITION" title="The right feed, at the right stage." body="RationPro calculates exact feed formulations for your flock's age, breed, and growth targets — automatically. No guesswork. No waste." />
           <Overlay tag="FLOCK INTELLIGENCE" title="Know before problems show." body="Daily health scores, weight projections, and mortality alerts — all derived from your own farm data." />
           <CtaCard />
@@ -173,7 +173,7 @@ export default function CinematicScroll() {
       {!loaded && (
         <div className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-6 bg-[#1C1C1C]">
           <span style={{ fontFamily: SERIF }} className="text-4xl text-[#F5F0E8]">
-            Flock
+            Flocker
           </span>
           <div className="h-1 w-56 overflow-hidden rounded-full bg-[#F5F0E8]/15">
             <div
@@ -199,7 +199,7 @@ export default function CinematicScroll() {
         <div className="flex h-full flex-col items-center justify-center px-6 text-center">
           <Scrim />
           <p style={{ fontFamily: SANS }} className="relative text-xs font-semibold uppercase tracking-[0.3em] text-[#D4840A] md:text-sm">
-            The Flock Farm OS
+            The Flocker Farm OS
           </p>
           <h1 style={{ fontFamily: SERIF }} className="relative mt-4 max-w-4xl text-4xl leading-tight text-[#F5F0E8] md:text-7xl">
             Every bird. Every batch. Every cedi.
@@ -223,7 +223,7 @@ export default function CinematicScroll() {
         <div className="flex h-full items-center justify-end px-6 md:px-16">
           <div className="relative max-w-sm text-right">
             <Scrim />
-            <Overlay align="right" tag="FLOCK INTELLIGENCE" title="Know before problems show." body="Daily health scores, weight projections, and mortality alerts — all derived from your own farm data. Flock learns your operation and flags anomalies before they cost you." />
+            <Overlay align="right" tag="FLOCK INTELLIGENCE" title="Know before problems show." body="Daily health scores, weight projections, and mortality alerts — all derived from your own farm data. Flocker learns your operation and flags anomalies before they cost you." />
           </div>
         </div>
       </FixedLayer>
@@ -312,19 +312,19 @@ function CtaCard() {
         Built for Ghanaian farms. Ready for yours.
       </h2>
       <p className="mx-auto mt-4 max-w-md text-sm text-[#F5F0E8]/70">
-        Join farmers across Ashanti, Brong-Ahafo, and Greater Accra managing smarter with Flock.
+        Join farmers across Ashanti, Brong-Ahafo, and Greater Accra managing smarter with Flocker.
       </p>
       <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
         <Link
           to="/auth"
-          aria-label="Get access to Flock"
+          aria-label="Get access to Flocker"
           className="rounded-full bg-[#D4840A] px-6 py-3 text-sm font-semibold text-[#1C1C1C] transition-transform hover:-translate-y-0.5"
         >
           Get Access
         </Link>
         <Link
           to="/auth"
-          aria-label="Log in to Flock"
+          aria-label="Log in to Flocker"
           className="rounded-full border border-[#D4840A] px-6 py-3 text-sm font-semibold text-[#F5F0E8] transition-colors hover:bg-[#D4840A]/10"
         >
           Log In
@@ -337,12 +337,12 @@ function CtaCard() {
 function TopNav() {
   return (
     <header className="fixed inset-x-0 top-0 z-30 flex items-center justify-between px-6 py-5 md:px-10">
-      <Link to="/" style={{ fontFamily: SERIF }} className="text-2xl text-[#F5F0E8]" aria-label="Flock home">
-        Flock
+      <Link to="/" style={{ fontFamily: SERIF }} className="text-2xl text-[#F5F0E8]" aria-label="Flocker home">
+        Flocker
       </Link>
       <Link
         to="/auth"
-        aria-label="Get access to Flock"
+        aria-label="Get access to Flocker"
         className="rounded-full bg-[#D4840A] px-5 py-2 text-sm font-semibold text-[#1C1C1C] transition-transform hover:-translate-y-0.5"
       >
         Get Access
