@@ -2,21 +2,16 @@ import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import {
   Bird,
-  LogOut,
   Egg,
-  Calculator,
   Wallet,
   TrendingUp,
   TrendingDown,
-  Wheat,
-  BarChart3,
-  Stethoscope,
-  ChevronRight,
   Plus,
-  Settings,
+  FileText,
+  ClipboardList,
 } from "lucide-react";
-import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import AppShell from "@/components/app/AppShell";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   component: Dashboard,
@@ -33,37 +28,21 @@ type Coop = {
 
 type Farm = { id: string; name: string; egg_price: number };
 
-type Activity = {
-  key: string;
-  label: string;
-  amount: string;
-  when: string;
-  in: boolean | null;
-};
+type EggRow = { record_date: string; eggs_collected: number };
 
-function timeAgo(dateStr: string) {
-  const d = new Date(dateStr);
-  const days = Math.floor((Date.now() - d.getTime()) / 86400000);
-  if (days <= 0) return "Today";
-  if (days === 1) return "Yesterday";
-  if (days < 7) return `${days} days ago`;
-  return d.toLocaleDateString("en-GB", { day: "numeric", month: "short" });
-}
-
-function greeting() {
-  const h = new Date().getHours();
-  if (h < 12) return "Good morning";
-  if (h < 18) return "Good afternoon";
-  return "Good evening";
+function statusFor(c: Coop): { label: string; cls: string } {
+  if (c.count <= 0) return { label: "Closed", cls: "bg-flock-stone/15 text-flock-stone" };
+  if ((c.production_type ?? "layer") === "layer" && c.age_weeks < 18)
+    return { label: "Rearing", cls: "bg-flock-harvest/20 text-flock-clay" };
+  return { label: "Active", cls: "bg-flock-field/15 text-flock-field" };
 }
 
 function Dashboard() {
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
   const [name, setName] = useState("");
   const [farm, setFarm] = useState<Farm | null>(null);
   const [coops, setCoops] = useState<Coop[]>([]);
-  const [activity, setActivity] = useState<Activity[]>([]);
+  const [eggSeries, setEggSeries] = useState<EggRow[]>([]);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -96,64 +75,13 @@ function Dashboard() {
           .order("created_at");
         setCoops(c ?? []);
 
-        const [{ data: eggs }, { data: events }] = await Promise.all([
-          supabase
-            .from("egg_records")
-            .select("id, record_date, eggs_collected, eggs_sold, price_per_egg")
-            .eq("farm_id", f.id)
-            .order("record_date", { ascending: false })
-            .limit(15),
-          supabase
-            .from("flock_events")
-            .select("id, event_type, event_date, cost")
-            .eq("farm_id", f.id)
-            .order("event_date", { ascending: false })
-            .limit(15),
-        ]);
-
-        const acts: (Activity & { sort: number })[] = [];
-        for (const e of eggs ?? []) {
-          const revenue = e.eggs_sold * e.price_per_egg;
-          if (e.eggs_sold > 0) {
-            acts.push({
-              key: `egg-sale-${e.id}`,
-              label: `Egg sales — ${e.eggs_sold.toLocaleString()} eggs`,
-              amount: `₵${revenue.toLocaleString(undefined, { maximumFractionDigits: 0 })}`,
-              when: timeAgo(e.record_date),
-              in: true,
-              sort: new Date(e.record_date).getTime(),
-            });
-          } else if (e.eggs_collected > 0) {
-            acts.push({
-              key: `egg-collect-${e.id}`,
-              label: `Collected ${e.eggs_collected.toLocaleString()} eggs`,
-              amount: `${e.eggs_collected.toLocaleString()}`,
-              when: timeAgo(e.record_date),
-              in: null,
-              sort: new Date(e.record_date).getTime(),
-            });
-          }
-        }
-        for (const ev of events ?? []) {
-          acts.push({
-            key: `event-${ev.id}`,
-            label: ev.event_type,
-            amount: ev.cost > 0 ? `₵${ev.cost.toLocaleString(undefined, { maximumFractionDigits: 0 })}` : "—",
-            when: timeAgo(ev.event_date),
-            in: ev.cost > 0 ? false : null,
-            sort: new Date(ev.event_date).getTime(),
-          });
-        }
-        acts.sort((a, b) => b.sort - a.sort);
-        setActivity(
-          acts.slice(0, 6).map((a) => ({
-            key: a.key,
-            label: a.label,
-            amount: a.amount,
-            when: a.when,
-            in: a.in,
-          })),
-        );
+        const { data: eggs } = await supabase
+          .from("egg_records")
+          .select("record_date, eggs_collected")
+          .eq("farm_id", f.id)
+          .order("record_date", { ascending: false })
+          .limit(14);
+        setEggSeries((eggs ?? []).slice().reverse());
       }
       setReady(true);
     })();
@@ -163,7 +91,6 @@ function Dashboard() {
     () => coops.reduce((s, c) => s + (c.count || 0), 0),
     [coops],
   );
-  // Estimated daily eggs at a typical 82% lay rate for layers in production.
   const estEggs = useMemo(
     () =>
       Math.round(
@@ -176,255 +103,221 @@ function Dashboard() {
   const eggPrice = farm?.egg_price ?? 0;
   const estRevenue = Math.round((estEggs / 30) * eggPrice * 100) / 100;
 
-  async function signOut() {
-    await queryClient.cancelQueries();
-    queryClient.clear();
-    await supabase.auth.signOut();
-    navigate({ to: "/auth", replace: true });
-  }
+  const eggValues = eggSeries.map((e) => e.eggs_collected);
+
+  const actions = (
+    <>
+      <Link
+        to="/coops"
+        className="hidden items-center gap-1.5 rounded-lg border bg-flock-fog px-3 py-2 font-sans text-[13px] text-flock-soil transition hover:bg-flock-mist sm:flex"
+      >
+        <ClipboardList className="h-3.5 w-3.5" /> Record Entry
+      </Link>
+      <Link
+        to="/reports"
+        className="hidden items-center gap-1.5 rounded-lg border bg-flock-fog px-3 py-2 font-sans text-[13px] text-flock-soil transition hover:bg-flock-mist sm:flex"
+      >
+        <FileText className="h-3.5 w-3.5" /> Generate Report
+      </Link>
+      <Link
+        to="/coops"
+        className="flex items-center gap-1.5 rounded-lg bg-flock-harvest px-3 py-2 font-sans text-[13px] font-medium text-flock-soil transition hover:opacity-90"
+      >
+        <Plus className="h-3.5 w-3.5" /> Add Flock
+      </Link>
+    </>
+  );
 
   return (
-    <div className="min-h-screen bg-flock-cream">
-      <header className="sticky top-0 z-10 border-b border-flock-fog bg-flock-cream/95 px-4 backdrop-blur">
-        <div className="mx-auto flex h-14 max-w-5xl items-center">
-          <div className="flex items-center gap-2">
-            <Bird className="h-5 w-5 text-flock-harvest" />
-            <span className="font-display text-xl text-flock-soil">Flocker</span>
+    <AppShell
+      title={`${name ? name + "'s" : "Your"} farm`}
+      subtitle={
+        ready
+          ? `${farm ? farm.name + " · " : ""}${new Date().toLocaleDateString("en-GB", {
+              weekday: "long",
+              day: "numeric",
+              month: "long",
+            })}`
+          : "Loading…"
+      }
+      actions={actions}
+    >
+      {ready ? (
+        <div>
+          {/* KPI cards */}
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <KpiCard
+              icon={<Bird className="h-4 w-4" />}
+              label="Total Birds"
+              value={totalBirds.toLocaleString()}
+              trend="up"
+              delta={`${coops.length} flock${coops.length === 1 ? "" : "s"}`}
+              spark={eggValues}
+            />
+            <KpiCard
+              icon={<Egg className="h-4 w-4" />}
+              label="Egg Production"
+              value={estEggs.toLocaleString()}
+              trend="up"
+              delta="~82% lay rate"
+              accent="field"
+              spark={eggValues}
+            />
+            <KpiCard
+              icon={<Wallet className="h-4 w-4" />}
+              label="Est. Daily Revenue"
+              value={`₵${estRevenue.toLocaleString()}`}
+              trend="up"
+              delta="per day"
+              accent="harvest"
+              spark={eggValues}
+            />
+            <KpiCard
+              icon={<TrendingDown className="h-4 w-4" />}
+              label="Egg Price"
+              value={eggPrice ? `₵${eggPrice.toFixed(2)}` : "—"}
+              trend="flat"
+              delta="per egg"
+              spark={eggValues}
+            />
           </div>
-          <Link
-            to="/settings"
-            className="ml-auto flex items-center gap-1.5 rounded-lg border bg-flock-fog px-3 py-1.5 font-sans text-[13px] text-flock-soil transition hover:bg-flock-mist"
-          >
-            <Settings className="h-3.5 w-3.5" /> Settings
-          </Link>
-          <button
-            onClick={signOut}
-            className="ml-2 flex items-center gap-1.5 rounded-lg border bg-flock-fog px-3 py-1.5 font-sans text-[13px] text-flock-soil transition hover:bg-flock-mist"
-          >
-            <LogOut className="h-3.5 w-3.5" /> Sign out
-          </button>
+
+          <div className="mt-6 grid gap-6 lg:grid-cols-3">
+            {/* Flock data table */}
+            <section className="lg:col-span-2">
+              <div className="mb-3 flex items-center justify-between">
+                <h2 className="font-sans text-[15px] font-semibold text-flock-soil">
+                  Flock / Batch Records
+                </h2>
+                <Link
+                  to="/coops"
+                  className="flex items-center gap-1 rounded-lg border bg-flock-fog px-2.5 py-1 font-sans text-[12px] text-flock-soil transition hover:bg-flock-mist"
+                >
+                  Manage
+                </Link>
+              </div>
+              <div className="overflow-x-auto rounded-lg border bg-flock-fog shadow-flock">
+                {coops.length === 0 ? (
+                  <EmptyCoops />
+                ) : (
+                  <table className="w-full text-left">
+                    <thead>
+                      <tr className="border-b border-flock-mist font-sans text-[11px] uppercase tracking-wide text-flock-stone">
+                        <th className="px-4 py-3 font-medium">Batch</th>
+                        <th className="px-4 py-3 font-medium">Breed</th>
+                        <th className="px-4 py-3 font-medium">Age</th>
+                        <th className="px-4 py-3 text-right font-medium">Birds</th>
+                        <th className="px-4 py-3 font-medium">Type</th>
+                        <th className="px-4 py-3 font-medium">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {coops.map((c) => {
+                        const s = statusFor(c);
+                        return (
+                          <tr
+                            key={c.id}
+                            className="border-t border-flock-mist font-sans text-[13px] text-flock-soil"
+                          >
+                            <td className="px-4 py-3 font-medium">{c.name}</td>
+                            <td className="px-4 py-3 text-flock-stone">{c.breed ?? "Mixed"}</td>
+                            <td className="px-4 py-3 text-flock-stone">{c.age_weeks}w</td>
+                            <td className="px-4 py-3 text-right font-mono">
+                              {c.count.toLocaleString()}
+                            </td>
+                            <td className="px-4 py-3 text-flock-stone capitalize">
+                              {c.production_type ?? "layer"}
+                            </td>
+                            <td className="px-4 py-3">
+                              <span
+                                className={`inline-flex rounded-full px-2.5 py-0.5 font-sans text-[11px] font-medium ${s.cls}`}
+                              >
+                                {s.label}
+                              </span>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                )}
+              </div>
+            </section>
+
+            {/* Production chart */}
+            <section>
+              <h2 className="mb-3 font-sans text-[15px] font-semibold text-flock-soil">
+                Egg Production
+              </h2>
+              <div className="rounded-lg border bg-flock-fog p-4 shadow-flock">
+                {eggValues.length === 0 ? (
+                  <p className="py-10 text-center font-sans text-[13px] text-flock-stone">
+                    No production data yet.
+                  </p>
+                ) : (
+                  <BarChart values={eggValues} />
+                )}
+                <p className="mt-3 font-sans text-[12px] text-flock-stone">
+                  Eggs collected · last {eggValues.length || 0} records
+                </p>
+              </div>
+            </section>
+          </div>
         </div>
-      </header>
-
-      <main className="mx-auto max-w-5xl px-4 py-8">
-        {ready ? (
-          <div className="animate-flock-enter">
-            <h1 className="font-display text-3xl text-flock-soil">
-              {greeting()}, {name}
-            </h1>
-            <p className="mt-1 font-sans text-[14px] text-flock-stone">
-              {farm ? `${farm.name} · ` : ""}
-              {new Date().toLocaleDateString("en-GB", {
-                weekday: "long",
-                day: "numeric",
-                month: "long",
-              })}
-            </p>
-
-            {/* Stat tiles */}
-            <div className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-4">
-              <StatTile
-                icon={<Bird className="h-4 w-4" />}
-                label="Total birds"
-                value={totalBirds.toLocaleString()}
-                sub={`${coops.length} coop${coops.length === 1 ? "" : "s"}`}
-              />
-              <StatTile
-                icon={<Egg className="h-4 w-4" />}
-                label="Est. eggs / day"
-                value={estEggs.toLocaleString()}
-                sub="~82% lay rate"
-                accent="field"
-              />
-              <StatTile
-                icon={<Wallet className="h-4 w-4" />}
-                label="Est. egg revenue"
-                value={`${estRevenue.toLocaleString()}`}
-                sub="per day"
-                accent="harvest"
-              />
-              <StatTile
-                icon={<TrendingUp className="h-4 w-4" />}
-                label="Egg price"
-                value={eggPrice ? eggPrice.toFixed(2) : "—"}
-                sub="per egg"
-              />
-            </div>
-
-            {/* Two columns: timeline + ledger */}
-            <div className="mt-6 grid gap-6 lg:grid-cols-3">
-              <section className="lg:col-span-2">
-                <div className="mb-3 flex items-center justify-between">
-                  <h2 className="font-display text-xl text-flock-soil">Your flock</h2>
-                  <Link
-                    to="/coops"
-                    className="flex items-center gap-1 rounded-lg border bg-flock-fog px-2.5 py-1 font-sans text-[12px] text-flock-soil transition hover:bg-flock-mist"
-                  >
-                    <Plus className="h-3.5 w-3.5" /> Manage coops
-                  </Link>
-                </div>
-                <div className="overflow-hidden rounded-lg border bg-flock-fog shadow-flock">
-                  {coops.length === 0 ? (
-                    <EmptyCoops />
-                  ) : (
-                    coops.map((c, i) => (
-                      <div
-                        key={c.id}
-                        className={`flex items-center gap-3 px-4 py-3 ${
-                          i > 0 ? "border-t border-flock-mist" : ""
-                        }`}
-                      >
-                        <span className="flex h-9 w-9 items-center justify-center rounded-full bg-flock-mist text-flock-field">
-                          <Bird className="h-4 w-4" />
-                        </span>
-                        <div className="min-w-0">
-                          <p className="truncate font-sans text-[14px] font-medium text-flock-soil">
-                            {c.name}
-                          </p>
-                          <p className="font-sans text-[12px] text-flock-stone">
-                            {c.breed ?? "Mixed"} · {c.production_type ?? "layer"}
-                          </p>
-                        </div>
-                        <div className="ml-auto text-right">
-                          <p className="font-mono text-[14px] text-flock-soil">
-                            {c.count.toLocaleString()}
-                          </p>
-                          <p className="font-sans text-[12px] text-flock-stone">
-                            {c.age_weeks}w old
-                          </p>
-                        </div>
-                      </div>
-                    ))
-                  )}
-                </div>
-              </section>
-
-              <section>
-                <SectionHead title="Recent activity" />
-                <div className="rounded-lg border bg-flock-fog p-2 shadow-flock">
-                  {activity.length === 0 ? (
-                    <p className="px-2 py-6 text-center font-sans text-[13px] text-flock-stone">
-                      No activity yet. Log eggs or record an event to see it here.
-                    </p>
-                  ) : (
-                    activity.map((e, i) => (
-                      <div
-                        key={e.key}
-                        className={`flex items-center gap-3 px-2 py-2.5 ${
-                          i > 0 ? "border-t border-flock-mist" : ""
-                        }`}
-                      >
-                        <span
-                          className={`flex h-7 w-7 items-center justify-center rounded-full ${
-                            e.in === true
-                              ? "bg-flock-field/12 text-flock-field"
-                              : e.in === false
-                                ? "bg-flock-red/12 text-flock-red"
-                                : "bg-flock-mist text-flock-stone"
-                          }`}
-                        >
-                          {e.in === false ? (
-                            <TrendingDown className="h-3.5 w-3.5" />
-                          ) : (
-                            <TrendingUp className="h-3.5 w-3.5" />
-                          )}
-                        </span>
-                        <div className="min-w-0">
-                          <p className="truncate font-sans text-[13px] text-flock-soil">
-                            {e.label}
-                          </p>
-                          <p className="font-sans text-[11px] text-flock-stone">
-                            {e.when}
-                          </p>
-                        </div>
-                        <span
-                          className={`ml-auto font-mono text-[13px] ${
-                            e.in === true
-                              ? "text-flock-field"
-                              : e.in === false
-                                ? "text-flock-red"
-                                : "text-flock-stone"
-                          }`}
-                        >
-                          {e.in === true ? "+" : e.in === false ? "-" : ""}
-                          {e.amount}
-                        </span>
-                      </div>
-                    ))
-                  )}
-                </div>
-              </section>
-            </div>
-
-            {/* Module shortcuts */}
-            <SectionHead title="Modules" className="mt-8" />
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              <ModuleCard
-                to="/rationpro"
-                icon={<Calculator className="h-5 w-5" />}
-                title="RationPro"
-                desc="Balance least-cost feed rations"
-                accent="harvest"
-              />
-              <ModuleCard
-                to="/egg-ledger"
-                icon={<Egg className="h-5 w-5" />}
-                title="EggLedger"
-                desc="Track daily eggs & production"
-                accent="field"
-              />
-              <ModuleCard
-                to="/events"
-                icon={<Wheat className="h-5 w-5" />}
-                title="Events"
-                desc="Vaccinations, treatments & more"
-                accent="clay"
-              />
-              <ModuleCard
-                to="/reports"
-                icon={<BarChart3 className="h-5 w-5" />}
-                title="Reports"
-                desc="Production & revenue trends"
-                accent="harvest"
-              />
-              <ModuleCard
-                to="/vetline"
-                icon={<Stethoscope className="h-5 w-5" />}
-                title="VetLine"
-                desc="AI flock health triage"
-                accent="field"
-              />
-            </div>
+      ) : (
+        <div className="space-y-4">
+          <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+            {[0, 1, 2, 3].map((i) => (
+              <div key={i} className="h-28 animate-pulse rounded-lg bg-flock-fog" />
+            ))}
           </div>
-        ) : (
-          <div className="space-y-4">
-            <div className="h-8 w-48 animate-pulse rounded bg-flock-fog" />
-            <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-              {[0, 1, 2, 3].map((i) => (
-                <div key={i} className="h-24 animate-pulse rounded-lg bg-flock-fog" />
-              ))}
-            </div>
-            <div className="h-48 animate-pulse rounded-lg bg-flock-fog" />
-          </div>
-        )}
-      </main>
-    </div>
+          <div className="h-64 animate-pulse rounded-lg bg-flock-fog" />
+        </div>
+      )}
+    </AppShell>
   );
 }
 
-function StatTile({
+function Sparkline({ values, color }: { values: number[]; color: string }) {
+  if (values.length < 2) return <div className="h-6" />;
+  const max = Math.max(...values);
+  const min = Math.min(...values);
+  const range = max - min || 1;
+  const w = 80;
+  const h = 24;
+  const pts = values
+    .map((v, i) => {
+      const x = (i / (values.length - 1)) * w;
+      const y = h - ((v - min) / range) * h;
+      return `${x.toFixed(1)},${y.toFixed(1)}`;
+    })
+    .join(" ");
+  return (
+    <svg width={w} height={h} viewBox={`0 0 ${w} ${h}`} className="overflow-visible">
+      <polyline points={pts} fill="none" stroke={color} strokeWidth="1.5" />
+    </svg>
+  );
+}
+
+function KpiCard({
   icon,
   label,
   value,
-  sub,
+  delta,
+  trend,
   accent = "soil",
+  spark,
 }: {
   icon: React.ReactNode;
   label: string;
   value: string;
-  sub: string;
+  delta: string;
+  trend: "up" | "down" | "flat";
   accent?: "soil" | "field" | "harvest";
+  spark: number[];
 }) {
+  const colorVar =
+    accent === "field" ? "#3d6b35" : accent === "harvest" ? "#e8a838" : "#8c7b6b";
   const accentClass =
     accent === "field"
       ? "text-flock-field"
@@ -433,63 +326,39 @@ function StatTile({
         : "text-flock-stone";
   return (
     <div className="rounded-lg border bg-flock-fog p-4 shadow-flock">
-      <div className={`flex items-center gap-1.5 ${accentClass}`}>
-        {icon}
-        <span className="font-sans text-[12px] text-flock-stone">{label}</span>
+      <div className="flex items-start justify-between">
+        <div className={`flex items-center gap-1.5 ${accentClass}`}>
+          {icon}
+          <span className="font-sans text-[12px] text-flock-stone">{label}</span>
+        </div>
+        <Sparkline values={spark} color={colorVar} />
       </div>
       <p className="mt-2 font-mono text-2xl text-flock-soil">{value}</p>
-      <p className="font-sans text-[12px] text-flock-stone">{sub}</p>
+      <div className="mt-1 flex items-center gap-1 font-sans text-[12px] text-flock-stone">
+        {trend === "up" ? (
+          <TrendingUp className="h-3.5 w-3.5 text-flock-field" />
+        ) : trend === "down" ? (
+          <TrendingDown className="h-3.5 w-3.5 text-flock-red" />
+        ) : null}
+        {delta}
+      </div>
     </div>
   );
 }
 
-function SectionHead({
-  title,
-  className = "",
-}: {
-  title: string;
-  className?: string;
-}) {
+function BarChart({ values }: { values: number[] }) {
+  const max = Math.max(...values, 1);
   return (
-    <h2 className={`mb-3 font-display text-xl text-flock-soil ${className}`}>
-      {title}
-    </h2>
-  );
-}
-
-function ModuleCard({
-  to,
-  icon,
-  title,
-  desc,
-  accent,
-}: {
-  to: string;
-  icon: React.ReactNode;
-  title: string;
-  desc: string;
-  accent: "harvest" | "field" | "clay";
-}) {
-  const bg =
-    accent === "harvest"
-      ? "bg-flock-harvest/15 text-flock-harvest"
-      : accent === "field"
-        ? "bg-flock-field/15 text-flock-field"
-        : "bg-flock-clay/15 text-flock-clay";
-  return (
-    <Link
-      to={to}
-      className="group flex items-center gap-3 rounded-lg border bg-flock-fog p-4 shadow-flock transition hover:bg-flock-mist"
-    >
-      <span className={`flex h-10 w-10 items-center justify-center rounded-lg ${bg}`}>
-        {icon}
-      </span>
-      <div className="min-w-0">
-        <p className="font-sans text-[15px] font-medium text-flock-soil">{title}</p>
-        <p className="truncate font-sans text-[12px] text-flock-stone">{desc}</p>
-      </div>
-      <ChevronRight className="ml-auto h-4 w-4 text-flock-stone transition group-hover:translate-x-0.5" />
-    </Link>
+    <div className="flex h-40 items-end gap-1.5">
+      {values.map((v, i) => (
+        <div
+          key={i}
+          className="flex-1 rounded-t bg-flock-field/70 transition hover:bg-flock-field"
+          style={{ height: `${Math.max((v / max) * 100, 3)}%` }}
+          title={v.toLocaleString()}
+        />
+      ))}
+    </div>
   );
 }
 
@@ -497,12 +366,12 @@ function EmptyCoops() {
   return (
     <div className="flex flex-col items-center gap-2 px-4 py-10 text-center">
       <Bird className="h-8 w-8 text-flock-stone" />
-      <p className="font-sans text-[14px] text-flock-soil">No coops yet</p>
+      <p className="font-sans text-[14px] text-flock-soil">No flocks yet</p>
       <Link
         to="/coops"
         className="mt-1 flex items-center gap-1 rounded-lg bg-flock-harvest px-3 py-1.5 font-sans text-[13px] text-flock-soil"
       >
-        <Plus className="h-3.5 w-3.5" /> Add a coop
+        <Plus className="h-3.5 w-3.5" /> Add a flock
       </Link>
     </div>
   );
