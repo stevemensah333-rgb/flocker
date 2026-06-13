@@ -80,7 +80,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Flock — The Poultry Farm Operating System" },
+      { title: "Flocker — The Poultry Farm Operating System" },
       { name: "description", content: "Feed formulation, egg tracking, health alerts and your ledger — one app for African poultry farmers." },
       { name: "author", content: "Flock" },
       { property: "og:title", content: "Flock — The Poultry Farm Operating System" },
