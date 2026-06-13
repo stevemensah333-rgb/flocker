@@ -29,7 +29,13 @@ type Coop = {
   production_type: string | null;
 };
 
-type Msg = { role: "user" | "assistant"; content: string };
+type Msg = {
+  role: "user" | "assistant";
+  content: string;
+  confidence?: "high" | "moderate" | "low";
+  grounded?: boolean;
+  sources?: VetLineSource[];
+};
 
 const QUICK = [
   "My hens have watery droppings and look sleepy",
