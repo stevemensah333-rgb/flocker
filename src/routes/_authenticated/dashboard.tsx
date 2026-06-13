@@ -476,7 +476,7 @@ function EmptyCoops() {
       <Bird className="h-8 w-8 text-flock-stone" />
       <p className="font-sans text-[14px] text-flock-soil">No coops yet</p>
       <Link
-        to="/onboarding"
+        to="/coops"
         className="mt-1 flex items-center gap-1 rounded-lg bg-flock-harvest px-3 py-1.5 font-sans text-[13px] text-flock-soil"
       >
         <Plus className="h-3.5 w-3.5" /> Add a coop
@@ -484,10 +484,3 @@ function EmptyCoops() {
     </div>
   );
 }
-
-const SAMPLE_LEDGER = [
-  { label: "Egg sales — Tray x40", amount: "1,200", when: "Today, 09:14", in: true },
-  { label: "Feed batch — Layer mash", amount: "8,500", when: "Yesterday", in: false },
-  { label: "Egg sales — Crate x12", amount: "3,600", when: "2 days ago", in: true },
-  { label: "Vaccine — Newcastle", amount: "2,100", when: "3 days ago", in: false },
-];
