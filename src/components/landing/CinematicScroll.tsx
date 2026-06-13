@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { Link } from "@tanstack/react-router";
 import { FRAME_URLS, POSTER_URL } from "@/lib/flock/frames";
+import RationProWidget from "@/components/ration/RationProWidget";
+import Ticker from "@/components/landing/Ticker";
 
 const FRAME_COUNT = FRAME_URLS.length;
 const SERIF = '"Playfair Display", Georgia, serif';
