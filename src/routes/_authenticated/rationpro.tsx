@@ -118,7 +118,7 @@ function RationProPage() {
       />
       {Object.keys(priceMap).length > 0 && !loaded && (
         <p className="mt-2 font-sans text-[12px] text-flock-stone">
-          Prices auto-filled from your Feed Store where available.
+          Prices auto-filled from your saved ingredient prices where available.
         </p>
       )}
 
