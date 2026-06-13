@@ -109,16 +109,9 @@ export default function AppShell({
         {/* Top header bar */}
         <header className="sticky top-0 z-10 border-b border-flock-fog bg-flock-cream/95 px-6 backdrop-blur">
           <div className="flex h-16 items-center gap-4">
-            <button className="flex items-center gap-2 rounded border bg-flock-fog px-3 py-1.5 font-sans text-[13px] text-flock-soil transition hover:bg-flock-mist">
-              <Bird className="h-3.5 w-3.5 text-flock-field" /> My Farm
-              <ChevronDown className="h-3.5 w-3.5 text-flock-stone" />
-            </button>
             <div className="ml-auto flex items-center gap-3">
               {actions}
-              <button className="relative flex h-9 w-9 items-center justify-center rounded border bg-flock-fog text-flock-soil transition hover:bg-flock-mist">
-                <Bell className="h-4 w-4" />
-                <span className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-flock-red" />
-              </button>
+              <NotificationBell />
             </div>
           </div>
         </header>
