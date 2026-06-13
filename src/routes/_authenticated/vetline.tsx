@@ -266,3 +266,78 @@ function VetLine() {
 function Dot() {
   return <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-flock-stone" />;
 }
+
+const CONFIDENCE_META: Record<
+  "high" | "moderate" | "low",
+  { label: string; cls: string }
+> = {
+  high: { label: "High confidence", cls: "bg-flock-field/15 text-flock-field" },
+  moderate: { label: "Moderate confidence", cls: "bg-flock-harvest/15 text-flock-harvest" },
+  low: { label: "Low confidence", cls: "bg-flock-stone/20 text-flock-stone" },
+};
+
+function Provenance({
+  confidence,
+  grounded,
+  sources,
+}: {
+  confidence: "high" | "moderate" | "low";
+  grounded?: boolean;
+  sources: VetLineSource[];
+}) {
+  const meta = CONFIDENCE_META[confidence];
+  return (
+    <div className="flex w-full flex-col gap-2">
+      <div className="flex flex-wrap items-center gap-1.5">
+        <span
+          className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 font-sans text-[11px] font-medium ${meta.cls}`}
+        >
+          <ShieldCheck className="h-3 w-3" />
+          {meta.label}
+        </span>
+        <span className="inline-flex items-center gap-1 rounded-full bg-flock-fog px-2 py-0.5 font-sans text-[11px] text-flock-stone">
+          {grounded ? (
+            <>
+              <Microscope className="h-3 w-3" />
+              Evidence-backed
+            </>
+          ) : (
+            <>
+              <BookOpen className="h-3 w-3" />
+              General knowledge
+            </>
+          )}
+        </span>
+      </div>
+      {sources.length > 0 && (
+        <div className="flex flex-col gap-1 rounded-lg border border-flock-fog bg-flock-fog/60 p-2">
+          <p className="px-1 font-sans text-[10px] font-semibold uppercase tracking-wide text-flock-stone">
+            Sources
+          </p>
+          {sources.map((s) => (
+            <a
+              key={s.id}
+              href={s.url || undefined}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="group flex items-start gap-1.5 rounded-md px-1 py-0.5 font-sans text-[12px] text-flock-soil transition hover:bg-flock-mist"
+            >
+              <span className="mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded bg-flock-soil/10 text-[10px] font-semibold text-flock-soil">
+                {s.id}
+              </span>
+              <span className="flex-1 leading-snug">
+                {s.title}
+                {s.origin === "academic" && (
+                  <span className="ml-1 text-[10px] text-flock-field">· research</span>
+                )}
+              </span>
+              {s.url && (
+                <ExternalLink className="mt-0.5 h-3 w-3 shrink-0 text-flock-stone opacity-0 transition group-hover:opacity-100" />
+              )}
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
