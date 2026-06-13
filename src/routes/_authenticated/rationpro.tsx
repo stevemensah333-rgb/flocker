@@ -127,6 +127,7 @@ function RationProPage() {
     [farmId, userId],
   );
 
+  async function remove(id: string) {
     const { error } = await supabase.from("saved_rations").delete().eq("id", id);
     if (error) {
       toast.error(error.message);
