@@ -239,7 +239,15 @@ function Dashboard() {
             {/* Two columns: timeline + ledger */}
             <div className="mt-6 grid gap-6 lg:grid-cols-3">
               <section className="lg:col-span-2">
-                <SectionHead title="Your flock" />
+                <div className="mb-3 flex items-center justify-between">
+                  <h2 className="font-display text-xl text-flock-soil">Your flock</h2>
+                  <Link
+                    to="/coops"
+                    className="flex items-center gap-1 rounded-lg border bg-flock-fog px-2.5 py-1 font-sans text-[12px] text-flock-soil transition hover:bg-flock-mist"
+                  >
+                    <Plus className="h-3.5 w-3.5" /> Manage coops
+                  </Link>
+                </div>
                 <div className="overflow-hidden rounded-lg border bg-flock-fog shadow-flock">
                   {coops.length === 0 ? (
                     <EmptyCoops />
