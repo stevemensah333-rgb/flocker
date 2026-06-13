@@ -190,9 +190,15 @@ function Dashboard() {
             <Bird className="h-5 w-5 text-flock-harvest" />
             <span className="font-display text-xl text-flock-soil">Flock</span>
           </div>
+          <Link
+            to="/settings"
+            className="ml-auto flex items-center gap-1.5 rounded-lg border bg-flock-fog px-3 py-1.5 font-sans text-[13px] text-flock-soil transition hover:bg-flock-mist"
+          >
+            <Settings className="h-3.5 w-3.5" /> Settings
+          </Link>
           <button
             onClick={signOut}
-            className="ml-auto flex items-center gap-1.5 rounded-lg border bg-flock-fog px-3 py-1.5 font-sans text-[13px] text-flock-soil transition hover:bg-flock-mist"
+            className="ml-2 flex items-center gap-1.5 rounded-lg border bg-flock-fog px-3 py-1.5 font-sans text-[13px] text-flock-soil transition hover:bg-flock-mist"
           >
             <LogOut className="h-3.5 w-3.5" /> Sign out
           </button>
