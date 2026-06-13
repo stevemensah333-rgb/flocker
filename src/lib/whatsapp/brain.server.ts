@@ -285,5 +285,3 @@ export async function buildDailySummary(supabase: DB, farmId: string): Promise<s
     `📅 *Upcoming (7 days)*\n${tasks}`
   );
 }
-
-export type { z };
