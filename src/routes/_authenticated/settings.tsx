@@ -1,9 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
-import { Save, User, Tractor } from "lucide-react";
+import { useEffect, useState, useCallback } from "react";
+import { Save, User, Tractor, MessageCircle, Copy, Trash2, RefreshCw, Bell } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import AppShell from "@/components/app/AppShell";
+import {
+  generateLinkCode,
+  listLinks,
+  unlink,
+  getAlertSettings,
+  saveAlertSettings,
+} from "@/lib/whatsapp/link.functions";
 
 export const Route = createFileRoute("/_authenticated/settings")({
   component: SettingsPage,
