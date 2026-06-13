@@ -1,9 +1,19 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { Stethoscope, Send, Bird, Sparkles, AlertTriangle } from "lucide-react";
+import {
+  Stethoscope,
+  Send,
+  Sparkles,
+  AlertTriangle,
+  ShieldCheck,
+  BookOpen,
+  Microscope,
+  ExternalLink,
+} from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { askVetLine } from "@/lib/flock/vetline.functions";
+import type { VetLineSource } from "@/lib/flock/vetline.functions";
 import AppShell from "@/components/app/AppShell";
 
 export const Route = createFileRoute("/_authenticated/vetline")({
