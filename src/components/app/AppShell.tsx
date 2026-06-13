@@ -119,9 +119,6 @@ export default function AppShell({
                 <Bell className="h-4 w-4" />
                 <span className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-flock-red" />
               </button>
-              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-flock-soil font-sans text-[13px] font-medium text-flock-cream">
-                F
-              </span>
             </div>
           </div>
         </header>
