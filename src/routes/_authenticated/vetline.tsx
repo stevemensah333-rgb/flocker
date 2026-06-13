@@ -112,7 +112,16 @@ function VetLine() {
             : undefined,
         },
       });
-      setMessages((m) => [...m, { role: "assistant", content: res.reply }]);
+      setMessages((m) => [
+        ...m,
+        {
+          role: "assistant",
+          content: res.reply,
+          confidence: res.confidence,
+          grounded: res.grounded,
+          sources: res.sources,
+        },
+      ]);
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : "Something went wrong.");
     } finally {
