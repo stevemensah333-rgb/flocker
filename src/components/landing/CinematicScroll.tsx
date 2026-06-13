@@ -167,6 +167,7 @@ export default function CinematicScroll() {
   }
 
   return (
+    <>
     <div ref={scrollRef} style={{ height: "600vh", fontFamily: SANS }} className="relative bg-[#1C1C1C] max-md:!h-[400vh]">
       {/* Loader */}
       {!loaded && (
