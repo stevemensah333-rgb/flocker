@@ -196,13 +196,13 @@ function Dashboard() {
                   Manage
                 </Link>
               </div>
-              <div className="overflow-x-auto rounded border bg-flock-fog shadow-flock">
+              <div className="overflow-x-auto rounded border bg-flock-paper">
                 {coops.length === 0 ? (
                   <EmptyCoops />
                 ) : (
                   <table className="w-full text-left">
                     <thead>
-                      <tr className="border-b border-flock-mist font-sans text-[11px] uppercase tracking-wide text-flock-stone">
+                      <tr className="border-b border-flock-line font-sans text-[11px] uppercase tracking-wide text-flock-stone">
                         <th className="px-4 py-3 font-medium">Batch</th>
                         <th className="px-4 py-3 font-medium">Breed</th>
                         <th className="px-4 py-3 font-medium">Age</th>
@@ -217,7 +217,7 @@ function Dashboard() {
                         return (
                           <tr
                             key={c.id}
-                            className="border-t border-flock-mist font-sans text-[13px] text-flock-soil"
+                            className="border-t border-flock-line font-sans text-[13px] text-flock-soil"
                           >
                             <td className="px-4 py-3 font-medium">{c.name}</td>
                             <td className="px-4 py-3 text-flock-stone">{c.breed ?? "Mixed"}</td>
@@ -249,7 +249,7 @@ function Dashboard() {
               <h2 className="mb-3 font-sans text-[15px] font-semibold text-flock-soil">
                 Egg Production
               </h2>
-              <div className="rounded border bg-flock-fog p-4 shadow-flock">
+              <div className="rounded border bg-flock-paper p-4">
                 {eggValues.length === 0 ? (
                   <p className="py-10 text-center font-sans text-[13px] text-flock-stone">
                     No production data yet.
@@ -325,7 +325,7 @@ function KpiCard({
         ? "text-flock-harvest"
         : "text-flock-stone";
   return (
-    <div className="rounded border bg-flock-fog p-4 shadow-flock">
+    <div className="rounded border bg-flock-paper p-4">
       <div className="flex items-start justify-between">
         <div className={`flex items-center gap-1.5 ${accentClass}`}>
           {icon}
