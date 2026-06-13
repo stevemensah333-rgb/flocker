@@ -317,18 +317,18 @@ function CtaCard() {
       <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
         <Link
           to="/auth"
-          aria-label="Request early access to Flock"
+          aria-label="Get access to Flock"
           className="rounded-full bg-[#D4840A] px-6 py-3 text-sm font-semibold text-[#1C1C1C] transition-transform hover:-translate-y-0.5"
         >
-          Request Early Access
+          Get Access
         </Link>
-        <a
-          href="#demo"
-          aria-label="Watch the Flock product demo"
+        <Link
+          to="/auth"
+          aria-label="Log in to Flock"
           className="rounded-full border border-[#D4840A] px-6 py-3 text-sm font-semibold text-[#F5F0E8] transition-colors hover:bg-[#D4840A]/10"
         >
-          Watch the Demo
-        </a>
+          Log In
+        </Link>
       </div>
     </div>
   );
