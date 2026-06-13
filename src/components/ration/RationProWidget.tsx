@@ -58,6 +58,7 @@ function defaultRows(priceMap?: Record<string, number>): RationRow[] {
 
 export default function RationProWidget({
   onSave,
+  onSavePrices,
   initialRows,
   initialStage,
   priceMap,
@@ -67,6 +68,7 @@ export default function RationProWidget({
     stage: string;
     costPerKg: number;
   }) => void;
+  onSavePrices?: (prices: { name: string; pricePerKg: number }[]) => void;
   initialRows?: RationRow[];
   initialStage?: string;
   priceMap?: Record<string, number>;
