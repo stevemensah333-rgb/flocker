@@ -132,7 +132,7 @@ function VetLine() {
   return (
     <AppShell
       title="VetLine"
-      subtitle="AI-assisted flock health triage"
+      subtitle="Evidence-grounded flock health triage — cited from research & vet references"
       actions={
         coops.length > 0 ? (
           <select
