@@ -144,7 +144,15 @@ function Dashboard() {
           });
         }
         acts.sort((a, b) => b.sort - a.sort);
-        setActivity(acts.slice(0, 6).map(({ sort, ...rest }) => rest));
+        setActivity(
+          acts.slice(0, 6).map((a) => ({
+            key: a.key,
+            label: a.label,
+            amount: a.amount,
+            when: a.when,
+            in: a.in,
+          })),
+        );
       }
       setReady(true);
     })();
