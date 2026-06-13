@@ -14,6 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
+      alert_settings: {
+        Row: {
+          alerts_enabled: boolean
+          created_at: string
+          daily_mortality_threshold: number
+          daily_summary_enabled: boolean
+          farm_id: string
+          feed_stock_kg_threshold: number
+          id: string
+          monthly_budget: number
+          owner_id: string
+          updated_at: string
+        }
+        Insert: {
+          alerts_enabled?: boolean
+          created_at?: string
+          daily_mortality_threshold?: number
+          daily_summary_enabled?: boolean
+          farm_id: string
+          feed_stock_kg_threshold?: number
+          id?: string
+          monthly_budget?: number
+          owner_id: string
+          updated_at?: string
+        }
+        Update: {
+          alerts_enabled?: boolean
+          created_at?: string
+          daily_mortality_threshold?: number
+          daily_summary_enabled?: boolean
+          farm_id?: string
+          feed_stock_kg_threshold?: number
+          id?: string
+          monthly_budget?: number
+          owner_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       coops: {
         Row: {
           age_weeks: number
@@ -295,6 +334,99 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      whatsapp_link_codes: {
+        Row: {
+          code: string
+          consumed: boolean
+          created_at: string
+          expires_at: string
+          farm_id: string
+          id: string
+          owner_id: string
+        }
+        Insert: {
+          code: string
+          consumed?: boolean
+          created_at?: string
+          expires_at: string
+          farm_id: string
+          id?: string
+          owner_id: string
+        }
+        Update: {
+          code?: string
+          consumed?: boolean
+          created_at?: string
+          expires_at?: string
+          farm_id?: string
+          id?: string
+          owner_id?: string
+        }
+        Relationships: []
+      }
+      whatsapp_links: {
+        Row: {
+          created_at: string
+          farm_id: string
+          id: string
+          owner_id: string
+          phone: string
+          verified: boolean
+        }
+        Insert: {
+          created_at?: string
+          farm_id: string
+          id?: string
+          owner_id: string
+          phone: string
+          verified?: boolean
+        }
+        Update: {
+          created_at?: string
+          farm_id?: string
+          id?: string
+          owner_id?: string
+          phone?: string
+          verified?: boolean
+        }
+        Relationships: []
+      }
+      whatsapp_messages: {
+        Row: {
+          body: string | null
+          created_at: string
+          direction: string
+          farm_id: string | null
+          id: string
+          intent: string | null
+          owner_id: string | null
+          phone: string
+          raw: Json | null
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          direction: string
+          farm_id?: string | null
+          id?: string
+          intent?: string | null
+          owner_id?: string | null
+          phone: string
+          raw?: Json | null
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          direction?: string
+          farm_id?: string | null
+          id?: string
+          intent?: string | null
+          owner_id?: string | null
+          phone?: string
+          raw?: Json | null
+        }
+        Relationships: []
       }
     }
     Views: {
