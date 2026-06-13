@@ -22,7 +22,7 @@ const InputSchema = z.object({
   flock: FlockSchema,
 });
 
-const SYSTEM = `You are VetLine, a calm and practical poultry health adviser inside the Flock farm app.
+const SYSTEM = `You are VetLine, a calm and practical poultry health adviser inside the Flocker farm app.
 You help small and medium poultry farmers (often in Africa) triage flock health issues.
 
 Rules:

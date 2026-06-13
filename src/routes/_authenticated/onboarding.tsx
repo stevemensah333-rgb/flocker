@@ -123,7 +123,7 @@ function Onboarding() {
       <div className="mx-auto max-w-lg animate-flock-enter">
         <div className="mb-6 flex items-center justify-center gap-2">
           <Bird className="h-6 w-6 text-flock-harvest" />
-          <span className="font-display text-2xl text-flock-soil">Flock</span>
+          <span className="font-display text-2xl text-flock-soil">Flocker</span>
         </div>
 
         <div className="mb-4 flex items-center gap-2">

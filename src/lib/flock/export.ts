@@ -1,4 +1,4 @@
-// Client-side CSV export helpers for Flock.
+// Client-side CSV export helpers for Flocker.
 
 function escapeCell(value: unknown): string {
   const s = value == null ? "" : String(value);

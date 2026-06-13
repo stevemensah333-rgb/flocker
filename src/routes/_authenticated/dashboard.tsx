@@ -189,7 +189,7 @@ function Dashboard() {
         <div className="mx-auto flex h-14 max-w-5xl items-center">
           <div className="flex items-center gap-2">
             <Bird className="h-5 w-5 text-flock-harvest" />
-            <span className="font-display text-xl text-flock-soil">Flock</span>
+            <span className="font-display text-xl text-flock-soil">Flocker</span>
           </div>
           <Link
             to="/settings"
