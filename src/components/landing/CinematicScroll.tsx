@@ -165,10 +165,7 @@ export default function CinematicScroll() {
   }
 
   return (
-    <div ref={scrollRef} style={{ height: "600vh", fontFamily: SANS }} className="relative max-md:!h-[400vh]">
-      {/* Solid dark backdrop behind the canvas (prevents page background bleed) */}
-      <div className="fixed inset-0 -z-20 bg-[#1C1C1C]" aria-hidden="true" />
-
+    <div ref={scrollRef} style={{ height: "600vh", fontFamily: SANS }} className="relative bg-[#1C1C1C] max-md:!h-[400vh]">
       {/* Loader */}
       {!loaded && (
         <div className="fixed inset-0 z-50 flex flex-col items-center justify-center gap-6 bg-[#1C1C1C]">
@@ -186,9 +183,10 @@ export default function CinematicScroll() {
       )}
 
       {/* Fixed canvas background */}
-      <canvas ref={canvasRef} className="fixed inset-0 -z-10 h-screen w-screen bg-[#1C1C1C]" aria-hidden="true" />
+      <canvas ref={canvasRef} className="fixed inset-0 z-0 h-screen w-screen bg-[#1C1C1C]" aria-hidden="true" />
       {/* Ambient scrim for legibility */}
-      <div className="pointer-events-none fixed inset-0 -z-10 bg-gradient-to-b from-[#1C1C1C]/40 via-transparent to-[#1C1C1C]/50" aria-hidden="true" />
+      <div className="pointer-events-none fixed inset-0 z-[1] bg-gradient-to-b from-[#1C1C1C]/40 via-transparent to-[#1C1C1C]/50" aria-hidden="true" />
+
 
       <TopNav />
 
