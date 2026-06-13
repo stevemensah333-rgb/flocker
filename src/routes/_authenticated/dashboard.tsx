@@ -13,6 +13,7 @@ import {
   Stethoscope,
   ChevronRight,
   Plus,
+  Settings,
 } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -32,6 +33,23 @@ type Coop = {
 
 type Farm = { id: string; name: string; egg_price: number };
 
+type Activity = {
+  key: string;
+  label: string;
+  amount: string;
+  when: string;
+  in: boolean | null;
+};
+
+function timeAgo(dateStr: string) {
+  const d = new Date(dateStr);
+  const days = Math.floor((Date.now() - d.getTime()) / 86400000);
+  if (days <= 0) return "Today";
+  if (days === 1) return "Yesterday";
+  if (days < 7) return `${days} days ago`;
+  return d.toLocaleDateString("en-GB", { day: "numeric", month: "short" });
+}
+
 function greeting() {
   const h = new Date().getHours();
   if (h < 12) return "Good morning";
@@ -45,6 +63,7 @@ function Dashboard() {
   const [name, setName] = useState("");
   const [farm, setFarm] = useState<Farm | null>(null);
   const [coops, setCoops] = useState<Coop[]>([]);
+  const [activity, setActivity] = useState<Activity[]>([]);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -76,6 +95,65 @@ function Dashboard() {
           .eq("farm_id", f.id)
           .order("created_at");
         setCoops(c ?? []);
+
+        const [{ data: eggs }, { data: events }] = await Promise.all([
+          supabase
+            .from("egg_records")
+            .select("id, record_date, eggs_collected, eggs_sold, price_per_egg")
+            .eq("farm_id", f.id)
+            .order("record_date", { ascending: false })
+            .limit(15),
+          supabase
+            .from("flock_events")
+            .select("id, event_type, event_date, cost")
+            .eq("farm_id", f.id)
+            .order("event_date", { ascending: false })
+            .limit(15),
+        ]);
+
+        const acts: (Activity & { sort: number })[] = [];
+        for (const e of eggs ?? []) {
+          const revenue = e.eggs_sold * e.price_per_egg;
+          if (e.eggs_sold > 0) {
+            acts.push({
+              key: `egg-sale-${e.id}`,
+              label: `Egg sales — ${e.eggs_sold.toLocaleString()} eggs`,
+              amount: `₵${revenue.toLocaleString(undefined, { maximumFractionDigits: 0 })}`,
+              when: timeAgo(e.record_date),
+              in: true,
+              sort: new Date(e.record_date).getTime(),
+            });
+          } else if (e.eggs_collected > 0) {
+            acts.push({
+              key: `egg-collect-${e.id}`,
+              label: `Collected ${e.eggs_collected.toLocaleString()} eggs`,
+              amount: `${e.eggs_collected.toLocaleString()}`,
+              when: timeAgo(e.record_date),
+              in: null,
+              sort: new Date(e.record_date).getTime(),
+            });
+          }
+        }
+        for (const ev of events ?? []) {
+          acts.push({
+            key: `event-${ev.id}`,
+            label: ev.event_type,
+            amount: ev.cost > 0 ? `₵${ev.cost.toLocaleString(undefined, { maximumFractionDigits: 0 })}` : "—",
+            when: timeAgo(ev.event_date),
+            in: ev.cost > 0 ? false : null,
+            sort: new Date(ev.event_date).getTime(),
+          });
+        }
+        acts.sort((a, b) => b.sort - a.sort);
+        setActivity(
+          acts.slice(0, 6).map((a) => ({
+            key: a.key,
+            label: a.label,
+            amount: a.amount,
+            when: a.when,
+            in: a.in,
+          })),
+        );
       }
       setReady(true);
     })();
@@ -113,9 +191,15 @@ function Dashboard() {
             <Bird className="h-5 w-5 text-flock-harvest" />
             <span className="font-display text-xl text-flock-soil">Flock</span>
           </div>
+          <Link
+            to="/settings"
+            className="ml-auto flex items-center gap-1.5 rounded-lg border bg-flock-fog px-3 py-1.5 font-sans text-[13px] text-flock-soil transition hover:bg-flock-mist"
+          >
+            <Settings className="h-3.5 w-3.5" /> Settings
+          </Link>
           <button
             onClick={signOut}
-            className="ml-auto flex items-center gap-1.5 rounded-lg border bg-flock-fog px-3 py-1.5 font-sans text-[13px] text-flock-soil transition hover:bg-flock-mist"
+            className="ml-2 flex items-center gap-1.5 rounded-lg border bg-flock-fog px-3 py-1.5 font-sans text-[13px] text-flock-soil transition hover:bg-flock-mist"
           >
             <LogOut className="h-3.5 w-3.5" /> Sign out
           </button>
@@ -170,7 +254,15 @@ function Dashboard() {
             {/* Two columns: timeline + ledger */}
             <div className="mt-6 grid gap-6 lg:grid-cols-3">
               <section className="lg:col-span-2">
-                <SectionHead title="Your flock" />
+                <div className="mb-3 flex items-center justify-between">
+                  <h2 className="font-display text-xl text-flock-soil">Your flock</h2>
+                  <Link
+                    to="/coops"
+                    className="flex items-center gap-1 rounded-lg border bg-flock-fog px-2.5 py-1 font-sans text-[12px] text-flock-soil transition hover:bg-flock-mist"
+                  >
+                    <Plus className="h-3.5 w-3.5" /> Manage coops
+                  </Link>
+                </div>
                 <div className="overflow-hidden rounded-lg border bg-flock-fog shadow-flock">
                   {coops.length === 0 ? (
                     <EmptyCoops />
@@ -210,44 +302,56 @@ function Dashboard() {
               <section>
                 <SectionHead title="Recent activity" />
                 <div className="rounded-lg border bg-flock-fog p-2 shadow-flock">
-                  {SAMPLE_LEDGER.map((e, i) => (
-                    <div
-                      key={i}
-                      className={`flex items-center gap-3 px-2 py-2.5 ${
-                        i > 0 ? "border-t border-flock-mist" : ""
-                      }`}
-                    >
-                      <span
-                        className={`flex h-7 w-7 items-center justify-center rounded-full ${
-                          e.in
-                            ? "bg-flock-field/12 text-flock-field"
-                            : "bg-flock-red/12 text-flock-red"
+                  {activity.length === 0 ? (
+                    <p className="px-2 py-6 text-center font-sans text-[13px] text-flock-stone">
+                      No activity yet. Log eggs or record an event to see it here.
+                    </p>
+                  ) : (
+                    activity.map((e, i) => (
+                      <div
+                        key={e.key}
+                        className={`flex items-center gap-3 px-2 py-2.5 ${
+                          i > 0 ? "border-t border-flock-mist" : ""
                         }`}
                       >
-                        {e.in ? (
-                          <TrendingUp className="h-3.5 w-3.5" />
-                        ) : (
-                          <TrendingDown className="h-3.5 w-3.5" />
-                        )}
-                      </span>
-                      <div className="min-w-0">
-                        <p className="truncate font-sans text-[13px] text-flock-soil">
-                          {e.label}
-                        </p>
-                        <p className="font-sans text-[11px] text-flock-stone">
-                          {e.when}
-                        </p>
+                        <span
+                          className={`flex h-7 w-7 items-center justify-center rounded-full ${
+                            e.in === true
+                              ? "bg-flock-field/12 text-flock-field"
+                              : e.in === false
+                                ? "bg-flock-red/12 text-flock-red"
+                                : "bg-flock-mist text-flock-stone"
+                          }`}
+                        >
+                          {e.in === false ? (
+                            <TrendingDown className="h-3.5 w-3.5" />
+                          ) : (
+                            <TrendingUp className="h-3.5 w-3.5" />
+                          )}
+                        </span>
+                        <div className="min-w-0">
+                          <p className="truncate font-sans text-[13px] text-flock-soil">
+                            {e.label}
+                          </p>
+                          <p className="font-sans text-[11px] text-flock-stone">
+                            {e.when}
+                          </p>
+                        </div>
+                        <span
+                          className={`ml-auto font-mono text-[13px] ${
+                            e.in === true
+                              ? "text-flock-field"
+                              : e.in === false
+                                ? "text-flock-red"
+                                : "text-flock-stone"
+                          }`}
+                        >
+                          {e.in === true ? "+" : e.in === false ? "-" : ""}
+                          {e.amount}
+                        </span>
                       </div>
-                      <span
-                        className={`ml-auto font-mono text-[13px] ${
-                          e.in ? "text-flock-field" : "text-flock-red"
-                        }`}
-                      >
-                        {e.in ? "+" : "-"}
-                        {e.amount}
-                      </span>
-                    </div>
-                  ))}
+                    ))
+                  )}
                 </div>
               </section>
             </div>
@@ -395,7 +499,7 @@ function EmptyCoops() {
       <Bird className="h-8 w-8 text-flock-stone" />
       <p className="font-sans text-[14px] text-flock-soil">No coops yet</p>
       <Link
-        to="/onboarding"
+        to="/coops"
         className="mt-1 flex items-center gap-1 rounded-lg bg-flock-harvest px-3 py-1.5 font-sans text-[13px] text-flock-soil"
       >
         <Plus className="h-3.5 w-3.5" /> Add a coop
@@ -403,10 +507,3 @@ function EmptyCoops() {
     </div>
   );
 }
-
-const SAMPLE_LEDGER = [
-  { label: "Egg sales — Tray x40", amount: "1,200", when: "Today, 09:14", in: true },
-  { label: "Feed batch — Layer mash", amount: "8,500", when: "Yesterday", in: false },
-  { label: "Egg sales — Crate x12", amount: "3,600", when: "2 days ago", in: true },
-  { label: "Vaccine — Newcastle", amount: "2,100", when: "3 days ago", in: false },
-];

@@ -14,12 +14,15 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedVetlineRouteImport } from './routes/_authenticated/vetline'
+import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
 import { Route as AuthenticatedReportsRouteImport } from './routes/_authenticated/reports'
 import { Route as AuthenticatedRationproRouteImport } from './routes/_authenticated/rationpro'
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
 import { Route as AuthenticatedFeedStoreRouteImport } from './routes/_authenticated/feed-store'
+import { Route as AuthenticatedEventsRouteImport } from './routes/_authenticated/events'
 import { Route as AuthenticatedEggLedgerRouteImport } from './routes/_authenticated/egg-ledger'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedCoopsRouteImport } from './routes/_authenticated/coops'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -45,6 +48,11 @@ const AuthenticatedVetlineRoute = AuthenticatedVetlineRouteImport.update({
   path: '/vetline',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedReportsRoute = AuthenticatedReportsRouteImport.update({
   id: '/reports',
   path: '/reports',
@@ -65,6 +73,11 @@ const AuthenticatedFeedStoreRoute = AuthenticatedFeedStoreRouteImport.update({
   path: '/feed-store',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedEventsRoute = AuthenticatedEventsRouteImport.update({
+  id: '/events',
+  path: '/events',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedEggLedgerRoute = AuthenticatedEggLedgerRouteImport.update({
   id: '/egg-ledger',
   path: '/egg-ledger',
@@ -75,29 +88,40 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedCoopsRoute = AuthenticatedCoopsRouteImport.update({
+  id: '/coops',
+  path: '/coops',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/coops': typeof AuthenticatedCoopsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/egg-ledger': typeof AuthenticatedEggLedgerRoute
+  '/events': typeof AuthenticatedEventsRoute
   '/feed-store': typeof AuthenticatedFeedStoreRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/rationpro': typeof AuthenticatedRationproRoute
   '/reports': typeof AuthenticatedReportsRoute
+  '/settings': typeof AuthenticatedSettingsRoute
   '/vetline': typeof AuthenticatedVetlineRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/coops': typeof AuthenticatedCoopsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/egg-ledger': typeof AuthenticatedEggLedgerRoute
+  '/events': typeof AuthenticatedEventsRoute
   '/feed-store': typeof AuthenticatedFeedStoreRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/rationpro': typeof AuthenticatedRationproRoute
   '/reports': typeof AuthenticatedReportsRoute
+  '/settings': typeof AuthenticatedSettingsRoute
   '/vetline': typeof AuthenticatedVetlineRoute
 }
 export interface FileRoutesById {
@@ -106,12 +130,15 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/_authenticated/coops': typeof AuthenticatedCoopsRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/egg-ledger': typeof AuthenticatedEggLedgerRoute
+  '/_authenticated/events': typeof AuthenticatedEventsRoute
   '/_authenticated/feed-store': typeof AuthenticatedFeedStoreRoute
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
   '/_authenticated/rationpro': typeof AuthenticatedRationproRoute
   '/_authenticated/reports': typeof AuthenticatedReportsRoute
+  '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/vetline': typeof AuthenticatedVetlineRoute
 }
 export interface FileRouteTypes {
@@ -120,24 +147,30 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/sitemap.xml'
+    | '/coops'
     | '/dashboard'
     | '/egg-ledger'
+    | '/events'
     | '/feed-store'
     | '/onboarding'
     | '/rationpro'
     | '/reports'
+    | '/settings'
     | '/vetline'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/auth'
     | '/sitemap.xml'
+    | '/coops'
     | '/dashboard'
     | '/egg-ledger'
+    | '/events'
     | '/feed-store'
     | '/onboarding'
     | '/rationpro'
     | '/reports'
+    | '/settings'
     | '/vetline'
   id:
     | '__root__'
@@ -145,12 +178,15 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/sitemap.xml'
+    | '/_authenticated/coops'
     | '/_authenticated/dashboard'
     | '/_authenticated/egg-ledger'
+    | '/_authenticated/events'
     | '/_authenticated/feed-store'
     | '/_authenticated/onboarding'
     | '/_authenticated/rationpro'
     | '/_authenticated/reports'
+    | '/_authenticated/settings'
     | '/_authenticated/vetline'
   fileRoutesById: FileRoutesById
 }
@@ -198,6 +234,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedVetlineRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/settings': {
+      id: '/_authenticated/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthenticatedSettingsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/reports': {
       id: '/_authenticated/reports'
       path: '/reports'
@@ -226,6 +269,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedFeedStoreRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/events': {
+      id: '/_authenticated/events'
+      path: '/events'
+      fullPath: '/events'
+      preLoaderRoute: typeof AuthenticatedEventsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/egg-ledger': {
       id: '/_authenticated/egg-ledger'
       path: '/egg-ledger'
@@ -240,26 +290,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/coops': {
+      id: '/_authenticated/coops'
+      path: '/coops'
+      fullPath: '/coops'
+      preLoaderRoute: typeof AuthenticatedCoopsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedCoopsRoute: typeof AuthenticatedCoopsRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedEggLedgerRoute: typeof AuthenticatedEggLedgerRoute
+  AuthenticatedEventsRoute: typeof AuthenticatedEventsRoute
   AuthenticatedFeedStoreRoute: typeof AuthenticatedFeedStoreRoute
   AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
   AuthenticatedRationproRoute: typeof AuthenticatedRationproRoute
   AuthenticatedReportsRoute: typeof AuthenticatedReportsRoute
+  AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
   AuthenticatedVetlineRoute: typeof AuthenticatedVetlineRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedCoopsRoute: AuthenticatedCoopsRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedEggLedgerRoute: AuthenticatedEggLedgerRoute,
+  AuthenticatedEventsRoute: AuthenticatedEventsRoute,
   AuthenticatedFeedStoreRoute: AuthenticatedFeedStoreRoute,
   AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
   AuthenticatedRationproRoute: AuthenticatedRationproRoute,
   AuthenticatedReportsRoute: AuthenticatedReportsRoute,
+  AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
   AuthenticatedVetlineRoute: AuthenticatedVetlineRoute,
 }
 

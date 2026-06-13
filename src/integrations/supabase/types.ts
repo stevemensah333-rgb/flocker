@@ -151,6 +151,45 @@ export type Database = {
         }
         Relationships: []
       }
+      flock_events: {
+        Row: {
+          coop_id: string | null
+          cost: number
+          created_at: string
+          event_date: string
+          event_type: string
+          farm_id: string
+          id: string
+          note: string | null
+          owner_id: string
+          updated_at: string
+        }
+        Insert: {
+          coop_id?: string | null
+          cost?: number
+          created_at?: string
+          event_date?: string
+          event_type: string
+          farm_id: string
+          id?: string
+          note?: string | null
+          owner_id: string
+          updated_at?: string
+        }
+        Update: {
+          coop_id?: string | null
+          cost?: number
+          created_at?: string
+          event_date?: string
+          event_type?: string
+          farm_id?: string
+          id?: string
+          note?: string | null
+          owner_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       ingredient_prices: {
         Row: {
           created_at: string

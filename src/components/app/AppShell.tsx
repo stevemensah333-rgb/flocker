@@ -1,12 +1,14 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Bird, LogOut, LayoutDashboard, Calculator, Egg, Package, BarChart3, Stethoscope } from "lucide-react";
+import { Bird, LogOut, LayoutDashboard, Calculator, Egg, Package, BarChart3, Stethoscope, Syringe, Settings } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
 const NAV = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { to: "/coops", label: "Coops", icon: Bird },
   { to: "/rationpro", label: "RationPro", icon: Calculator },
   { to: "/egg-ledger", label: "EggLedger", icon: Egg },
+  { to: "/events", label: "Events", icon: Syringe },
   { to: "/feed-store", label: "Feed Store", icon: Package },
   { to: "/reports", label: "Reports", icon: BarChart3 },
   { to: "/vetline", label: "VetLine", icon: Stethoscope },
@@ -53,9 +55,16 @@ export default function AppShell({
               </Link>
             ))}
           </nav>
+          <Link
+            to="/settings"
+            activeProps={{ className: "bg-flock-fog text-flock-soil" }}
+            className="ml-auto flex items-center gap-1.5 rounded-lg border bg-flock-fog px-3 py-1.5 font-sans text-[13px] text-flock-soil transition hover:bg-flock-mist"
+          >
+            <Settings className="h-3.5 w-3.5" /> Settings
+          </Link>
           <button
             onClick={signOut}
-            className="ml-auto flex items-center gap-1.5 rounded-lg border bg-flock-fog px-3 py-1.5 font-sans text-[13px] text-flock-soil transition hover:bg-flock-mist"
+            className="flex items-center gap-1.5 rounded-lg border bg-flock-fog px-3 py-1.5 font-sans text-[13px] text-flock-soil transition hover:bg-flock-mist"
           >
             <LogOut className="h-3.5 w-3.5" /> Sign out
           </button>
