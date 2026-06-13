@@ -326,16 +326,22 @@ function KpiCard({
         ? "text-flock-harvest"
         : "text-flock-stone";
   return (
-    <div className="rounded border bg-flock-paper p-4">
+    <div className="group relative overflow-hidden rounded border bg-flock-paper p-4 transition-colors hover:border-flock-stone/30">
+      <span
+        className="absolute inset-x-0 top-0 h-0.5"
+        style={{ backgroundColor: colorVar }}
+      />
       <div className="flex items-start justify-between">
         <div className={`flex items-center gap-1.5 ${accentClass}`}>
           {icon}
-          <span className="font-sans text-[12px] text-flock-stone">{label}</span>
+          <span className="font-sans text-[12px] uppercase tracking-wide text-flock-stone">
+            {label}
+          </span>
         </div>
         <Sparkline values={spark} color={colorVar} />
       </div>
-      <p className="mt-2 font-mono text-2xl text-flock-soil">{value}</p>
-      <div className="mt-1 flex items-center gap-1 font-sans text-[12px] text-flock-stone">
+      <p className="mt-3 font-mono text-[26px] leading-none text-flock-soil">{value}</p>
+      <div className="mt-2 flex items-center gap-1 font-sans text-[12px] text-flock-stone">
         {trend === "up" ? (
           <TrendingUp className="h-3.5 w-3.5 text-flock-field" />
         ) : trend === "down" ? (
@@ -346,6 +352,7 @@ function KpiCard({
     </div>
   );
 }
+
 
 function BarChart({ values }: { values: number[] }) {
   const max = Math.max(...values, 1);
