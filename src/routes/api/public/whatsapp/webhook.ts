@@ -148,9 +148,7 @@ async function processPayload(payload: unknown) {
 
 // Handle a message from an unlinked phone: accept a 6-digit code to bind.
 async function handleUnlinked(
-  supabaseAdmin: Awaited<
-    typeof import("@/integrations/supabase/client.server")
-  >["supabaseAdmin"],
+  supabaseAdmin: DB,
   phone: string,
   text: string,
 ) {
