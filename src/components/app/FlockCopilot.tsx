@@ -46,7 +46,7 @@ export default function FlockCopilot() {
   async function run() {
     setLoading(true);
     try {
-      const res = await brief({ data: {} });
+      const res = await brief();
       setCards(res.cards);
     } catch {
       setCards([]);
