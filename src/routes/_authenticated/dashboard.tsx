@@ -32,6 +32,23 @@ type Coop = {
 
 type Farm = { id: string; name: string; egg_price: number };
 
+type Activity = {
+  key: string;
+  label: string;
+  amount: string;
+  when: string;
+  in: boolean | null;
+};
+
+function timeAgo(dateStr: string) {
+  const d = new Date(dateStr);
+  const days = Math.floor((Date.now() - d.getTime()) / 86400000);
+  if (days <= 0) return "Today";
+  if (days === 1) return "Yesterday";
+  if (days < 7) return `${days} days ago`;
+  return d.toLocaleDateString("en-GB", { day: "numeric", month: "short" });
+}
+
 function greeting() {
   const h = new Date().getHours();
   if (h < 12) return "Good morning";
