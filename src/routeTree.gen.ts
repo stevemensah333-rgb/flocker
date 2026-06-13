@@ -21,6 +21,7 @@ import { Route as AuthenticatedFeedStoreRouteImport } from './routes/_authentica
 import { Route as AuthenticatedEventsRouteImport } from './routes/_authenticated/events'
 import { Route as AuthenticatedEggLedgerRouteImport } from './routes/_authenticated/egg-ledger'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedCoopsRouteImport } from './routes/_authenticated/coops'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -81,11 +82,17 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedCoopsRoute = AuthenticatedCoopsRouteImport.update({
+  id: '/coops',
+  path: '/coops',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/coops': typeof AuthenticatedCoopsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/egg-ledger': typeof AuthenticatedEggLedgerRoute
   '/events': typeof AuthenticatedEventsRoute
@@ -99,6 +106,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/coops': typeof AuthenticatedCoopsRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
   '/egg-ledger': typeof AuthenticatedEggLedgerRoute
   '/events': typeof AuthenticatedEventsRoute
@@ -114,6 +122,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/_authenticated/coops': typeof AuthenticatedCoopsRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
   '/_authenticated/egg-ledger': typeof AuthenticatedEggLedgerRoute
   '/_authenticated/events': typeof AuthenticatedEventsRoute
@@ -129,6 +138,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/sitemap.xml'
+    | '/coops'
     | '/dashboard'
     | '/egg-ledger'
     | '/events'
@@ -142,6 +152,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/sitemap.xml'
+    | '/coops'
     | '/dashboard'
     | '/egg-ledger'
     | '/events'
@@ -156,6 +167,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/sitemap.xml'
+    | '/_authenticated/coops'
     | '/_authenticated/dashboard'
     | '/_authenticated/egg-ledger'
     | '/_authenticated/events'
@@ -259,10 +271,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/coops': {
+      id: '/_authenticated/coops'
+      path: '/coops'
+      fullPath: '/coops'
+      preLoaderRoute: typeof AuthenticatedCoopsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedCoopsRoute: typeof AuthenticatedCoopsRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
   AuthenticatedEggLedgerRoute: typeof AuthenticatedEggLedgerRoute
   AuthenticatedEventsRoute: typeof AuthenticatedEventsRoute
@@ -274,6 +294,7 @@ interface AuthenticatedRouteRouteChildren {
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedCoopsRoute: AuthenticatedCoopsRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
   AuthenticatedEggLedgerRoute: AuthenticatedEggLedgerRoute,
   AuthenticatedEventsRoute: AuthenticatedEventsRoute,
