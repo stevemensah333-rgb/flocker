@@ -1,10 +1,10 @@
 // WhatsApp "farm brain" — understands farmer messages, records events, answers
 // queries, and gives advice. Server-only (uses Lovable AI + admin DB client).
 import { z } from "zod";
+import type { SupabaseClient } from "@supabase/supabase-js";
+import type { Database } from "@/integrations/supabase/types";
 
-type DB = Awaited<
-  ReturnType<typeof import("@/integrations/supabase/client.server")>
->["supabaseAdmin"];
+type DB = SupabaseClient<Database>;
 
 export type FarmCtx = { ownerId: string; farmId: string; phone: string };
 
