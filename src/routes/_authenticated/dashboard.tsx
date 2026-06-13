@@ -196,19 +196,19 @@ function Dashboard() {
                   Manage
                 </Link>
               </div>
-              <div className="overflow-x-auto rounded border bg-flock-fog shadow-flock">
+              <div className="overflow-x-auto rounded border bg-flock-paper">
                 {coops.length === 0 ? (
                   <EmptyCoops />
                 ) : (
                   <table className="w-full text-left">
                     <thead>
-                      <tr className="border-b border-flock-mist font-sans text-[11px] uppercase tracking-wide text-flock-stone">
-                        <th className="px-4 py-3 font-medium">Batch</th>
-                        <th className="px-4 py-3 font-medium">Breed</th>
-                        <th className="px-4 py-3 font-medium">Age</th>
-                        <th className="px-4 py-3 text-right font-medium">Birds</th>
-                        <th className="px-4 py-3 font-medium">Type</th>
-                        <th className="px-4 py-3 font-medium">Status</th>
+                      <tr className="border-b border-flock-line bg-flock-mist/60 font-sans text-[11px] uppercase tracking-wide text-flock-stone">
+                        <th className="px-4 py-2.5 font-medium">Batch</th>
+                        <th className="px-4 py-2.5 font-medium">Breed</th>
+                        <th className="px-4 py-2.5 font-medium">Age</th>
+                        <th className="px-4 py-2.5 text-right font-medium">Birds</th>
+                        <th className="px-4 py-2.5 font-medium">Type</th>
+                        <th className="px-4 py-2.5 font-medium">Status</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -217,8 +217,9 @@ function Dashboard() {
                         return (
                           <tr
                             key={c.id}
-                            className="border-t border-flock-mist font-sans text-[13px] text-flock-soil"
+                            className="border-t border-flock-line font-sans text-[13px] text-flock-soil transition-colors hover:bg-flock-mist/40"
                           >
+
                             <td className="px-4 py-3 font-medium">{c.name}</td>
                             <td className="px-4 py-3 text-flock-stone">{c.breed ?? "Mixed"}</td>
                             <td className="px-4 py-3 text-flock-stone">{c.age_weeks}w</td>
@@ -249,7 +250,7 @@ function Dashboard() {
               <h2 className="mb-3 font-sans text-[15px] font-semibold text-flock-soil">
                 Egg Production
               </h2>
-              <div className="rounded border bg-flock-fog p-4 shadow-flock">
+              <div className="rounded border bg-flock-paper p-4">
                 {eggValues.length === 0 ? (
                   <p className="py-10 text-center font-sans text-[13px] text-flock-stone">
                     No production data yet.
@@ -325,16 +326,22 @@ function KpiCard({
         ? "text-flock-harvest"
         : "text-flock-stone";
   return (
-    <div className="rounded border bg-flock-fog p-4 shadow-flock">
+    <div className="group relative overflow-hidden rounded border bg-flock-paper p-4 transition-colors hover:border-flock-stone/30">
+      <span
+        className="absolute inset-x-0 top-0 h-0.5"
+        style={{ backgroundColor: colorVar }}
+      />
       <div className="flex items-start justify-between">
         <div className={`flex items-center gap-1.5 ${accentClass}`}>
           {icon}
-          <span className="font-sans text-[12px] text-flock-stone">{label}</span>
+          <span className="font-sans text-[12px] uppercase tracking-wide text-flock-stone">
+            {label}
+          </span>
         </div>
         <Sparkline values={spark} color={colorVar} />
       </div>
-      <p className="mt-2 font-mono text-2xl text-flock-soil">{value}</p>
-      <div className="mt-1 flex items-center gap-1 font-sans text-[12px] text-flock-stone">
+      <p className="mt-3 font-mono text-[26px] leading-none text-flock-soil">{value}</p>
+      <div className="mt-2 flex items-center gap-1 font-sans text-[12px] text-flock-stone">
         {trend === "up" ? (
           <TrendingUp className="h-3.5 w-3.5 text-flock-field" />
         ) : trend === "down" ? (
@@ -345,6 +352,7 @@ function KpiCard({
     </div>
   );
 }
+
 
 function BarChart({ values }: { values: number[] }) {
   const max = Math.max(...values, 1);

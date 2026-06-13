@@ -45,9 +45,11 @@
   --color-flock-clay: var(--flock-clay);
   --color-flock-red: var(--flock-red);
   --color-flock-cream: var(--flock-cream);
+  --color-flock-paper: var(--flock-paper);
   --color-flock-fog: var(--flock-fog);
   --color-flock-mist: var(--flock-mist);
   --color-flock-stone: var(--flock-stone);
+  --color-flock-line: var(--flock-line);
   --color-flock-ink: var(--flock-ink);
   --color-flock-sky: var(--flock-sky);
 
@@ -55,7 +57,7 @@
   --font-sans: "Instrument Sans", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
-  --shadow-flock: 0 1px 4px rgba(44, 26, 14, 0.07);
+  --shadow-flock: 0 1px 2px rgba(44, 26, 14, 0.04);
 }
 
 :root {
@@ -67,19 +69,21 @@
   --flock-field: #3d6b35;
   --flock-clay: #c4764a;
   --flock-red: #b03a2e;
-  --flock-cream: #faf6ef;
-  --flock-fog: #ede8df;
+  --flock-cream: #f7f3ec;
+  --flock-paper: #ffffff;
+  --flock-fog: #efeae1;
   --flock-mist: #f5f1e8;
   --flock-stone: #8c7b6b;
+  --flock-line: rgba(44, 26, 14, 0.09);
   --flock-ink: #1c1209;
   --flock-sky: #4a7a8c;
 
   /* shadcn semantic tokens mapped to warm palette */
   --background: var(--flock-cream);
   --foreground: var(--flock-ink);
-  --card: var(--flock-fog);
+  --card: var(--flock-paper);
   --card-foreground: var(--flock-ink);
-  --popover: #fffdf9;
+  --popover: #ffffff;
   --popover-foreground: var(--flock-ink);
   --primary: var(--flock-harvest);
   --primary-foreground: var(--flock-soil);
@@ -91,8 +95,8 @@
   --accent-foreground: var(--flock-soil);
   --destructive: var(--flock-red);
   --destructive-foreground: var(--flock-cream);
-  --border: rgba(44, 26, 14, 0.12);
-  --input: rgba(44, 26, 14, 0.12);
+  --border: var(--flock-line);
+  --input: var(--flock-line);
   --ring: var(--flock-harvest);
 }
 
