@@ -81,9 +81,9 @@
   /* shadcn semantic tokens mapped to warm palette */
   --background: var(--flock-cream);
   --foreground: var(--flock-ink);
-  --card: var(--flock-fog);
+  --card: var(--flock-paper);
   --card-foreground: var(--flock-ink);
-  --popover: #fffdf9;
+  --popover: #ffffff;
   --popover-foreground: var(--flock-ink);
   --primary: var(--flock-harvest);
   --primary-foreground: var(--flock-soil);
@@ -95,8 +95,8 @@
   --accent-foreground: var(--flock-soil);
   --destructive: var(--flock-red);
   --destructive-foreground: var(--flock-cream);
-  --border: rgba(44, 26, 14, 0.12);
-  --input: rgba(44, 26, 14, 0.12);
+  --border: var(--flock-line);
+  --input: var(--flock-line);
   --ring: var(--flock-harvest);
 }
 
