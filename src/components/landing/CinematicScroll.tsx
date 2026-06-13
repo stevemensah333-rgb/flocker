@@ -93,11 +93,9 @@ export default function CinematicScroll() {
       dy = (ch - dh) / 2;
     }
     ctx.clearRect(0, 0, cw, ch);
-    ctx.fillStyle = "#D4840A";
-    ctx.fillRect(0, 0, cw, ch);
     ctx.drawImage(img, dx, dy, dw, dh);
-    console.log("DRAW", index, cw, ch, img.naturalWidth, dx, dy, dw, dh);
   }, []);
+
 
   // ---- Resize ----
   useEffect(() => {
