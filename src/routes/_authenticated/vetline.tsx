@@ -171,13 +171,24 @@ function VetLine() {
                 </span>
               )}
               <div
-                className={`max-w-[80%] whitespace-pre-wrap rounded-2xl px-3.5 py-2 font-sans text-[14px] leading-relaxed ${
-                  m.role === "user"
-                    ? "bg-flock-soil text-flock-cream"
-                    : "bg-flock-mist text-flock-soil"
-                }`}
+                className={`flex max-w-[82%] flex-col gap-2 ${m.role === "user" ? "items-end" : "items-start"}`}
               >
-                {m.content}
+                <div
+                  className={`whitespace-pre-wrap rounded-2xl px-3.5 py-2 font-sans text-[14px] leading-relaxed ${
+                    m.role === "user"
+                      ? "bg-flock-soil text-flock-cream"
+                      : "bg-flock-mist text-flock-soil"
+                  }`}
+                >
+                  {m.content}
+                </div>
+                {m.role === "assistant" && m.confidence && (
+                  <Provenance
+                    confidence={m.confidence}
+                    grounded={m.grounded}
+                    sources={m.sources ?? []}
+                  />
+                )}
               </div>
             </div>
           ))}
