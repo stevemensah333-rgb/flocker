@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import AppShell from "@/components/app/AppShell";
+import FlockCopilot from "@/components/app/FlockCopilot";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
   component: Dashboard,
