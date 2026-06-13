@@ -109,19 +109,19 @@ function Dashboard() {
     <>
       <Link
         to="/coops"
-        className="hidden items-center gap-1.5 rounded-lg border bg-flock-fog px-3 py-2 font-sans text-[13px] text-flock-soil transition hover:bg-flock-mist sm:flex"
+        className="hidden items-center gap-1.5 rounded border bg-flock-fog px-3 py-2 font-sans text-[13px] text-flock-soil transition hover:bg-flock-mist sm:flex"
       >
         <ClipboardList className="h-3.5 w-3.5" /> Record Entry
       </Link>
       <Link
         to="/reports"
-        className="hidden items-center gap-1.5 rounded-lg border bg-flock-fog px-3 py-2 font-sans text-[13px] text-flock-soil transition hover:bg-flock-mist sm:flex"
+        className="hidden items-center gap-1.5 rounded border bg-flock-fog px-3 py-2 font-sans text-[13px] text-flock-soil transition hover:bg-flock-mist sm:flex"
       >
         <FileText className="h-3.5 w-3.5" /> Generate Report
       </Link>
       <Link
         to="/coops"
-        className="flex items-center gap-1.5 rounded-lg bg-flock-harvest px-3 py-2 font-sans text-[13px] font-medium text-flock-soil transition hover:opacity-90"
+        className="flex items-center gap-1.5 rounded bg-flock-harvest px-3 py-2 font-sans text-[13px] font-medium text-flock-soil transition hover:opacity-90"
       >
         <Plus className="h-3.5 w-3.5" /> Add Flock
       </Link>
@@ -191,12 +191,12 @@ function Dashboard() {
                 </h2>
                 <Link
                   to="/coops"
-                  className="flex items-center gap-1 rounded-lg border bg-flock-fog px-2.5 py-1 font-sans text-[12px] text-flock-soil transition hover:bg-flock-mist"
+                  className="flex items-center gap-1 rounded border bg-flock-fog px-2.5 py-1 font-sans text-[12px] text-flock-soil transition hover:bg-flock-mist"
                 >
                   Manage
                 </Link>
               </div>
-              <div className="overflow-x-auto rounded-lg border bg-flock-fog shadow-flock">
+              <div className="overflow-x-auto rounded border bg-flock-fog shadow-flock">
                 {coops.length === 0 ? (
                   <EmptyCoops />
                 ) : (
@@ -249,7 +249,7 @@ function Dashboard() {
               <h2 className="mb-3 font-sans text-[15px] font-semibold text-flock-soil">
                 Egg Production
               </h2>
-              <div className="rounded-lg border bg-flock-fog p-4 shadow-flock">
+              <div className="rounded border bg-flock-fog p-4 shadow-flock">
                 {eggValues.length === 0 ? (
                   <p className="py-10 text-center font-sans text-[13px] text-flock-stone">
                     No production data yet.
@@ -268,10 +268,10 @@ function Dashboard() {
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
             {[0, 1, 2, 3].map((i) => (
-              <div key={i} className="h-28 animate-pulse rounded-lg bg-flock-fog" />
+              <div key={i} className="h-28 animate-pulse rounded bg-flock-fog" />
             ))}
           </div>
-          <div className="h-64 animate-pulse rounded-lg bg-flock-fog" />
+          <div className="h-64 animate-pulse rounded bg-flock-fog" />
         </div>
       )}
     </AppShell>
@@ -325,7 +325,7 @@ function KpiCard({
         ? "text-flock-harvest"
         : "text-flock-stone";
   return (
-    <div className="rounded-lg border bg-flock-fog p-4 shadow-flock">
+    <div className="rounded border bg-flock-fog p-4 shadow-flock">
       <div className="flex items-start justify-between">
         <div className={`flex items-center gap-1.5 ${accentClass}`}>
           {icon}
@@ -369,7 +369,7 @@ function EmptyCoops() {
       <p className="font-sans text-[14px] text-flock-soil">No flocks yet</p>
       <Link
         to="/coops"
-        className="mt-1 flex items-center gap-1 rounded-lg bg-flock-harvest px-3 py-1.5 font-sans text-[13px] text-flock-soil"
+        className="mt-1 flex items-center gap-1 rounded bg-flock-harvest px-3 py-1.5 font-sans text-[13px] text-flock-soil"
       >
         <Plus className="h-3.5 w-3.5" /> Add a flock
       </Link>
