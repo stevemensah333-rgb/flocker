@@ -227,13 +227,37 @@ export default function CinematicScroll() {
         </div>
       </FixedLayer>
 
-      {/* D — 82%..100% center CTA */}
+      {/* D — 82%..100% center: keep last frames visible */}
       <FixedLayer opacity={band(scrollP, 0.82, 1.0)}>
-        <div className="flex h-full items-center justify-center px-6">
-          <CtaCard />
+        <div className="flex h-full items-center justify-center px-6 text-center">
+          <Scrim />
+          <p className="relative text-sm uppercase tracking-[0.3em] text-[#D4840A]">Keep scrolling ↓</p>
         </div>
       </FixedLayer>
     </div>
+
+      {/* ---- Live demo (RationPro) + ticker, scrolls over the canvas ---- */}
+      <section id="demo" className="relative z-20 bg-[#1C1C1C] px-4 py-20 md:px-8">
+        <div className="mx-auto max-w-5xl text-center">
+          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#D4840A]">Live demo</p>
+          <h2 style={{ fontFamily: SERIF }} className="mt-3 text-3xl text-[#F5F0E8] md:text-5xl">
+            Formulate least-cost feed in seconds.
+          </h2>
+          <p className="mx-auto mt-4 max-w-xl text-sm text-[#F5F0E8]/70">
+            Edit any kg value below — RationPro recalculates nutrition and cost instantly.
+          </p>
+        </div>
+        <div className="mx-auto mt-10 max-w-5xl overflow-hidden rounded-2xl border border-[#F5F0E8]/15 bg-white shadow-2xl">
+          <RationProWidget />
+          <Ticker />
+        </div>
+      </section>
+
+      {/* ---- Final CTA ---- */}
+      <section className="relative z-20 flex items-center justify-center bg-[#1C1C1C] px-6 pb-28">
+        <CtaCard />
+      </section>
+    </>
   );
 }
 
