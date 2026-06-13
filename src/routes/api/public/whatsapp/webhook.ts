@@ -2,6 +2,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import { verifyMetaSignature, sendWhatsAppText, downloadMedia } from "@/lib/whatsapp/meta.server";
 import { transcribeAudio, isVoiceConfigured } from "@/lib/whatsapp/stt.server";
 import { handleMessage, type FarmCtx } from "@/lib/whatsapp/brain.server";
+import type { SupabaseClient } from "@supabase/supabase-js";
+import type { Database } from "@/integrations/supabase/types";
+
+type DB = SupabaseClient<Database>;
 
 type WaMessage = {
   from: string;
