@@ -279,44 +279,56 @@ function Dashboard() {
               <section>
                 <SectionHead title="Recent activity" />
                 <div className="rounded-lg border bg-flock-fog p-2 shadow-flock">
-                  {SAMPLE_LEDGER.map((e, i) => (
-                    <div
-                      key={i}
-                      className={`flex items-center gap-3 px-2 py-2.5 ${
-                        i > 0 ? "border-t border-flock-mist" : ""
-                      }`}
-                    >
-                      <span
-                        className={`flex h-7 w-7 items-center justify-center rounded-full ${
-                          e.in
-                            ? "bg-flock-field/12 text-flock-field"
-                            : "bg-flock-red/12 text-flock-red"
+                  {activity.length === 0 ? (
+                    <p className="px-2 py-6 text-center font-sans text-[13px] text-flock-stone">
+                      No activity yet. Log eggs or record an event to see it here.
+                    </p>
+                  ) : (
+                    activity.map((e, i) => (
+                      <div
+                        key={e.key}
+                        className={`flex items-center gap-3 px-2 py-2.5 ${
+                          i > 0 ? "border-t border-flock-mist" : ""
                         }`}
                       >
-                        {e.in ? (
-                          <TrendingUp className="h-3.5 w-3.5" />
-                        ) : (
-                          <TrendingDown className="h-3.5 w-3.5" />
-                        )}
-                      </span>
-                      <div className="min-w-0">
-                        <p className="truncate font-sans text-[13px] text-flock-soil">
-                          {e.label}
-                        </p>
-                        <p className="font-sans text-[11px] text-flock-stone">
-                          {e.when}
-                        </p>
+                        <span
+                          className={`flex h-7 w-7 items-center justify-center rounded-full ${
+                            e.in === true
+                              ? "bg-flock-field/12 text-flock-field"
+                              : e.in === false
+                                ? "bg-flock-red/12 text-flock-red"
+                                : "bg-flock-mist text-flock-stone"
+                          }`}
+                        >
+                          {e.in === false ? (
+                            <TrendingDown className="h-3.5 w-3.5" />
+                          ) : (
+                            <TrendingUp className="h-3.5 w-3.5" />
+                          )}
+                        </span>
+                        <div className="min-w-0">
+                          <p className="truncate font-sans text-[13px] text-flock-soil">
+                            {e.label}
+                          </p>
+                          <p className="font-sans text-[11px] text-flock-stone">
+                            {e.when}
+                          </p>
+                        </div>
+                        <span
+                          className={`ml-auto font-mono text-[13px] ${
+                            e.in === true
+                              ? "text-flock-field"
+                              : e.in === false
+                                ? "text-flock-red"
+                                : "text-flock-stone"
+                          }`}
+                        >
+                          {e.in === true ? "+" : e.in === false ? "-" : ""}
+                          {e.amount}
+                        </span>
                       </div>
-                      <span
-                        className={`ml-auto font-mono text-[13px] ${
-                          e.in ? "text-flock-field" : "text-flock-red"
-                        }`}
-                      >
-                        {e.in ? "+" : "-"}
-                        {e.amount}
-                      </span>
-                    </div>
-                  ))}
+                    ))
+                  )}
                 </div>
               </section>
             </div>
