@@ -472,7 +472,7 @@ function SpreadTable({
         {rows.map((row, idx) => {
           const ing = getIngredient(row.name);
           if (!ing) return null;
-          const f = row.kg / 100;
+          const f = row.kg / basis;
           return (
             <tr
               key={row.id}
