@@ -531,7 +531,7 @@ function SpreadTable({
         <tr className="bg-flock-fog font-semibold">
           <td className="border"></td>
           <td className="h-6 border px-1.5 text-left font-sans text-[12px]">TOTAL</td>
-          <td className={`${td} ${Math.abs(totals.kg - 100) < 0.05 ? "text-flock-field" : "text-flock-red"}`}>
+          <td className={`${td} ${Math.abs(totals.kg - basisKg) < 0.05 ? "text-flock-field" : "text-flock-red"}`}>
             {fmt(totals.kg, 1)}
           </td>
           <td className={td}></td>
