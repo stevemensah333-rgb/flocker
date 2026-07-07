@@ -8,11 +8,19 @@ import { lovable } from "@/integrations/lovable/index";
 export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
-      { title: "Sign in · Flocker" },
+      { title: "Sign in or join Flocker — Poultry Farm OS" },
       {
         name: "description",
-        content: "Sign in or create your Flocker poultry farm account.",
+        content:
+          "Sign in to Flocker or create your free account to manage feed, egg production, flock health and finances for your poultry farm.",
       },
+      { property: "og:title", content: "Sign in or join Flocker — Poultry Farm OS" },
+      {
+        property: "og:description",
+        content:
+          "Access your Flocker poultry farm operating system — feed formulation, egg tracking, health records and reports in one place.",
+      },
+      { name: "robots", content: "noindex" },
     ],
   }),
   component: AuthPage,
@@ -94,7 +102,7 @@ function AuthPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-flock-cream px-4 py-10">
+    <main className="flex min-h-screen items-center justify-center bg-flock-cream px-4 py-10">
       <div className="w-full max-w-sm animate-flock-enter">
         <Link to="/" className="mb-6 flex items-center justify-center gap-2">
           <Bird className="h-6 w-6 text-flock-harvest" />
@@ -103,7 +111,9 @@ function AuthPage() {
 
         <div className="rounded-lg border bg-flock-fog p-6 shadow-flock">
           <h1 className="font-display text-2xl text-flock-soil">
-            {mode === "signin" ? "Welcome back" : "Create your farm"}
+            {mode === "signin"
+              ? "Sign in to Flocker — Poultry Farm OS"
+              : "Join Flocker — Manage your poultry farm"}
           </h1>
           <p className="mt-1 font-sans text-[13px] text-flock-stone">
             {mode === "signin"
@@ -195,7 +205,7 @@ function AuthPage() {
           </p>
         </div>
       </div>
-    </div>
+    </main>
   );
 }
 

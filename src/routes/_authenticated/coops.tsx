@@ -6,6 +6,15 @@ import { supabase } from "@/integrations/supabase/client";
 import AppShell from "@/components/app/AppShell";
 
 export const Route = createFileRoute("/_authenticated/coops")({
+  head: () => ({
+    meta: [
+      { title: "Flocks & Coops — Flocker" },
+      { name: "description", content: "Manage your flocks and coops: track bird counts, breeds, age and production type across your poultry farm." },
+      { property: "og:title", content: "Flocks & Coops — Flocker" },
+      { property: "og:description", content: "Add and manage flocks, bird counts and breeds for every coop on your poultry farm." },
+      { name: "robots", content: "noindex" },
+    ],
+  }),
   component: CoopsPage,
 });
 

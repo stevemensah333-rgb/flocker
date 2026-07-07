@@ -15,6 +15,15 @@ import AppShell from "@/components/app/AppShell";
 import FlockCopilot from "@/components/app/FlockCopilot";
 
 export const Route = createFileRoute("/_authenticated/dashboard")({
+  head: () => ({
+    meta: [
+      { title: "Farm Dashboard — Flocker" },
+      { name: "description", content: "Your poultry farm at a glance: egg production, feed costs, flock health and finances in one dashboard." },
+      { property: "og:title", content: "Farm Dashboard — Flocker" },
+      { property: "og:description", content: "Track egg production, feed costs, flock health and farm finances from your Flocker dashboard." },
+      { name: "robots", content: "noindex" },
+    ],
+  }),
   component: Dashboard,
 });
 
@@ -131,7 +140,7 @@ function Dashboard() {
 
   return (
     <AppShell
-      title={`${name ? name + "'s" : "Your"} farm`}
+      title={`${name ? name + "'s" : "Your"} farm dashboard`}
       subtitle={
         ready
           ? `${farm ? farm.name + " · " : ""}${new Date().toLocaleDateString("en-GB", {

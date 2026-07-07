@@ -17,6 +17,15 @@ import type { VetLineSource } from "@/lib/flock/vetline.functions";
 import AppShell from "@/components/app/AppShell";
 
 export const Route = createFileRoute("/_authenticated/vetline")({
+  head: () => ({
+    meta: [
+      { title: "VetLine — Poultry Health Assistant | Flocker" },
+      { name: "description", content: "Ask VetLine, Flocker's AI poultry health assistant, about symptoms, diseases and treatments with cited veterinary sources." },
+      { property: "og:title", content: "VetLine — Poultry Health Assistant | Flocker" },
+      { property: "og:description", content: "Get AI-guided answers on poultry diseases, symptoms and treatments with veterinary sources via VetLine." },
+      { name: "robots", content: "noindex" },
+    ],
+  }),
   component: VetLine,
 });
 

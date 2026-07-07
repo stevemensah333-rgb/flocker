@@ -21,6 +21,15 @@ import { fmt } from "@/lib/flock/ration";
 import { toCSV, downloadCSV, stamp } from "@/lib/flock/export";
 
 export const Route = createFileRoute("/_authenticated/reports")({
+  head: () => ({
+    meta: [
+      { title: "Farm Reports & Analytics — Flocker" },
+      { name: "description", content: "Visualise poultry farm performance: egg production trends, feed spend, mortality and profit reports over time." },
+      { property: "og:title", content: "Farm Reports & Analytics — Flocker" },
+      { property: "og:description", content: "See production, feed cost, mortality and profit trends for your poultry farm in clear charts." },
+      { name: "robots", content: "noindex" },
+    ],
+  }),
   component: ReportsPage,
 });
 

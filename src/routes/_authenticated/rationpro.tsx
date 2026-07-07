@@ -9,6 +9,15 @@ import type { RationRow } from "@/lib/flock/ration";
 import { fmt } from "@/lib/flock/ration";
 
 export const Route = createFileRoute("/_authenticated/rationpro")({
+  head: () => ({
+    meta: [
+      { title: "Feed Management & RationPro — Flocker" },
+      { name: "description", content: "Formulate least-cost poultry rations with RationPro: balance crude protein and energy while controlling feed costs." },
+      { property: "og:title", content: "Feed Management & RationPro — Flocker" },
+      { property: "og:description", content: "Build and cost poultry feed rations with RationPro, balancing nutrition and price for every batch." },
+      { name: "robots", content: "noindex" },
+    ],
+  }),
   component: RationProPage,
 });
 
