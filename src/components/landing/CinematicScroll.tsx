@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { Apple, Monitor } from "lucide-react";
 import { FRAME_URLS, POSTER_URL } from "@/lib/flock/frames";
 import { DOWNLOADS, detectOS, type DesktopOS } from "@/lib/flock/downloads";
+import { recordDownload, submitFeedback } from "@/lib/flock/tracking";
 import RationProWidget from "@/components/ration/RationProWidget";
 import Ticker from "@/components/landing/Ticker";
 
