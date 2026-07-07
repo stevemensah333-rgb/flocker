@@ -8,6 +8,15 @@ import { fmt } from "@/lib/flock/ration";
 import { toCSV, downloadCSV, stamp } from "@/lib/flock/export";
 
 export const Route = createFileRoute("/_authenticated/events")({
+  head: () => ({
+    meta: [
+      { title: "Health Records — Flocker" },
+      { name: "description", content: "Log flock health events: vaccinations, treatments, mortality and costs to keep a complete poultry health history." },
+      { property: "og:title", content: "Health Records — Flocker" },
+      { property: "og:description", content: "Track vaccinations, treatments and mortality with costs for a full poultry flock health record." },
+      { name: "robots", content: "noindex" },
+    ],
+  }),
   component: EventsPage,
 });
 
