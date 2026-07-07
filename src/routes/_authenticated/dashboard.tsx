@@ -140,7 +140,7 @@ function Dashboard() {
 
   return (
     <AppShell
-      title={`${name ? name + "'s" : "Your"} farm`}
+      title={`${name ? name + "'s" : "Your"} farm dashboard`}
       subtitle={
         ready
           ? `${farm ? farm.name + " · " : ""}${new Date().toLocaleDateString("en-GB", {
