@@ -201,7 +201,7 @@ function EggLedgerPage() {
 
       {/* Add form */}
       <div className="mt-6 rounded-lg border bg-flock-fog p-4 shadow-flock">
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-6">
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           <Field label="Date">
             <input type="date" value={date} onChange={(e) => setDate(e.target.value)} className={inputCls} />
           </Field>
@@ -213,18 +213,46 @@ function EggLedgerPage() {
               ))}
             </select>
           </Field>
-          <Field label="Collected">
-            <input type="number" value={collected} onChange={(e) => setCollected(e.target.value)} placeholder="0" className={inputCls} />
-          </Field>
-          <Field label="Broken">
-            <input type="number" value={broken} onChange={(e) => setBroken(e.target.value)} placeholder="0" className={inputCls} />
-          </Field>
-          <Field label="Sold">
-            <input type="number" value={sold} onChange={(e) => setSold(e.target.value)} placeholder="0" className={inputCls} />
+          <Field label="Eggs per crate">
+            <input
+              type="number"
+              value={crateSize}
+              onChange={(e) => setCrateSize(Math.max(1, Number(e.target.value) || 1))}
+              className={inputCls}
+            />
           </Field>
           <Field label="₵ / egg">
             <input type="number" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="0.00" className={inputCls} />
           </Field>
+        </div>
+        <div className="mt-3 grid gap-3 sm:grid-cols-3">
+          <CrateEggField
+            label="Collected"
+            crates={collectedCrates}
+            eggs={collected}
+            onCrates={setCollectedCrates}
+            onEggs={setCollected}
+            crateSize={crateSize}
+            inputCls={inputCls}
+          />
+          <CrateEggField
+            label="Broken"
+            crates={brokenCrates}
+            eggs={broken}
+            onCrates={setBrokenCrates}
+            onEggs={setBroken}
+            crateSize={crateSize}
+            inputCls={inputCls}
+          />
+          <CrateEggField
+            label="Sold"
+            crates={soldCrates}
+            eggs={sold}
+            onCrates={setSoldCrates}
+            onEggs={setSold}
+            crateSize={crateSize}
+            inputCls={inputCls}
+          />
         </div>
         <button
           onClick={addRecord}
