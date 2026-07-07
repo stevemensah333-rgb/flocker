@@ -281,6 +281,8 @@ export default function RationProWidget({
             })}
           </div>
         </div>
+        )}
+
 
         {/* Spreadsheet */}
         <div className="overflow-x-auto">
