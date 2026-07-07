@@ -18,5 +18,5 @@ export const Route = createFileRoute("/")({
       },
     ],
   }),
-  component: CinematicScroll,
+  component: FarmioLanding,
 });
