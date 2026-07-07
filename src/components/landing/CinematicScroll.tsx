@@ -261,10 +261,95 @@ export default function CinematicScroll() {
       <DownloadSection />
 
       {/* ---- Final CTA ---- */}
-      <section className="relative z-20 flex items-center justify-center bg-[#1C1C1C] px-6 pb-28">
+      <section className="relative z-20 flex items-center justify-center bg-[#1C1C1C] px-6 pb-16">
         <CtaCard />
       </section>
+
+      {/* ---- Feedback ---- */}
+      <FeedbackSection />
+
+      {/* ---- Footer with tiny admin link ---- */}
+      <footer className="relative z-20 flex items-center justify-between bg-[#1C1C1C] px-6 py-6 text-xs text-[#F5F0E8]/40">
+        <span>© {new Date().getFullYear()} Flocker</span>
+        <Link to="/admin" className="text-[#F5F0E8]/20 transition-colors hover:text-[#D4840A]">
+          Admin
+        </Link>
+      </footer>
     </>
+  );
+}
+
+function FeedbackSection() {
+  const [rating, setRating] = useState(0);
+  const [hover, setHover] = useState(0);
+  const [message, setMessage] = useState("");
+  const [status, setStatus] = useState<"idle" | "sending" | "done" | "error">("idle");
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!rating || !message.trim()) return;
+    setStatus("sending");
+    try {
+      await submitFeedback(rating, message.trim());
+      setStatus("done");
+      setRating(0);
+      setMessage("");
+    } catch {
+      setStatus("error");
+    }
+  };
+
+  if (status === "done") {
+    return (
+      <section className="relative z-20 bg-[#1C1C1C] px-6 pb-24 text-center">
+        <p style={{ fontFamily: SERIF }} className="text-2xl text-[#F5F0E8]">Thanks for the feedback! 🐔</p>
+      </section>
+    );
+  }
+
+  return (
+    <section id="feedback" className="relative z-20 bg-[#1C1C1C] px-6 pb-24">
+      <div className="mx-auto max-w-lg text-center">
+        <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#D4840A]">Your take</p>
+        <h2 style={{ fontFamily: SERIF }} className="mt-3 text-3xl text-[#F5F0E8]">
+          Tell us what you think.
+        </h2>
+        <form onSubmit={onSubmit} className="mt-8 space-y-4 text-left">
+          <div className="flex justify-center gap-2">
+            {[1, 2, 3, 4, 5].map((n) => (
+              <button
+                key={n}
+                type="button"
+                aria-label={`${n} star${n > 1 ? "s" : ""}`}
+                onClick={() => setRating(n)}
+                onMouseEnter={() => setHover(n)}
+                onMouseLeave={() => setHover(0)}
+                className="text-3xl transition-transform hover:scale-110"
+                style={{ color: (hover || rating) >= n ? "#D4840A" : "rgba(245,240,232,0.2)" }}
+              >
+                ★
+              </button>
+            ))}
+          </div>
+          <textarea
+            required
+            rows={4}
+            placeholder="What do you love? What's missing?"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            className="w-full rounded-xl border border-[#F5F0E8]/15 bg-[#242422] px-4 py-3 text-sm text-[#F5F0E8] outline-none focus:border-[#D4840A]"
+          />
+          {status === "error" && <p className="text-sm text-red-400">Something went wrong. Try again.</p>}
+          <button
+            type="submit"
+            disabled={status === "sending" || !rating || !message.trim()}
+            className="w-full rounded-full bg-[#D4840A] py-3 text-sm font-semibold text-[#1C1C1C] transition-transform hover:-translate-y-0.5 disabled:opacity-50"
+          >
+            {status === "sending" ? "Sending…" : "Send feedback"}
+          </button>
+        </form>
+      </div>
+    </section>
   );
 }
 
