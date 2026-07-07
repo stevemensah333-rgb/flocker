@@ -34,14 +34,20 @@ export function newId(): string {
   return Math.random().toString(36).slice(2, 10);
 }
 
-// contribution_j = (kg / 100) * N_j   (per-100kg basis)
+// Nutrient values are the true weighted percentages of the whole mix, so the
+// batch can be any total weight (100 kg … 5 T), not a fixed 100 kg basis.
 export function computeTotals(rows: RationRow[]): RationTotals {
-  let kg = 0, cp = 0, me = 0, ca = 0, avP = 0, lys = 0, meth = 0, cf = 0, cost = 0;
+  let kg = 0, cost = 0;
+  for (const row of rows) {
+    kg += row.kg;
+    cost += row.kg * row.pricePerKg;
+  }
+  const basis = kg > 0 ? kg : 1;
+  let cp = 0, me = 0, ca = 0, avP = 0, lys = 0, meth = 0, cf = 0;
   for (const row of rows) {
     const ing = ingredientByName.get(row.name);
     if (!ing) continue;
-    const f = row.kg / 100;
-    kg += row.kg;
+    const f = row.kg / basis;
     cp += f * ing.cp;
     me += f * ing.me;
     ca += f * ing.ca;
@@ -49,13 +55,13 @@ export function computeTotals(rows: RationRow[]): RationTotals {
     lys += f * ing.lys;
     meth += f * ing.meth;
     cf += f * ing.cf;
-    cost += row.kg * row.pricePerKg;
   }
   return {
     kg, cp, me, ca, avP, lys, meth, cf, cost,
     costPerKg: kg > 0 ? cost / kg : 0,
   };
 }
+
 
 // Status of an achieved value vs target as a percentage-of-target deviation.
 export function nutrientStatus(achieved: number, target: number): NutrientStatus {
