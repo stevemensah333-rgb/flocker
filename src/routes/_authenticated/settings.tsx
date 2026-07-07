@@ -13,6 +13,15 @@ import {
 } from "@/lib/whatsapp/link.functions";
 
 export const Route = createFileRoute("/_authenticated/settings")({
+  head: () => ({
+    meta: [
+      { title: "Settings — Flocker" },
+      { name: "description", content: "Manage your Flocker profile, farm details, WhatsApp linking and alert preferences for your poultry operation." },
+      { property: "og:title", content: "Settings — Flocker" },
+      { property: "og:description", content: "Update your profile, farm details, WhatsApp connection and alert thresholds in Flocker settings." },
+      { name: "robots", content: "noindex" },
+    ],
+  }),
   component: SettingsPage,
 });
 
