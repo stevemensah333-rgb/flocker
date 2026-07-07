@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import CinematicScroll from "@/components/landing/CinematicScroll";
+import FarmioLanding from "@/components/landing/FarmioLanding";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -18,5 +18,5 @@ export const Route = createFileRoute("/")({
       },
     ],
   }),
-  component: CinematicScroll,
+  component: FarmioLanding,
 });
