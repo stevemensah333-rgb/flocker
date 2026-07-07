@@ -211,9 +211,13 @@ export default function RationProWidget({
       </div>
 
 
-      <div className="grid grid-cols-1 md:grid-cols-[260px_1fr]">
+      <div
+        className={`grid grid-cols-1 ${showIngredients ? "md:grid-cols-[260px_1fr]" : ""}`}
+      >
         {/* Ingredient panel */}
+        {showIngredients && (
         <div className="border-b md:border-b-0 md:border-r">
+
           <div className="border-b p-2">
             <div className="flex items-center gap-1 rounded-sm border bg-flock-mist px-2">
               <Search className="h-3.5 w-3.5 text-flock-stone" />
