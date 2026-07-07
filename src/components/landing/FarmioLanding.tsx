@@ -325,7 +325,7 @@ function DemoSection() {
 }
 
 /* ============================ DOWNLOAD ============================ */
-function DownloadButtons({ compact = false }: { compact?: boolean }) {
+function DownloadButtons({ compact = false, light = false }: { compact?: boolean; light?: boolean }) {
   const [os, setOs] = useState<DesktopOS>("mac");
   useEffect(() => setOs(detectOS()), []);
   const otherOs: DesktopOS = os === "mac" ? "windows" : "mac";
@@ -336,6 +336,12 @@ function DownloadButtons({ compact = false }: { compact?: boolean }) {
   const P = meta[os];
   const O = meta[otherOs];
   const base = compact ? "px-5 py-2.5 text-sm" : "px-6 py-3 text-sm";
+  const primary = light
+    ? { background: L.accent, color: "#FFFFFF" }
+    : { background: C.lime, color: C.bg };
+  const secondary = light
+    ? { borderColor: L.border, color: L.ink }
+    : { borderColor: "rgba(242,240,231,0.3)", color: C.cream };
   return (
     <div className="flex flex-col items-center gap-3 sm:flex-row">
       <a
@@ -344,7 +350,7 @@ function DownloadButtons({ compact = false }: { compact?: boolean }) {
         onClick={() => recordDownload(os)}
         aria-label={P.label}
         className={`inline-flex items-center justify-center gap-2 rounded-full font-semibold transition-transform hover:-translate-y-0.5 ${base}`}
-        style={{ background: C.lime, color: C.bg }}
+        style={primary}
       >
         <P.Icon className="h-4 w-4" /> {P.label}
       </a>
@@ -354,7 +360,7 @@ function DownloadButtons({ compact = false }: { compact?: boolean }) {
         onClick={() => recordDownload(otherOs)}
         aria-label={O.label}
         className={`inline-flex items-center justify-center gap-2 rounded-full border font-semibold transition-colors ${base}`}
-        style={{ borderColor: "rgba(242,240,231,0.3)", color: C.cream }}
+        style={secondary}
       >
         <O.Icon className="h-4 w-4" /> {O.label}
       </a>
