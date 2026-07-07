@@ -111,7 +111,9 @@ function AuthPage() {
 
         <div className="rounded-lg border bg-flock-fog p-6 shadow-flock">
           <h1 className="font-display text-2xl text-flock-soil">
-            {mode === "signin" ? "Welcome back" : "Create your farm"}
+            {mode === "signin"
+              ? "Sign in to Flocker — Poultry Farm OS"
+              : "Join Flocker — Manage your poultry farm"}
           </h1>
           <p className="mt-1 font-sans text-[13px] text-flock-stone">
             {mode === "signin"
