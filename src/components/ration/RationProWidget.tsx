@@ -80,6 +80,8 @@ export default function RationProWidget({
   const [search, setSearch] = useState("");
   const [cat, setCat] = useState<"All" | IngredientCategory>("All");
   const [showAdvice, setShowAdvice] = useState(false);
+  const [showIngredients, setShowIngredients] = useState(false);
+  const [basisKg, setBasisKg] = useState(100);
   const [birds, setBirds] = useState(1500);
   const [gramsPerBird, setGramsPerBird] = useState(120);
   const [days, setDays] = useState(14);
