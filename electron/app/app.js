@@ -201,4 +201,48 @@
     n.onclick = function () { go(n.getAttribute("data-view")); };
   });
   go("feed");
+
+  /* ---------------- Profile popup ---------------- */
+  var wrap = document.getElementById("profileWrap");
+  var btn = document.getElementById("profileBtn");
+  if (btn && wrap) {
+    btn.onclick = function (e) { e.stopPropagation(); wrap.classList.toggle("open"); };
+    document.addEventListener("click", function () { wrap.classList.remove("open"); });
+    wrap.querySelector(".popup").addEventListener("click", function (e) { e.stopPropagation(); });
+
+    wrap.querySelectorAll(".pop-item[data-view]").forEach(function (b) {
+      b.onclick = function () { wrap.classList.remove("open"); go(b.getAttribute("data-view")); };
+    });
+
+    var openFb = document.getElementById("openFeedback");
+    if (openFb) openFb.onclick = function () {
+      wrap.classList.remove("open");
+      window.open("https://flocker.lovable.app/#feedback", "_blank");
+    };
+
+    var exportAll = document.getElementById("exportAll");
+    if (exportAll) exportAll.onclick = function () {
+      wrap.classList.remove("open");
+      var data = {
+        ration: LS.get("flocker.ration", []),
+        stage: LS.get("flocker.stage", 3),
+        records: LS.get("flocker.records", []),
+        exportedAt: new Date().toISOString(),
+      };
+      var a = document.createElement("a");
+      a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: "application/json" }));
+      a.download = "flocker-backup.json"; a.click(); URL.revokeObjectURL(a.href);
+    };
+
+    var resetAll = document.getElementById("resetAll");
+    if (resetAll) resetAll.onclick = function () {
+      wrap.classList.remove("open");
+      if (confirm("Clear all locally saved feed mixes and records on this device? This cannot be undone.")) {
+        localStorage.removeItem("flocker.ration");
+        localStorage.removeItem("flocker.stage");
+        localStorage.removeItem("flocker.records");
+        go("feed");
+      }
+    };
+  }
 })();
