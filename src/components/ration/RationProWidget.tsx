@@ -121,10 +121,11 @@ export default function RationProWidget({
 
   const advice = useMemo(() => buildAdvice(totals, target), [totals, target]);
 
-  const scaleFactor = (birds * gramsPerBird * days) / 1000 / 100; // batches of 100kg
-  const batchTotalKg = totals.kg > 0 ? scaleFactor * totals.kg : 0;
+  const requiredKg = (birds * gramsPerBird * days) / 1000;
+  const scaleFactor = totals.kg > 0 ? requiredKg / totals.kg : 0;
+  const batchTotalKg = requiredKg;
 
-  const kgDelta = totals.kg - 100;
+  const kgDelta = totals.kg - basisKg;
   const kgColor =
     Math.abs(kgDelta) < 0.05
       ? "text-flock-field"
