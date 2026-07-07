@@ -321,6 +321,50 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
   );
 }
 
+function CrateEggField({
+  label,
+  crates,
+  eggs,
+  onCrates,
+  onEggs,
+  crateSize,
+  inputCls,
+}: {
+  label: string;
+  crates: string;
+  eggs: string;
+  onCrates: (v: string) => void;
+  onEggs: (v: string) => void;
+  crateSize: number;
+  inputCls: string;
+}) {
+  const total = (Number(crates) || 0) * crateSize + (Number(eggs) || 0);
+  return (
+    <div>
+      <label className="font-sans text-[12px] text-flock-stone">{label}</label>
+      <div className="mt-1 grid grid-cols-2 gap-2">
+        <input
+          type="number"
+          value={crates}
+          onChange={(e) => onCrates(e.target.value)}
+          placeholder="Crates"
+          className={inputCls}
+        />
+        <input
+          type="number"
+          value={eggs}
+          onChange={(e) => onEggs(e.target.value)}
+          placeholder="Eggs"
+          className={inputCls}
+        />
+      </div>
+      <p className="mt-1 font-sans text-[11px] text-flock-stone">
+        = {total.toLocaleString()} eggs
+      </p>
+    </div>
+  );
+}
+
 function Stat({
   icon,
   label,
