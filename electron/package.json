@@ -1,0 +1,9 @@
+{
+  "name": "flocker-desktop",
+  "productName": "Flocker",
+  "version": "1.0.0",
+  "description": "Flocker — offline poultry farm OS: feed management and record storage.",
+  "main": "main.cjs",
+  "author": "Flocker",
+  "license": "UNLICENSED"
+}

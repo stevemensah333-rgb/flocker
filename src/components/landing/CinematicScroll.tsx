@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { Link } from "@tanstack/react-router";
+import { Apple, Monitor } from "lucide-react";
 import { FRAME_URLS, POSTER_URL } from "@/lib/flock/frames";
+import { DOWNLOADS, detectOS, type DesktopOS } from "@/lib/flock/downloads";
 import RationProWidget from "@/components/ration/RationProWidget";
 import Ticker from "@/components/landing/Ticker";
 
@@ -254,6 +256,9 @@ export default function CinematicScroll() {
         </div>
       </section>
 
+      {/* ---- Download ---- */}
+      <DownloadSection />
+
       {/* ---- Final CTA ---- */}
       <section className="relative z-20 flex items-center justify-center bg-[#1C1C1C] px-6 pb-28">
         <CtaCard />
@@ -305,6 +310,77 @@ function Overlay({
   );
 }
 
+function DownloadButtons({ compact = false }: { compact?: boolean }) {
+  const [os, setOs] = useState<DesktopOS>("mac");
+  useEffect(() => setOs(detectOS()), []);
+  const base = compact
+    ? "gap-2 px-5 py-2 text-sm"
+    : "gap-2 px-6 py-3 text-sm";
+  const primaryOs = os;
+  const otherOs: DesktopOS = os === "mac" ? "windows" : "mac";
+  const meta: Record<DesktopOS, { label: string; href: string; Icon: typeof Apple }> = {
+    mac: { label: "Download for Mac", href: DOWNLOADS.mac, Icon: Apple },
+    windows: { label: "Download for Windows", href: DOWNLOADS.windows, Icon: Monitor },
+  };
+  const P = meta[primaryOs];
+  const O = meta[otherOs];
+  return (
+    <div className={`flex flex-col items-center justify-center gap-3 sm:flex-row ${compact ? "" : "mt-8"}`}>
+      <a
+        href={P.href}
+        download
+        aria-label={P.label}
+        className={`inline-flex items-center justify-center rounded-full bg-[#D4840A] font-semibold text-[#1C1C1C] transition-transform hover:-translate-y-0.5 ${base}`}
+      >
+        <P.Icon className="h-4 w-4" /> {P.label}
+      </a>
+      <a
+        href={O.href}
+        download
+        aria-label={O.label}
+        className={`inline-flex items-center justify-center rounded-full border border-[#D4840A] font-semibold text-[#F5F0E8] transition-colors hover:bg-[#D4840A]/10 ${base}`}
+      >
+        <O.Icon className="h-4 w-4" /> {O.label}
+      </a>
+    </div>
+  );
+}
+
+function DownloadSection() {
+  const steps = [
+    "Download the zip for your laptop and unzip it.",
+    "Open the Flocker app inside the unzipped folder.",
+    "On first launch, allow it to open (macOS: right-click → Open).",
+    "Start logging records and formulating feed — no internet needed.",
+  ];
+  return (
+    <section id="download" className="relative z-20 bg-[#1C1C1C] px-6 py-20">
+      <div className="mx-auto max-w-3xl text-center">
+        <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#D4840A]">Get the app</p>
+        <h2 style={{ fontFamily: SERIF }} className="mt-3 text-3xl text-[#F5F0E8] md:text-5xl">
+          Download Flocker for your laptop.
+        </h2>
+        <p className="mx-auto mt-4 max-w-xl text-sm text-[#F5F0E8]/70">
+          A desktop app that runs fully offline — feed formulation and farm records stay on
+          your machine, ready in the coop or the field with no signal.
+        </p>
+        <DownloadButtons />
+        <p className="mt-4 text-xs text-[#F5F0E8]/40">Free · Works offline · macOS &amp; Windows</p>
+      </div>
+      <ol className="mx-auto mt-12 grid max-w-3xl gap-4 sm:grid-cols-2">
+        {steps.map((s, i) => (
+          <li key={i} className="flex gap-3 rounded-xl border border-[#F5F0E8]/12 bg-[#242422] p-4 text-left">
+            <span className="flex h-6 w-6 flex-none items-center justify-center rounded-full bg-[#D4840A] text-xs font-bold text-[#1C1C1C]">
+              {i + 1}
+            </span>
+            <span className="text-sm text-[#F5F0E8]/80">{s}</span>
+          </li>
+        ))}
+      </ol>
+    </section>
+  );
+}
+
 function CtaCard() {
   return (
     <div className="relative w-full max-w-lg rounded-2xl border border-[#D4840A] bg-[#1C1C1C]/85 p-8 text-center backdrop-blur-md md:p-10">
@@ -314,22 +390,7 @@ function CtaCard() {
       <p className="mx-auto mt-4 max-w-md text-sm text-[#F5F0E8]/70">
         Join farmers across Ashanti, Brong-Ahafo, and Greater Accra managing smarter with Flocker.
       </p>
-      <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-        <Link
-          to="/auth"
-          aria-label="Get access to Flocker"
-          className="rounded-full bg-[#D4840A] px-6 py-3 text-sm font-semibold text-[#1C1C1C] transition-transform hover:-translate-y-0.5"
-        >
-          Get Access
-        </Link>
-        <Link
-          to="/auth"
-          aria-label="Log in to Flocker"
-          className="rounded-full border border-[#D4840A] px-6 py-3 text-sm font-semibold text-[#F5F0E8] transition-colors hover:bg-[#D4840A]/10"
-        >
-          Log In
-        </Link>
-      </div>
+      <DownloadButtons />
     </div>
   );
 }
@@ -340,13 +401,13 @@ function TopNav() {
       <Link to="/" style={{ fontFamily: SERIF }} className="text-2xl text-[#F5F0E8]" aria-label="Flocker home">
         Flocker
       </Link>
-      <Link
-        to="/auth"
-        aria-label="Get access to Flocker"
+      <a
+        href="#download"
+        aria-label="Download Flocker"
         className="rounded-full bg-[#D4840A] px-5 py-2 text-sm font-semibold text-[#1C1C1C] transition-transform hover:-translate-y-0.5"
       >
-        Get Access
-      </Link>
+        Download
+      </a>
     </header>
   );
 }
