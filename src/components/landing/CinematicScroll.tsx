@@ -330,6 +330,7 @@ function DownloadButtons({ compact = false }: { compact?: boolean }) {
       <a
         href={P.href}
         download
+        onClick={() => recordDownload(primaryOs)}
         aria-label={P.label}
         className={`inline-flex items-center justify-center rounded-full bg-[#D4840A] font-semibold text-[#1C1C1C] transition-transform hover:-translate-y-0.5 ${base}`}
       >
@@ -338,6 +339,7 @@ function DownloadButtons({ compact = false }: { compact?: boolean }) {
       <a
         href={O.href}
         download
+        onClick={() => recordDownload(otherOs)}
         aria-label={O.label}
         className={`inline-flex items-center justify-center rounded-full border border-[#D4840A] font-semibold text-[#F5F0E8] transition-colors hover:bg-[#D4840A]/10 ${base}`}
       >
