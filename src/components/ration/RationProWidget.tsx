@@ -429,6 +429,7 @@ function SpreadTable({
   rows,
   totals,
   target,
+  basisKg,
   updateRow,
   removeRow,
   qtyRefs,
@@ -436,10 +437,12 @@ function SpreadTable({
   rows: RationRow[];
   totals: ReturnType<typeof computeTotals>;
   target: (typeof STAGE_TARGETS)[number];
+  basisKg: number;
   updateRow: (id: string, patch: Partial<RationRow>) => void;
   removeRow: (id: string) => void;
   qtyRefs: React.MutableRefObject<Record<string, HTMLInputElement | null>>;
 }) {
+  const basis = totals.kg > 0 ? totals.kg : 1;
   const th =
     "border px-1.5 py-1 text-right font-sans text-[10px] uppercase tracking-[0.06em] text-flock-stone";
   const td = "border px-1.5 font-mono text-[12px] text-right h-6";
