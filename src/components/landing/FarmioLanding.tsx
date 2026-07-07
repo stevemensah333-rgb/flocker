@@ -22,6 +22,17 @@ const C = {
   cream: "#F2F0E7",
 };
 
+/* ---------- light-green section palette (alternating) ---------- */
+const L = {
+  bg: "#E9F5EC",
+  surface: "#FFFFFF",
+  ink: "#0E1A12",
+  muted: "#41544799",
+  muted2: "#465C4E",
+  accent: "#15803D",
+  border: "#C7E7D1",
+};
+
 /* ---------- scroll reveal ---------- */
 function Reveal({
   children,
@@ -197,12 +208,12 @@ function StatBand() {
     { v: "Free", l: "Forever, no login" },
   ];
   return (
-    <section className="border-y" style={{ borderColor: "rgba(242,240,231,0.08)" }}>
+    <section style={{ background: L.bg }}>
       <div className="mx-auto grid max-w-6xl grid-cols-2 gap-px md:grid-cols-4">
         {stats.map((s, i) => (
           <Reveal key={s.l} delay={i * 80} className="px-6 py-10 text-center md:text-left">
-            <div className="text-4xl font-semibold md:text-5xl" style={{ color: C.lime }}>{s.v}</div>
-            <div className="mt-2 text-sm" style={{ color: "rgba(242,240,231,0.6)" }}>{s.l}</div>
+            <div className="text-4xl font-semibold md:text-5xl" style={{ color: L.accent }}>{s.v}</div>
+            <div className="mt-2 text-sm" style={{ color: L.muted2 }}>{s.l}</div>
           </Reveal>
         ))}
       </div>
@@ -268,21 +279,21 @@ function HowItWorks() {
     { n: "03", title: "Formulate & track", body: "Build least-cost feed, log eggs and health, and let Flocker flag what matters." },
   ];
   return (
-    <section id="how" className="border-y py-24 md:py-32" style={{ borderColor: "rgba(242,240,231,0.08)", background: C.surface }}>
+    <section id="how" className="py-24 md:py-32" style={{ background: L.bg }}>
       <div className="mx-auto max-w-6xl px-6">
         <Reveal>
-          <p className="text-xs font-semibold uppercase tracking-[0.25em]" style={{ color: C.lime }}>How it works</p>
-          <h2 className="mt-3 max-w-2xl text-4xl font-semibold tracking-tight md:text-5xl">
+          <p className="text-xs font-semibold uppercase tracking-[0.25em]" style={{ color: L.accent }}>How it works</p>
+          <h2 className="mt-3 max-w-2xl text-4xl font-semibold tracking-tight md:text-5xl" style={{ color: L.ink }}>
             Up and running in three steps.
           </h2>
         </Reveal>
         <div className="mt-14 grid gap-8 md:grid-cols-3">
           {steps.map((s, i) => (
             <Reveal key={s.n} delay={i * 120}>
-              <div className="relative rounded-2xl border p-7" style={{ borderColor: "rgba(242,240,231,0.1)", background: C.surface2 }}>
-                <span className="text-5xl font-semibold" style={{ color: "rgba(198,242,78,0.25)" }}>{s.n}</span>
-                <h3 className="mt-4 text-xl font-semibold" style={{ color: C.cream }}>{s.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed" style={{ color: "rgba(242,240,231,0.7)" }}>{s.body}</p>
+              <div className="relative rounded-2xl border p-7" style={{ borderColor: L.border, background: L.surface }}>
+                <span className="text-5xl font-semibold" style={{ color: "rgba(21,128,61,0.28)" }}>{s.n}</span>
+                <h3 className="mt-4 text-xl font-semibold" style={{ color: L.ink }}>{s.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed" style={{ color: L.muted2 }}>{s.body}</p>
               </div>
             </Reveal>
           ))}
@@ -314,7 +325,7 @@ function DemoSection() {
 }
 
 /* ============================ DOWNLOAD ============================ */
-function DownloadButtons({ compact = false }: { compact?: boolean }) {
+function DownloadButtons({ compact = false, light = false }: { compact?: boolean; light?: boolean }) {
   const [os, setOs] = useState<DesktopOS>("mac");
   useEffect(() => setOs(detectOS()), []);
   const otherOs: DesktopOS = os === "mac" ? "windows" : "mac";
@@ -325,6 +336,12 @@ function DownloadButtons({ compact = false }: { compact?: boolean }) {
   const P = meta[os];
   const O = meta[otherOs];
   const base = compact ? "px-5 py-2.5 text-sm" : "px-6 py-3 text-sm";
+  const primary = light
+    ? { background: L.accent, color: "#FFFFFF" }
+    : { background: C.lime, color: C.bg };
+  const secondary = light
+    ? { borderColor: L.border, color: L.ink }
+    : { borderColor: "rgba(242,240,231,0.3)", color: C.cream };
   return (
     <div className="flex flex-col items-center gap-3 sm:flex-row">
       <a
@@ -333,7 +350,7 @@ function DownloadButtons({ compact = false }: { compact?: boolean }) {
         onClick={() => recordDownload(os)}
         aria-label={P.label}
         className={`inline-flex items-center justify-center gap-2 rounded-full font-semibold transition-transform hover:-translate-y-0.5 ${base}`}
-        style={{ background: C.lime, color: C.bg }}
+        style={primary}
       >
         <P.Icon className="h-4 w-4" /> {P.label}
       </a>
@@ -343,7 +360,7 @@ function DownloadButtons({ compact = false }: { compact?: boolean }) {
         onClick={() => recordDownload(otherOs)}
         aria-label={O.label}
         className={`inline-flex items-center justify-center gap-2 rounded-full border font-semibold transition-colors ${base}`}
-        style={{ borderColor: "rgba(242,240,231,0.3)", color: C.cream }}
+        style={secondary}
       >
         <O.Icon className="h-4 w-4" /> {O.label}
       </a>
@@ -359,29 +376,29 @@ function DownloadSection() {
     "Start logging records and formulating feed — no internet needed.",
   ];
   return (
-    <section id="download" className="relative overflow-hidden border-y py-24 md:py-32" style={{ borderColor: "rgba(242,240,231,0.08)" }}>
-      <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full blur-3xl" style={{ background: "rgba(198,242,78,0.12)" }} />
+    <section id="download" className="relative overflow-hidden py-24 md:py-32" style={{ background: L.bg }}>
+      <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full blur-3xl" style={{ background: "rgba(21,128,61,0.12)" }} />
       <div className="relative mx-auto max-w-3xl px-6 text-center">
         <Reveal>
-          <span className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold" style={{ background: C.lime, color: C.bg }}>
+          <span className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold" style={{ background: L.accent, color: "#FFFFFF" }}>
             <Download className="h-3.5 w-3.5" /> Get the app
           </span>
-          <h2 className="mt-5 text-4xl font-semibold tracking-tight md:text-5xl">Download Flocker for your laptop.</h2>
-          <p className="mx-auto mt-4 max-w-xl text-sm" style={{ color: "rgba(242,240,231,0.72)" }}>
+          <h2 className="mt-5 text-4xl font-semibold tracking-tight md:text-5xl" style={{ color: L.ink }}>Download Flocker for your laptop.</h2>
+          <p className="mx-auto mt-4 max-w-xl text-sm" style={{ color: L.muted2 }}>
             A desktop app that runs fully offline — feed formulation and farm records stay on your machine, ready wherever you are.
           </p>
         </Reveal>
         <Reveal delay={120}>
-          <div className="mt-8 flex justify-center"><DownloadButtons /></div>
-          <p className="mt-4 text-xs" style={{ color: "rgba(242,240,231,0.4)" }}>Free · Works offline · macOS &amp; Windows</p>
+          <div className="mt-8 flex justify-center"><DownloadButtons light /></div>
+          <p className="mt-4 text-xs" style={{ color: L.muted2 }}>Free · Works offline · macOS &amp; Windows</p>
         </Reveal>
       </div>
       <div className="relative mx-auto mt-12 grid max-w-3xl gap-4 px-6 sm:grid-cols-2">
         {steps.map((s, i) => (
           <Reveal key={i} delay={i * 80}>
-            <div className="flex gap-3 rounded-xl border p-4 text-left" style={{ borderColor: "rgba(242,240,231,0.1)", background: C.surface }}>
-              <span className="flex h-6 w-6 flex-none items-center justify-center rounded-full text-xs font-bold" style={{ background: C.lime, color: C.bg }}>{i + 1}</span>
-              <span className="text-sm" style={{ color: "rgba(242,240,231,0.8)" }}>{s}</span>
+            <div className="flex gap-3 rounded-xl border p-4 text-left" style={{ borderColor: L.border, background: L.surface }}>
+              <span className="flex h-6 w-6 flex-none items-center justify-center rounded-full text-xs font-bold" style={{ background: L.accent, color: "#FFFFFF" }}>{i + 1}</span>
+              <span className="text-sm" style={{ color: L.muted2 }}>{s}</span>
             </div>
           </Reveal>
         ))}
@@ -447,17 +464,17 @@ function FeedbackSection() {
   };
 
   return (
-    <section id="feedback" className="border-t py-24 md:py-28" style={{ borderColor: "rgba(242,240,231,0.08)", background: C.surface }}>
+    <section id="feedback" className="py-24 md:py-28" style={{ background: L.bg }}>
       <div className="mx-auto max-w-lg px-6 text-center">
         {status === "done" ? (
           <Reveal>
-            <h2 className="text-3xl font-semibold md:text-4xl">Thanks for the feedback! 🐔</h2>
-            <p className="mt-3 text-sm" style={{ color: "rgba(242,240,231,0.7)" }}>We read every note.</p>
+            <h2 className="text-3xl font-semibold md:text-4xl" style={{ color: L.ink }}>Thanks for the feedback! 🐔</h2>
+            <p className="mt-3 text-sm" style={{ color: L.muted2 }}>We read every note.</p>
           </Reveal>
         ) : (
           <Reveal>
-            <p className="text-xs font-semibold uppercase tracking-[0.25em]" style={{ color: C.lime }}>Your take</p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">Tell us what you think.</h2>
+            <p className="text-xs font-semibold uppercase tracking-[0.25em]" style={{ color: L.accent }}>Your take</p>
+            <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl" style={{ color: L.ink }}>Tell us what you think.</h2>
             <form onSubmit={onSubmit} className="mt-8 space-y-4 text-left">
               <div className="flex justify-center gap-2">
                 {[1, 2, 3, 4, 5].map((n) => (
@@ -470,7 +487,7 @@ function FeedbackSection() {
                     onMouseLeave={() => setHover(0)}
                     className="transition-transform hover:scale-110"
                   >
-                    <Star className="h-8 w-8" style={{ color: (hover || rating) >= n ? C.lime : "rgba(242,240,231,0.2)", fill: (hover || rating) >= n ? C.lime : "transparent" }} />
+                    <Star className="h-8 w-8" style={{ color: (hover || rating) >= n ? L.accent : "rgba(14,26,18,0.18)", fill: (hover || rating) >= n ? L.accent : "transparent" }} />
                   </button>
                 ))}
               </div>
@@ -481,14 +498,14 @@ function FeedbackSection() {
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 className="w-full rounded-xl border px-4 py-3 text-sm outline-none"
-                style={{ borderColor: "rgba(242,240,231,0.15)", background: C.bg, color: C.cream }}
+                style={{ borderColor: L.border, background: L.surface, color: L.ink }}
               />
-              {status === "error" && <p className="text-sm text-red-400">Something went wrong. Try again.</p>}
+              {status === "error" && <p className="text-sm" style={{ color: "#B4442E" }}>Something went wrong. Try again.</p>}
               <button
                 type="submit"
                 disabled={status === "sending" || !rating || !message.trim()}
                 className="w-full rounded-full py-3 text-sm font-semibold transition-transform hover:-translate-y-0.5 disabled:opacity-50"
-                style={{ background: C.lime, color: C.bg }}
+                style={{ background: L.accent, color: "#FFFFFF" }}
               >
                 {status === "sending" ? "Sending…" : "Send feedback"}
               </button>
