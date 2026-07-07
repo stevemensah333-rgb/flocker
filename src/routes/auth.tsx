@@ -1,29 +1,12 @@
-import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
-import { Bird } from "lucide-react";
-import { toast } from "sonner";
-import { supabase } from "@/integrations/supabase/client";
-import { lovable } from "@/integrations/lovable/index";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
+// The web login entry point is retired — Flocker is a download-only desktop app.
+// Any hit to /auth sends visitors back to the landing page.
 export const Route = createFileRoute("/auth")({
-  head: () => ({
-    meta: [
-      { title: "Sign in or join Flocker — Poultry Farm OS" },
-      {
-        name: "description",
-        content:
-          "Sign in to Flocker or create your free account to manage feed, egg production, flock health and finances for your poultry farm.",
-      },
-      { property: "og:title", content: "Sign in or join Flocker — Poultry Farm OS" },
-      {
-        property: "og:description",
-        content:
-          "Access your Flocker poultry farm operating system — feed formulation, egg tracking, health records and reports in one place.",
-      },
-      { name: "robots", content: "noindex" },
-    ],
-  }),
-  component: AuthPage,
+  beforeLoad: () => {
+    throw redirect({ to: "/" });
+  },
+  component: () => null,
 });
 
 const COUNTRIES = ["Ghana", "Nigeria", "Kenya", "Uganda", "Other"];
