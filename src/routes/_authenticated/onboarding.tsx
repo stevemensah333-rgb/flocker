@@ -5,6 +5,15 @@ import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/_authenticated/onboarding")({
+  head: () => ({
+    meta: [
+      { title: "Set up your farm — Flocker" },
+      { name: "description", content: "Get started with Flocker: create your poultry farm profile and your first flock in a few quick steps." },
+      { property: "og:title", content: "Set up your farm — Flocker" },
+      { property: "og:description", content: "Create your poultry farm and first flock to start managing feed, eggs and health with Flocker." },
+      { name: "robots", content: "noindex" },
+    ],
+  }),
   component: Onboarding,
 });
 
