@@ -8,6 +8,15 @@ import { fmt } from "@/lib/flock/ration";
 import { toCSV, downloadCSV, stamp } from "@/lib/flock/export";
 
 export const Route = createFileRoute("/_authenticated/egg-ledger")({
+  head: () => ({
+    meta: [
+      { title: "Egg Production Ledger — Flocker" },
+      { name: "description", content: "Record daily egg collection, breakages and sales by crate or count, and track poultry production revenue over time." },
+      { property: "og:title", content: "Egg Production Ledger — Flocker" },
+      { property: "og:description", content: "Log egg collection, breakages and sales in crates or eggs and see your production revenue at a glance." },
+      { name: "robots", content: "noindex" },
+    ],
+  }),
   component: EggLedgerPage,
 });
 
