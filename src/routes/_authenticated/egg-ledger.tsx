@@ -37,10 +37,17 @@ function EggLedgerPage() {
   // form
   const [date, setDate] = useState(today());
   const [coopId, setCoopId] = useState<string>("");
+  const [crateSize, setCrateSize] = useState(30);
+  const [collectedCrates, setCollectedCrates] = useState("");
   const [collected, setCollected] = useState("");
+  const [brokenCrates, setBrokenCrates] = useState("");
   const [broken, setBroken] = useState("");
+  const [soldCrates, setSoldCrates] = useState("");
   const [sold, setSold] = useState("");
   const [price, setPrice] = useState("");
+
+  const combine = (crates: string, eggs: string) =>
+    (Number(crates) || 0) * crateSize + (Number(eggs) || 0);
 
   const loadRecords = useCallback(async (fid: string) => {
     const { data } = await supabase
