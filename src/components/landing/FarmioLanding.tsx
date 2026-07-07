@@ -376,29 +376,29 @@ function DownloadSection() {
     "Start logging records and formulating feed — no internet needed.",
   ];
   return (
-    <section id="download" className="relative overflow-hidden border-y py-24 md:py-32" style={{ borderColor: "rgba(242,240,231,0.08)" }}>
-      <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full blur-3xl" style={{ background: "rgba(198,242,78,0.12)" }} />
+    <section id="download" className="relative overflow-hidden py-24 md:py-32" style={{ background: L.bg }}>
+      <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full blur-3xl" style={{ background: "rgba(21,128,61,0.12)" }} />
       <div className="relative mx-auto max-w-3xl px-6 text-center">
         <Reveal>
-          <span className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold" style={{ background: C.lime, color: C.bg }}>
+          <span className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold" style={{ background: L.accent, color: "#FFFFFF" }}>
             <Download className="h-3.5 w-3.5" /> Get the app
           </span>
-          <h2 className="mt-5 text-4xl font-semibold tracking-tight md:text-5xl">Download Flocker for your laptop.</h2>
-          <p className="mx-auto mt-4 max-w-xl text-sm" style={{ color: "rgba(242,240,231,0.72)" }}>
+          <h2 className="mt-5 text-4xl font-semibold tracking-tight md:text-5xl" style={{ color: L.ink }}>Download Flocker for your laptop.</h2>
+          <p className="mx-auto mt-4 max-w-xl text-sm" style={{ color: L.muted2 }}>
             A desktop app that runs fully offline — feed formulation and farm records stay on your machine, ready wherever you are.
           </p>
         </Reveal>
         <Reveal delay={120}>
-          <div className="mt-8 flex justify-center"><DownloadButtons /></div>
-          <p className="mt-4 text-xs" style={{ color: "rgba(242,240,231,0.4)" }}>Free · Works offline · macOS &amp; Windows</p>
+          <div className="mt-8 flex justify-center"><DownloadButtons light /></div>
+          <p className="mt-4 text-xs" style={{ color: L.muted2 }}>Free · Works offline · macOS &amp; Windows</p>
         </Reveal>
       </div>
       <div className="relative mx-auto mt-12 grid max-w-3xl gap-4 px-6 sm:grid-cols-2">
         {steps.map((s, i) => (
           <Reveal key={i} delay={i * 80}>
-            <div className="flex gap-3 rounded-xl border p-4 text-left" style={{ borderColor: "rgba(242,240,231,0.1)", background: C.surface }}>
-              <span className="flex h-6 w-6 flex-none items-center justify-center rounded-full text-xs font-bold" style={{ background: C.lime, color: C.bg }}>{i + 1}</span>
-              <span className="text-sm" style={{ color: "rgba(242,240,231,0.8)" }}>{s}</span>
+            <div className="flex gap-3 rounded-xl border p-4 text-left" style={{ borderColor: L.border, background: L.surface }}>
+              <span className="flex h-6 w-6 flex-none items-center justify-center rounded-full text-xs font-bold" style={{ background: L.accent, color: "#FFFFFF" }}>{i + 1}</span>
+              <span className="text-sm" style={{ color: L.muted2 }}>{s}</span>
             </div>
           </Reveal>
         ))}
