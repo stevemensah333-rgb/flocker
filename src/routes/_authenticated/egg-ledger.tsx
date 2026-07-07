@@ -37,10 +37,17 @@ function EggLedgerPage() {
   // form
   const [date, setDate] = useState(today());
   const [coopId, setCoopId] = useState<string>("");
+  const [crateSize, setCrateSize] = useState(30);
+  const [collectedCrates, setCollectedCrates] = useState("");
   const [collected, setCollected] = useState("");
+  const [brokenCrates, setBrokenCrates] = useState("");
   const [broken, setBroken] = useState("");
+  const [soldCrates, setSoldCrates] = useState("");
   const [sold, setSold] = useState("");
   const [price, setPrice] = useState("");
+
+  const combine = (crates: string, eggs: string) =>
+    (Number(crates) || 0) * crateSize + (Number(eggs) || 0);
 
   const loadRecords = useCallback(async (fid: string) => {
     const { data } = await supabase
@@ -87,8 +94,11 @@ function EggLedgerPage() {
       toast.error("Set up your farm first.");
       return;
     }
-    if (!collected && !sold && !broken) {
-      toast.error("Enter at least one egg count.");
+    const collectedTotal = combine(collectedCrates, collected);
+    const brokenTotal = combine(brokenCrates, broken);
+    const soldTotal = combine(soldCrates, sold);
+    if (!collectedTotal && !soldTotal && !brokenTotal) {
+      toast.error("Enter at least one egg or crate count.");
       return;
     }
     setSaving(true);
@@ -97,9 +107,9 @@ function EggLedgerPage() {
       farm_id: farmId,
       coop_id: coopId || null,
       record_date: date,
-      eggs_collected: Number(collected) || 0,
-      eggs_broken: Number(broken) || 0,
-      eggs_sold: Number(sold) || 0,
+      eggs_collected: collectedTotal,
+      eggs_broken: brokenTotal,
+      eggs_sold: soldTotal,
       price_per_egg: Number(price) || eggPrice || 0,
     });
     setSaving(false);
@@ -108,8 +118,11 @@ function EggLedgerPage() {
       return;
     }
     toast.success("Record added");
+    setCollectedCrates("");
     setCollected("");
+    setBrokenCrates("");
     setBroken("");
+    setSoldCrates("");
     setSold("");
     await loadRecords(farmId);
   }
@@ -188,7 +201,7 @@ function EggLedgerPage() {
 
       {/* Add form */}
       <div className="mt-6 rounded-lg border bg-flock-fog p-4 shadow-flock">
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-6">
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           <Field label="Date">
             <input type="date" value={date} onChange={(e) => setDate(e.target.value)} className={inputCls} />
           </Field>
@@ -200,18 +213,46 @@ function EggLedgerPage() {
               ))}
             </select>
           </Field>
-          <Field label="Collected">
-            <input type="number" value={collected} onChange={(e) => setCollected(e.target.value)} placeholder="0" className={inputCls} />
-          </Field>
-          <Field label="Broken">
-            <input type="number" value={broken} onChange={(e) => setBroken(e.target.value)} placeholder="0" className={inputCls} />
-          </Field>
-          <Field label="Sold">
-            <input type="number" value={sold} onChange={(e) => setSold(e.target.value)} placeholder="0" className={inputCls} />
+          <Field label="Eggs per crate">
+            <input
+              type="number"
+              value={crateSize}
+              onChange={(e) => setCrateSize(Math.max(1, Number(e.target.value) || 1))}
+              className={inputCls}
+            />
           </Field>
           <Field label="₵ / egg">
             <input type="number" value={price} onChange={(e) => setPrice(e.target.value)} placeholder="0.00" className={inputCls} />
           </Field>
+        </div>
+        <div className="mt-3 grid gap-3 sm:grid-cols-3">
+          <CrateEggField
+            label="Collected"
+            crates={collectedCrates}
+            eggs={collected}
+            onCrates={setCollectedCrates}
+            onEggs={setCollected}
+            crateSize={crateSize}
+            inputCls={inputCls}
+          />
+          <CrateEggField
+            label="Broken"
+            crates={brokenCrates}
+            eggs={broken}
+            onCrates={setBrokenCrates}
+            onEggs={setBroken}
+            crateSize={crateSize}
+            inputCls={inputCls}
+          />
+          <CrateEggField
+            label="Sold"
+            crates={soldCrates}
+            eggs={sold}
+            onCrates={setSoldCrates}
+            onEggs={setSold}
+            crateSize={crateSize}
+            inputCls={inputCls}
+          />
         </div>
         <button
           onClick={addRecord}
@@ -276,6 +317,50 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
     <div>
       <label className="font-sans text-[12px] text-flock-stone">{label}</label>
       <div className="mt-1">{children}</div>
+    </div>
+  );
+}
+
+function CrateEggField({
+  label,
+  crates,
+  eggs,
+  onCrates,
+  onEggs,
+  crateSize,
+  inputCls,
+}: {
+  label: string;
+  crates: string;
+  eggs: string;
+  onCrates: (v: string) => void;
+  onEggs: (v: string) => void;
+  crateSize: number;
+  inputCls: string;
+}) {
+  const total = (Number(crates) || 0) * crateSize + (Number(eggs) || 0);
+  return (
+    <div>
+      <label className="font-sans text-[12px] text-flock-stone">{label}</label>
+      <div className="mt-1 grid grid-cols-2 gap-2">
+        <input
+          type="number"
+          value={crates}
+          onChange={(e) => onCrates(e.target.value)}
+          placeholder="Crates"
+          className={inputCls}
+        />
+        <input
+          type="number"
+          value={eggs}
+          onChange={(e) => onEggs(e.target.value)}
+          placeholder="Eggs"
+          className={inputCls}
+        />
+      </div>
+      <p className="mt-1 font-sans text-[11px] text-flock-stone">
+        = {total.toLocaleString()} eggs
+      </p>
     </div>
   );
 }

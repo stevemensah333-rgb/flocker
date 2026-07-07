@@ -80,6 +80,8 @@ export default function RationProWidget({
   const [search, setSearch] = useState("");
   const [cat, setCat] = useState<"All" | IngredientCategory>("All");
   const [showAdvice, setShowAdvice] = useState(false);
+  const [showIngredients, setShowIngredients] = useState(false);
+  const [basisKg, setBasisKg] = useState(100);
   const [birds, setBirds] = useState(1500);
   const [gramsPerBird, setGramsPerBird] = useState(120);
   const [days, setDays] = useState(14);
@@ -119,10 +121,11 @@ export default function RationProWidget({
 
   const advice = useMemo(() => buildAdvice(totals, target), [totals, target]);
 
-  const scaleFactor = (birds * gramsPerBird * days) / 1000 / 100; // batches of 100kg
-  const batchTotalKg = totals.kg > 0 ? scaleFactor * totals.kg : 0;
+  const requiredKg = (birds * gramsPerBird * days) / 1000;
+  const scaleFactor = totals.kg > 0 ? requiredKg / totals.kg : 0;
+  const batchTotalKg = requiredKg;
 
-  const kgDelta = totals.kg - 100;
+  const kgDelta = totals.kg - basisKg;
   const kgColor =
     Math.abs(kgDelta) < 0.05
       ? "text-flock-field"
@@ -150,6 +153,31 @@ export default function RationProWidget({
             </option>
           ))}
         </select>
+        <span className="text-flock-stone">·</span>
+        <label className="font-sans text-[12px] text-flock-stone">Batch</label>
+        <div className="inline-flex items-center gap-1 rounded-sm border bg-flock-mist px-2 py-0.5">
+          <input
+            type="number"
+            min={1}
+            max={5000}
+            value={basisKg}
+            onChange={(e) =>
+              setBasisKg(Math.min(5000, Math.max(0, Number(e.target.value) || 0)))
+            }
+            className="w-16 bg-transparent text-right font-mono text-[12px] outline-none"
+          />
+          <span className="font-sans text-[11px] text-flock-stone">kg</span>
+        </div>
+        <button
+          onClick={() => setShowIngredients((s) => !s)}
+          className={`rounded-sm border px-3 py-1 font-sans text-[12px] font-semibold transition ${
+            showIngredients
+              ? "bg-flock-soil text-flock-cream"
+              : "bg-flock-mist text-flock-soil hover:bg-flock-fog"
+          }`}
+        >
+          Ingredients
+        </button>
         <button
           onClick={() => setShowAdvice(true)}
           className="ml-auto rounded-sm bg-flock-harvest px-3 py-1 font-sans text-[12px] font-semibold text-flock-soil"
@@ -183,9 +211,13 @@ export default function RationProWidget({
       </div>
 
 
-      <div className="grid grid-cols-1 md:grid-cols-[260px_1fr]">
+      <div
+        className={`grid grid-cols-1 ${showIngredients ? "md:grid-cols-[260px_1fr]" : ""}`}
+      >
         {/* Ingredient panel */}
+        {showIngredients && (
         <div className="border-b md:border-b-0 md:border-r">
+
           <div className="border-b p-2">
             <div className="flex items-center gap-1 rounded-sm border bg-flock-mist px-2">
               <Search className="h-3.5 w-3.5 text-flock-stone" />
@@ -249,6 +281,8 @@ export default function RationProWidget({
             })}
           </div>
         </div>
+        )}
+
 
         {/* Spreadsheet */}
         <div className="overflow-x-auto">
@@ -265,6 +299,7 @@ export default function RationProWidget({
             rows={rows}
             totals={totals}
             target={target}
+            basisKg={basisKg}
             updateRow={updateRow}
             removeRow={removeRow}
             qtyRefs={qtyRefs}
@@ -394,6 +429,7 @@ function SpreadTable({
   rows,
   totals,
   target,
+  basisKg,
   updateRow,
   removeRow,
   qtyRefs,
@@ -401,10 +437,12 @@ function SpreadTable({
   rows: RationRow[];
   totals: ReturnType<typeof computeTotals>;
   target: (typeof STAGE_TARGETS)[number];
+  basisKg: number;
   updateRow: (id: string, patch: Partial<RationRow>) => void;
   removeRow: (id: string) => void;
   qtyRefs: React.MutableRefObject<Record<string, HTMLInputElement | null>>;
 }) {
+  const basis = totals.kg > 0 ? totals.kg : 1;
   const th =
     "border px-1.5 py-1 text-right font-sans text-[10px] uppercase tracking-[0.06em] text-flock-stone";
   const td = "border px-1.5 font-mono text-[12px] text-right h-6";
@@ -434,7 +472,7 @@ function SpreadTable({
         {rows.map((row, idx) => {
           const ing = getIngredient(row.name);
           if (!ing) return null;
-          const f = row.kg / 100;
+          const f = row.kg / basis;
           return (
             <tr
               key={row.id}
@@ -493,7 +531,7 @@ function SpreadTable({
         <tr className="bg-flock-fog font-semibold">
           <td className="border"></td>
           <td className="h-6 border px-1.5 text-left font-sans text-[12px]">TOTAL</td>
-          <td className={`${td} ${Math.abs(totals.kg - 100) < 0.05 ? "text-flock-field" : "text-flock-red"}`}>
+          <td className={`${td} ${Math.abs(totals.kg - basisKg) < 0.05 ? "text-flock-field" : "text-flock-red"}`}>
             {fmt(totals.kg, 1)}
           </td>
           <td className={td}></td>
@@ -511,7 +549,7 @@ function SpreadTable({
         <tr className="bg-flock-mist italic">
           <td className="border"></td>
           <td className="h-6 border px-1.5 text-left font-sans text-[12px]">TARGET</td>
-          <td className={td}>100</td>
+          <td className={td}>{fmt(basisKg, 0)}</td>
           <td className={td}></td>
           <td className={td}></td>
           <td className={td}></td>
