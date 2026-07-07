@@ -549,7 +549,7 @@ function SpreadTable({
         <tr className="bg-flock-mist italic">
           <td className="border"></td>
           <td className="h-6 border px-1.5 text-left font-sans text-[12px]">TARGET</td>
-          <td className={td}>100</td>
+          <td className={td}>{fmt(basisKg, 0)}</td>
           <td className={td}></td>
           <td className={td}></td>
           <td className={td}></td>
