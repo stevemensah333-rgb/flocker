@@ -155,35 +155,43 @@ export default function NotificationBell() {
               </p>
             ) : (
               items.map((n) => (
-                <button
+                <div
                   key={n.id}
-                  onClick={() => openItem(n)}
-                  className={`flex w-full gap-3 border-b border-flock-line px-4 py-3 text-left transition hover:bg-flock-mist/40 ${
+                  className={`group flex w-full items-start gap-2 border-b border-flock-line px-4 py-3 transition hover:bg-flock-mist/40 ${
                     n.read_at ? "" : "bg-flock-harvest/[0.06]"
                   }`}
                 >
-                  <span
-                    className={`mt-1.5 h-2 w-2 shrink-0 rounded-full ${
-                      n.read_at ? "bg-transparent" : "bg-flock-red"
-                    }`}
-                  />
-                  <span className="min-w-0 flex-1">
-                    <span className="block font-sans text-[13px] font-medium text-flock-soil">
-                      {n.title}
-                    </span>
-                    {n.body && (
-                      <span className="mt-0.5 block truncate font-sans text-[12px] text-flock-stone">
-                        {n.body}
+                  <button
+                    onClick={() => openItem(n)}
+                    className="flex min-w-0 flex-1 gap-3 text-left"
+                  >
+                    <span
+                      className={`mt-1.5 h-2 w-2 shrink-0 rounded-full ${
+                        n.read_at ? "bg-transparent" : "bg-flock-red"
+                      }`}
+                    />
+                    <span className="min-w-0 flex-1">
+                      <span className="block font-sans text-[13px] font-medium text-flock-soil">
+                        {n.title}
                       </span>
-                    )}
-                    <span className="mt-0.5 block font-sans text-[11px] text-flock-stone/70">
-                      {timeAgo(n.created_at)}
+                      {n.body && (
+                        <span className="mt-0.5 block truncate font-sans text-[12px] text-flock-stone">
+                          {n.body}
+                        </span>
+                      )}
+                      <span className="mt-0.5 block font-sans text-[11px] text-flock-stone/70">
+                        {timeAgo(n.created_at)}
+                      </span>
                     </span>
-                  </span>
-                  {n.read_at && (
-                    <Check className="mt-1 h-3.5 w-3.5 shrink-0 text-flock-stone/50" />
-                  )}
-                </button>
+                  </button>
+                  <button
+                    onClick={() => removeItem(n.id)}
+                    aria-label="Delete notification"
+                    className="mt-0.5 shrink-0 text-flock-stone/50 opacity-0 transition hover:text-flock-red group-hover:opacity-100"
+                  >
+                    <X className="h-3.5 w-3.5" />
+                  </button>
+                </div>
               ))
             )}
           </div>
