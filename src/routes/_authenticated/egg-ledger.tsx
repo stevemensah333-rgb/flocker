@@ -94,8 +94,11 @@ function EggLedgerPage() {
       toast.error("Set up your farm first.");
       return;
     }
-    if (!collected && !sold && !broken) {
-      toast.error("Enter at least one egg count.");
+    const collectedTotal = combine(collectedCrates, collected);
+    const brokenTotal = combine(brokenCrates, broken);
+    const soldTotal = combine(soldCrates, sold);
+    if (!collectedTotal && !soldTotal && !brokenTotal) {
+      toast.error("Enter at least one egg or crate count.");
       return;
     }
     setSaving(true);
@@ -104,9 +107,9 @@ function EggLedgerPage() {
       farm_id: farmId,
       coop_id: coopId || null,
       record_date: date,
-      eggs_collected: Number(collected) || 0,
-      eggs_broken: Number(broken) || 0,
-      eggs_sold: Number(sold) || 0,
+      eggs_collected: collectedTotal,
+      eggs_broken: brokenTotal,
+      eggs_sold: soldTotal,
       price_per_egg: Number(price) || eggPrice || 0,
     });
     setSaving(false);
@@ -115,8 +118,11 @@ function EggLedgerPage() {
       return;
     }
     toast.success("Record added");
+    setCollectedCrates("");
     setCollected("");
+    setBrokenCrates("");
     setBroken("");
+    setSoldCrates("");
     setSold("");
     await loadRecords(farmId);
   }
