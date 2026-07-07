@@ -464,17 +464,17 @@ function FeedbackSection() {
   };
 
   return (
-    <section id="feedback" className="border-t py-24 md:py-28" style={{ borderColor: "rgba(242,240,231,0.08)", background: C.surface }}>
+    <section id="feedback" className="py-24 md:py-28" style={{ background: L.bg }}>
       <div className="mx-auto max-w-lg px-6 text-center">
         {status === "done" ? (
           <Reveal>
-            <h2 className="text-3xl font-semibold md:text-4xl">Thanks for the feedback! 🐔</h2>
-            <p className="mt-3 text-sm" style={{ color: "rgba(242,240,231,0.7)" }}>We read every note.</p>
+            <h2 className="text-3xl font-semibold md:text-4xl" style={{ color: L.ink }}>Thanks for the feedback! 🐔</h2>
+            <p className="mt-3 text-sm" style={{ color: L.muted2 }}>We read every note.</p>
           </Reveal>
         ) : (
           <Reveal>
-            <p className="text-xs font-semibold uppercase tracking-[0.25em]" style={{ color: C.lime }}>Your take</p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">Tell us what you think.</h2>
+            <p className="text-xs font-semibold uppercase tracking-[0.25em]" style={{ color: L.accent }}>Your take</p>
+            <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl" style={{ color: L.ink }}>Tell us what you think.</h2>
             <form onSubmit={onSubmit} className="mt-8 space-y-4 text-left">
               <div className="flex justify-center gap-2">
                 {[1, 2, 3, 4, 5].map((n) => (
@@ -487,7 +487,7 @@ function FeedbackSection() {
                     onMouseLeave={() => setHover(0)}
                     className="transition-transform hover:scale-110"
                   >
-                    <Star className="h-8 w-8" style={{ color: (hover || rating) >= n ? C.lime : "rgba(242,240,231,0.2)", fill: (hover || rating) >= n ? C.lime : "transparent" }} />
+                    <Star className="h-8 w-8" style={{ color: (hover || rating) >= n ? L.accent : "rgba(14,26,18,0.18)", fill: (hover || rating) >= n ? L.accent : "transparent" }} />
                   </button>
                 ))}
               </div>
@@ -498,14 +498,14 @@ function FeedbackSection() {
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
                 className="w-full rounded-xl border px-4 py-3 text-sm outline-none"
-                style={{ borderColor: "rgba(242,240,231,0.15)", background: C.bg, color: C.cream }}
+                style={{ borderColor: L.border, background: L.surface, color: L.ink }}
               />
-              {status === "error" && <p className="text-sm text-red-400">Something went wrong. Try again.</p>}
+              {status === "error" && <p className="text-sm" style={{ color: "#B4442E" }}>Something went wrong. Try again.</p>}
               <button
                 type="submit"
                 disabled={status === "sending" || !rating || !message.trim()}
                 className="w-full rounded-full py-3 text-sm font-semibold transition-transform hover:-translate-y-0.5 disabled:opacity-50"
-                style={{ background: C.lime, color: C.bg }}
+                style={{ background: L.accent, color: "#FFFFFF" }}
               >
                 {status === "sending" ? "Sending…" : "Send feedback"}
               </button>
