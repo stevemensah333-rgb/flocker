@@ -208,12 +208,12 @@ function StatBand() {
     { v: "Free", l: "Forever, no login" },
   ];
   return (
-    <section className="border-y" style={{ borderColor: "rgba(242,240,231,0.08)" }}>
+    <section style={{ background: L.bg }}>
       <div className="mx-auto grid max-w-6xl grid-cols-2 gap-px md:grid-cols-4">
         {stats.map((s, i) => (
           <Reveal key={s.l} delay={i * 80} className="px-6 py-10 text-center md:text-left">
-            <div className="text-4xl font-semibold md:text-5xl" style={{ color: C.lime }}>{s.v}</div>
-            <div className="mt-2 text-sm" style={{ color: "rgba(242,240,231,0.6)" }}>{s.l}</div>
+            <div className="text-4xl font-semibold md:text-5xl" style={{ color: L.accent }}>{s.v}</div>
+            <div className="mt-2 text-sm" style={{ color: L.muted2 }}>{s.l}</div>
           </Reveal>
         ))}
       </div>
