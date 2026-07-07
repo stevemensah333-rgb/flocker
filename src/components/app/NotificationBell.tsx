@@ -129,14 +129,24 @@ export default function NotificationBell() {
             <span className="font-sans text-[13px] font-semibold text-flock-soil">
               Notifications
             </span>
-            {unread > 0 && (
-              <button
-                onClick={markAllRead}
-                className="flex items-center gap-1 font-sans text-[12px] text-flock-field transition hover:underline"
-              >
-                <CheckCheck className="h-3.5 w-3.5" /> Mark all read
-              </button>
-            )}
+            <div className="flex items-center gap-3">
+              {unread > 0 && (
+                <button
+                  onClick={markAllRead}
+                  className="flex items-center gap-1 font-sans text-[12px] text-flock-field transition hover:underline"
+                >
+                  <CheckCheck className="h-3.5 w-3.5" /> Mark all read
+                </button>
+              )}
+              {items.length > 0 && (
+                <button
+                  onClick={clearAll}
+                  className="flex items-center gap-1 font-sans text-[12px] text-flock-clay transition hover:underline"
+                >
+                  <Trash2 className="h-3.5 w-3.5" /> Clear all
+                </button>
+              )}
+            </div>
           </div>
           <div className="max-h-96 overflow-y-auto">
             {items.length === 0 ? (
