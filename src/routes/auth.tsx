@@ -102,7 +102,7 @@ function AuthPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-flock-cream px-4 py-10">
+    <main className="flex min-h-screen items-center justify-center bg-flock-cream px-4 py-10">
       <div className="w-full max-w-sm animate-flock-enter">
         <Link to="/" className="mb-6 flex items-center justify-center gap-2">
           <Bird className="h-6 w-6 text-flock-harvest" />
