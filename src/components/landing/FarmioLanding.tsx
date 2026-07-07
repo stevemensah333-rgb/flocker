@@ -279,21 +279,21 @@ function HowItWorks() {
     { n: "03", title: "Formulate & track", body: "Build least-cost feed, log eggs and health, and let Flocker flag what matters." },
   ];
   return (
-    <section id="how" className="border-y py-24 md:py-32" style={{ borderColor: "rgba(242,240,231,0.08)", background: C.surface }}>
+    <section id="how" className="py-24 md:py-32" style={{ background: L.bg }}>
       <div className="mx-auto max-w-6xl px-6">
         <Reveal>
-          <p className="text-xs font-semibold uppercase tracking-[0.25em]" style={{ color: C.lime }}>How it works</p>
-          <h2 className="mt-3 max-w-2xl text-4xl font-semibold tracking-tight md:text-5xl">
+          <p className="text-xs font-semibold uppercase tracking-[0.25em]" style={{ color: L.accent }}>How it works</p>
+          <h2 className="mt-3 max-w-2xl text-4xl font-semibold tracking-tight md:text-5xl" style={{ color: L.ink }}>
             Up and running in three steps.
           </h2>
         </Reveal>
         <div className="mt-14 grid gap-8 md:grid-cols-3">
           {steps.map((s, i) => (
             <Reveal key={s.n} delay={i * 120}>
-              <div className="relative rounded-2xl border p-7" style={{ borderColor: "rgba(242,240,231,0.1)", background: C.surface2 }}>
-                <span className="text-5xl font-semibold" style={{ color: "rgba(198,242,78,0.25)" }}>{s.n}</span>
-                <h3 className="mt-4 text-xl font-semibold" style={{ color: C.cream }}>{s.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed" style={{ color: "rgba(242,240,231,0.7)" }}>{s.body}</p>
+              <div className="relative rounded-2xl border p-7" style={{ borderColor: L.border, background: L.surface }}>
+                <span className="text-5xl font-semibold" style={{ color: "rgba(21,128,61,0.28)" }}>{s.n}</span>
+                <h3 className="mt-4 text-xl font-semibold" style={{ color: L.ink }}>{s.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed" style={{ color: L.muted2 }}>{s.body}</p>
               </div>
             </Reveal>
           ))}
