@@ -22,6 +22,17 @@ const C = {
   cream: "#F2F0E7",
 };
 
+/* ---------- light-green section palette (alternating) ---------- */
+const L = {
+  bg: "#E9F5EC",
+  surface: "#FFFFFF",
+  ink: "#0E1A12",
+  muted: "#41544799",
+  muted2: "#465C4E",
+  accent: "#15803D",
+  border: "#C7E7D1",
+};
+
 /* ---------- scroll reveal ---------- */
 function Reveal({
   children,
