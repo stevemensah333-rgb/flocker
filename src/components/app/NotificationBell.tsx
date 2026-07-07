@@ -97,6 +97,17 @@ export default function NotificationBell() {
     if (n.link) navigate({ to: n.link });
   }
 
+  async function removeItem(id: string) {
+    setItems((prev) => prev.filter((x) => x.id !== id));
+    await supabase.from("notifications").delete().eq("id", id);
+  }
+
+  async function clearAll() {
+    if (!userId || items.length === 0) return;
+    setItems([]);
+    await supabase.from("notifications").delete().eq("owner_id", userId);
+  }
+
   return (
     <div className="relative" ref={ref}>
       <button
