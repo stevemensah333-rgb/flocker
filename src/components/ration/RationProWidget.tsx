@@ -153,6 +153,31 @@ export default function RationProWidget({
             </option>
           ))}
         </select>
+        <span className="text-flock-stone">·</span>
+        <label className="font-sans text-[12px] text-flock-stone">Batch</label>
+        <div className="inline-flex items-center gap-1 rounded-sm border bg-flock-mist px-2 py-0.5">
+          <input
+            type="number"
+            min={1}
+            max={5000}
+            value={basisKg}
+            onChange={(e) =>
+              setBasisKg(Math.min(5000, Math.max(0, Number(e.target.value) || 0)))
+            }
+            className="w-16 bg-transparent text-right font-mono text-[12px] outline-none"
+          />
+          <span className="font-sans text-[11px] text-flock-stone">kg</span>
+        </div>
+        <button
+          onClick={() => setShowIngredients((s) => !s)}
+          className={`rounded-sm border px-3 py-1 font-sans text-[12px] font-semibold transition ${
+            showIngredients
+              ? "bg-flock-soil text-flock-cream"
+              : "bg-flock-mist text-flock-soil hover:bg-flock-fog"
+          }`}
+        >
+          Ingredients
+        </button>
         <button
           onClick={() => setShowAdvice(true)}
           className="ml-auto rounded-sm bg-flock-harvest px-3 py-1 font-sans text-[12px] font-semibold text-flock-soil"
