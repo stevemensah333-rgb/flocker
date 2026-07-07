@@ -256,6 +256,9 @@ export default function CinematicScroll() {
         </div>
       </section>
 
+      {/* ---- Download ---- */}
+      <DownloadSection />
+
       {/* ---- Final CTA ---- */}
       <section className="relative z-20 flex items-center justify-center bg-[#1C1C1C] px-6 pb-28">
         <CtaCard />
