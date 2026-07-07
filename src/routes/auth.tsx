@@ -8,11 +8,19 @@ import { lovable } from "@/integrations/lovable/index";
 export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
-      { title: "Sign in · Flocker" },
+      { title: "Sign in or join Flocker — Poultry Farm OS" },
       {
         name: "description",
-        content: "Sign in or create your Flocker poultry farm account.",
+        content:
+          "Sign in to Flocker or create your free account to manage feed, egg production, flock health and finances for your poultry farm.",
       },
+      { property: "og:title", content: "Sign in or join Flocker — Poultry Farm OS" },
+      {
+        property: "og:description",
+        content:
+          "Access your Flocker poultry farm operating system — feed formulation, egg tracking, health records and reports in one place.",
+      },
+      { name: "robots", content: "noindex" },
     ],
   }),
   component: AuthPage,
