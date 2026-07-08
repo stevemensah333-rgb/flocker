@@ -77,6 +77,7 @@ export default function RationProWidget({
   const [showAdvice, setShowAdvice] = useState(false);
   const [showIngredients, setShowIngredients] = useState(false);
   const [basisKg, setBasisKg] = useState(100);
+  const [bagKg, setBagKg] = useState(DEFAULT_BAG_KG);
   const [birds, setBirds] = useState(1500);
   const [gramsPerBird, setGramsPerBird] = useState(120);
   const [days, setDays] = useState(14);
@@ -85,7 +86,7 @@ export default function RationProWidget({
     () => STAGE_TARGETS.find((s) => s.stage === stageName)!,
     [stageName],
   );
-  const totals = useMemo(() => computeTotals(rows), [rows]);
+  const totals = useMemo(() => computeTotals(rows, bagKg), [rows, bagKg]);
   const inRation = useMemo(() => new Set(rows.map((r) => r.name)), [rows]);
 
   const filtered = useMemo(() => {
