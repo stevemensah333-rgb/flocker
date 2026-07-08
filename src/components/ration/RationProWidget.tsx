@@ -597,6 +597,8 @@ function SpreadTable({
           <td className={td}></td>
           <td className={td}></td>
           <td className={td}></td>
+          <td className={td}></td>
+          <td className={td}></td>
           <DiffCell achieved={totals.cp} target={target.cp} td={td} />
           <DiffCell achieved={totals.me} target={target.me} td={td} dp={0} />
           <DiffCell achieved={totals.ca} target={target.ca} td={td} dp={2} />
