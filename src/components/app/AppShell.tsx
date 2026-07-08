@@ -101,13 +101,13 @@ function ProfileCard({ onSignOut }: { onSignOut: () => void }) {
       if (!u) return;
       const { data: p } = await supabase
         .from("profiles")
-        .select("full_name, avatar_url")
+        .select("full_name")
         .eq("id", u.id)
         .maybeSingle();
       setProfile({
         name: p?.full_name || u.email?.split("@")[0] || "Farmer",
         email: u.email || "",
-        avatar: (p as { avatar_url?: string } | null)?.avatar_url ?? null,
+        avatar: null,
       });
     })();
   }, []);
