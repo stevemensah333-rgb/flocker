@@ -37,22 +37,21 @@ const statusIcon: Record<NutrientStatus, string> = {
   deficit: "✗",
 };
 
-function defaultRows(priceMap?: Record<string, number>): RationRow[] {
-  const pick = (name: string, kg: number, fallback: number): RationRow => ({
+function defaultRows(): RationRow[] {
+  const pick = (name: string, kg: number): RationRow => ({
     id: newId(),
     name,
     kg,
-    pricePerKg: priceMap?.[name] ?? fallback,
   });
   return [
-    pick("Maize (yellow)", 55, 1.8),
-    pick("Soya bean meal (solvent-ext.)", 20, 3.5),
-    pick("Wheat bran", 8, 1.2),
-    pick("Fish meal (65% CP)", 5, 4.5),
-    pick("Oyster shell", 8.5, 0.6),
-    pick("Dicalcium phosphate (DCP)", 2, 1.8),
-    pick("Vitamin-mineral premix", 1, 8.0),
-    pick("Salt (NaCl)", 0.5, 0.6),
+    pick("Maize (yellow)", 55),
+    pick("Soya bean meal (solvent-ext.)", 20),
+    pick("Wheat bran", 8),
+    pick("Fish meal (65% CP)", 5),
+    pick("Oyster shell", 8.5),
+    pick("Dicalcium phosphate (DCP)", 2),
+    pick("Vitamin-mineral premix", 1),
+    pick("Salt (NaCl)", 0.5),
   ];
 }
 
