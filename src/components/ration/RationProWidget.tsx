@@ -119,6 +119,9 @@ export default function RationProWidget({
 
   const requiredKg = (birds * gramsPerBird * days) / 1000;
   const batchTotalKg = requiredKg;
+  const batchCost =
+    totals.kg > 0 ? (totals.cost / totals.kg) * batchTotalKg : 0;
+  const batchBags = bagKg > 0 ? batchTotalKg / bagKg : 0;
 
   const kgDelta = totals.kg - basisKg;
   const kgColor =
