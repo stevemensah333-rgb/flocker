@@ -581,6 +581,8 @@ function SpreadTable({
           <td className={td}>{fmt(basisKg, 0)}</td>
           <td className={td}></td>
           <td className={td}></td>
+          <td className={td}></td>
+          <td className={td}></td>
           <td className={td}>{fmt(target.cp, 2)}</td>
           <td className={td}>{fmt(target.me, 0)}</td>
           <td className={td}>{fmt(target.ca, 2)}</td>
