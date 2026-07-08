@@ -144,12 +144,15 @@ function ProfileCard({
           >
             <Settings className="h-4 w-4" /> Settings
           </Link>
-          <a
-            href="mailto:hello@flocker.app?subject=Flocker%20feedback"
-            className="flex items-center gap-2.5 px-4 py-3 font-sans text-[13px] text-fr-muted transition hover:bg-white/[0.05] hover:text-white"
+          <button
+            onClick={() => {
+              setOpen(false);
+              onFeedback();
+            }}
+            className="flex w-full items-center gap-2.5 px-4 py-3 text-left font-sans text-[13px] text-fr-muted transition hover:bg-white/[0.05] hover:text-white"
           >
             <MessageSquare className="h-4 w-4" /> Feedback
-          </a>
+          </button>
           <button
             onClick={onSignOut}
             className="flex w-full items-center gap-2.5 border-t border-white/[0.06] px-4 py-3 text-left font-sans text-[13px] text-fr-muted transition hover:bg-white/[0.05] hover:text-white"
