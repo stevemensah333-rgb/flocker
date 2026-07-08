@@ -1,0 +1,13 @@
+# Flocker
+
+> The AI-powered farm operating system for Ghanaian poultry farmers — feed formulation, flock intelligence and health alerts in one app.
+
+Flocker helps poultry farmers track every bird, every batch and every cedi. It combines AI feed formulation, flock performance intelligence and health alerts to help farms run more profitably.
+
+## Pages
+
+- [Home](/): What Flocker is, its features, and how to download the app.
+
+## Guides
+
+- [Poultry Feed Ingredients](/guides/poultry-feed-ingredients): A guide to common poultry feed ingredients and how to use them.
