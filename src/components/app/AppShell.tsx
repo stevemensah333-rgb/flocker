@@ -292,7 +292,7 @@ export default function AppShell({
         {/* Content area with soft green gradient header */}
         <main className="relative min-h-screen">
           <div className="pointer-events-none absolute inset-x-0 top-0 h-72 bg-[radial-gradient(120%_100%_at_100%_0%,rgba(47,174,102,0.14),transparent_60%)]" />
-          <div className="relative px-5 py-6 sm:px-10 sm:py-9">
+          <div className="relative mx-auto max-w-[1440px] px-5 py-6 sm:px-10 sm:py-9">
             <div className="mb-8 flex flex-wrap items-start gap-4">
               <button
                 onClick={() => setMobileOpen(true)}
