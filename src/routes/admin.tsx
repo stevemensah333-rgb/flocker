@@ -9,6 +9,7 @@ export const Route = createFileRoute("/admin")({
   head: () => ({
     meta: [
       { title: "Flocker Admin" },
+      { name: "description", content: "Access the Flocker admin panel to manage system data and feedback." },
       { name: "robots", content: "noindex, nofollow" },
     ],
   }),

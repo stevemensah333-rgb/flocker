@@ -8,6 +8,7 @@ export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
       { title: "Sign in — Flocker" },
+      { name: "description", content: "Sign in or create an account to start managing your poultry farm operations." },
       { name: "robots", content: "noindex" },
     ],
   }),
