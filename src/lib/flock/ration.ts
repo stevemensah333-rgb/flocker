@@ -4,7 +4,6 @@ export interface RationRow {
   id: string;
   name: string;
   kg: number;
-  pricePerKg: number;
 }
 
 export interface RationTotals {
