@@ -86,10 +86,23 @@ export const askVetLine = createServerFn({ method: "POST" })
       : `\n\nEVIDENCE: (none retrieved — answer from established poultry knowledge, keep confidence at most "moderate", and do not fabricate citations.)`;
 
     try {
+      const modelMessages = data.messages.map((m) => {
+        if (m.role === "user" && m.imageBase64) {
+          return {
+            role: "user" as const,
+            content: [
+              { type: "text" as const, text: m.content },
+              { type: "image" as const, image: m.imageBase64 },
+            ],
+          };
+        }
+        return { role: m.role, content: m.content };
+      });
+
       const { output } = await generateText({
         model: gateway("google/gemini-3-flash-preview"),
         system: SYSTEM + flockNote + evidenceBlock,
-        messages: data.messages,
+        messages: modelMessages,
         output: Output.object({
           schema: z.object({
             reply: z.string(),
