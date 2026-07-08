@@ -657,11 +657,19 @@ function DonateModal({ open, onClose }: { open: boolean; onClose: () => void }) 
 
 function Footer() {
   return (
-    <footer className="mx-auto flex max-w-6xl items-center justify-between px-6 py-8 text-xs" style={{ color: "rgba(242,240,231,0.4)" }}>
+    <footer className="mx-auto flex max-w-6xl flex-col gap-6 px-6 py-8 text-xs sm:flex-row sm:items-center sm:justify-between" style={{ color: "rgba(242,240,231,0.4)" }}>
       <span>© {new Date().getFullYear()} Flocker — built for African poultry farms.</span>
-      <Link to="/admin" className="transition-colors hover:text-[color:var(--lime)]" style={{ color: "rgba(242,240,231,0.2)" }}>
-        Admin
-      </Link>
+      <nav className="flex flex-wrap items-center gap-4">
+        <Link to="/guides/poultry-breeds" className="transition-colors hover:text-[color:var(--lime)]">
+          Poultry breeds guide
+        </Link>
+        <Link to="/guides/poultry-feed-ingredients" className="transition-colors hover:text-[color:var(--lime)]">
+          Feed ingredients guide
+        </Link>
+        <Link to="/admin" className="transition-colors hover:text-[color:var(--lime)]" style={{ color: "rgba(242,240,231,0.2)" }}>
+          Admin
+        </Link>
+      </nav>
     </footer>
   );
 }

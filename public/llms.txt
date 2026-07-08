@@ -10,4 +10,5 @@ Flocker helps poultry farmers track every bird, every batch and every cedi. It c
 
 ## Guides
 
+- [Poultry Breeds Guide](/guides/poultry-breeds): Best layer, broiler and dual-purpose chicken breeds with performance targets.
 - [Poultry Feed Ingredients](/guides/poultry-feed-ingredients): A guide to common poultry feed ingredients and how to use them.
