@@ -53,6 +53,23 @@
   --color-flock-ink: var(--flock-ink);
   --color-flock-sky: var(--flock-sky);
 
+  /* FlyRank-style app UI tokens */
+  --color-fr-sidebar: var(--fr-sidebar);
+  --color-fr-sidebar-active: var(--fr-sidebar-active);
+  --color-fr-sidebar-border: var(--fr-sidebar-border);
+  --color-fr-muted: var(--fr-muted);
+  --color-fr-label: var(--fr-label);
+  --color-fr-green: var(--fr-green);
+  --color-fr-green-soft: var(--fr-green-soft);
+  --color-fr-green-text: var(--fr-green-text);
+  --color-fr-content: var(--fr-content);
+  --color-fr-card: var(--fr-card);
+  --color-fr-card-border: var(--fr-card-border);
+  --color-fr-ink: var(--fr-ink);
+  --color-fr-sub: var(--fr-sub);
+  --color-fr-stat: var(--fr-stat);
+  --color-fr-stat-border: var(--fr-stat-border);
+
   --font-display: "Fraunces", Georgia, serif;
   --font-sans: "Sora", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
