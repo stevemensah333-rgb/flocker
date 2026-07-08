@@ -15,8 +15,6 @@ export interface RationTotals {
   lys: number;
   meth: number;
   cf: number;
-  cost: number;
-  costPerKg: number;
 }
 
 export type NutrientStatus = "met" | "close" | "deficit";
