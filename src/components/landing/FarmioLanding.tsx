@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Apple, Monitor, ArrowUpRight, Wheat, Egg, HeartPulse, Download, WifiOff, Star, Heart } from "lucide-react";
+import { Apple, Monitor, ArrowUpRight, Wheat, Egg, HeartPulse, Download, WifiOff, Star, Heart, Copy, Check, Smartphone } from "lucide-react";
+import QRCode from "qrcode";
 import { DOWNLOADS, detectOS, type DesktopOS } from "@/lib/flock/downloads";
 import { recordDownload, submitFeedback } from "@/lib/flock/tracking";
 import RationProWidget from "@/components/ration/RationProWidget";
@@ -87,6 +88,7 @@ export default function FarmioLanding() {
       <DemoSection />
       <DownloadSection />
       <Testimonials />
+      <DonateSection />
       <FeedbackSection />
       <Footer />
     </div>
@@ -527,7 +529,103 @@ function FeedbackSection() {
   );
 }
 
+/* ============================ DONATE ============================ */
+const MOMO = {
+  network: "MTN MoMo",
+  name: "Juliana Mensah",
+  number: "0555 156 128",
+  intl: "+233 555 156 128",
+};
+
+function DonateSection() {
+  const [qr, setQr] = useState<string>("");
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    QRCode.toDataURL(MOMO.number.replace(/\s/g, ""), {
+      margin: 1,
+      width: 320,
+      color: { dark: "#0E1A12", light: "#FFFFFF" },
+    })
+      .then(setQr)
+      .catch(() => setQr(""));
+  }, []);
+
+  const copyNumber = async () => {
+    try {
+      await navigator.clipboard.writeText(MOMO.number.replace(/\s/g, ""));
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      /* clipboard unavailable — number is still visible on screen */
+    }
+  };
+
+  return (
+    <section id="donate" className="py-24 md:py-32" style={{ background: L.bg }}>
+      <div className="mx-auto max-w-3xl px-6 text-center">
+        <Reveal>
+          <p className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em]" style={{ color: L.accent }}>
+            <Heart className="h-3.5 w-3.5" /> Support Flocker
+          </p>
+          <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl" style={{ color: L.ink }}>
+            Help keep Flocker running.
+          </h2>
+          <p className="mx-auto mt-4 max-w-xl text-sm md:text-base" style={{ color: L.muted2 }}>
+            Flocker is built for African poultry farmers and its AI tools cost money to run. If it saves you time or money,
+            a small Mobile Money gift keeps the lights on and the features coming.
+          </p>
+        </Reveal>
+
+        <Reveal delay={120}>
+          <div
+            className="mx-auto mt-10 flex max-w-md flex-col items-center gap-6 rounded-3xl border p-8"
+            style={{ borderColor: L.border, background: L.surface }}
+          >
+            <span
+              className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold"
+              style={{ background: "#FFCC0022", color: "#8A6D00" }}
+            >
+              <Smartphone className="h-3.5 w-3.5" /> {MOMO.network}
+            </span>
+
+            {qr ? (
+              <img
+                src={qr}
+                alt={`Mobile Money QR code for ${MOMO.number}`}
+                className="h-44 w-44 rounded-2xl"
+                style={{ background: "#FFFFFF" }}
+              />
+            ) : (
+              <div className="h-44 w-44 animate-pulse rounded-2xl" style={{ background: L.bg }} />
+            )}
+
+            <div>
+              <p className="text-2xl font-bold tracking-tight" style={{ color: L.ink }}>{MOMO.number}</p>
+              <p className="mt-1 text-sm" style={{ color: L.muted2 }}>{MOMO.name}</p>
+            </div>
+
+            <button
+              type="button"
+              onClick={copyNumber}
+              className="inline-flex w-full items-center justify-center gap-2 rounded-full py-3 text-sm font-semibold transition-transform hover:-translate-y-0.5"
+              style={{ background: L.accent, color: "#FFFFFF" }}
+            >
+              {copied ? <><Check className="h-4 w-4" /> Copied!</> : <><Copy className="h-4 w-4" /> Copy number</>}
+            </button>
+
+            <p className="text-xs" style={{ color: L.muted }}>
+              Scan the QR or dial your MoMo menu and send any amount. Thank you! 🐔
+            </p>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
 /* ============================ FOOTER ============================ */
+
 function Footer() {
   return (
     <footer className="mx-auto flex max-w-6xl items-center justify-between px-6 py-8 text-xs" style={{ color: "rgba(242,240,231,0.4)" }}>
