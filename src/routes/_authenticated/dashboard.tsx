@@ -119,19 +119,19 @@ function Dashboard() {
     <>
       <Link
         to="/coops"
-        className="hidden items-center gap-1.5 rounded border bg-flock-fog px-3 py-2 font-sans text-[13px] text-flock-soil transition hover:bg-flock-mist sm:flex"
+        className="hidden items-center gap-1.5 rounded-xl border border-fr-card-border bg-white px-3.5 py-2.5 font-sans text-[13px] font-medium text-fr-ink transition hover:bg-fr-stat sm:flex"
       >
         <ClipboardList className="h-3.5 w-3.5" /> Record Entry
       </Link>
       <Link
         to="/reports"
-        className="hidden items-center gap-1.5 rounded border bg-flock-fog px-3 py-2 font-sans text-[13px] text-flock-soil transition hover:bg-flock-mist sm:flex"
+        className="hidden items-center gap-1.5 rounded-xl border border-fr-card-border bg-white px-3.5 py-2.5 font-sans text-[13px] font-medium text-fr-ink transition hover:bg-fr-stat sm:flex"
       >
         <FileText className="h-3.5 w-3.5" /> Generate Report
       </Link>
       <Link
         to="/coops"
-        className="flex items-center gap-1.5 rounded bg-flock-harvest px-3 py-2 font-sans text-[13px] font-medium text-flock-soil transition hover:opacity-90"
+        className="flex items-center gap-1.5 rounded-xl bg-fr-green px-3.5 py-2.5 font-sans text-[13px] font-semibold text-white transition hover:brightness-105"
       >
         <Plus className="h-3.5 w-3.5" /> Add Flock
       </Link>
@@ -198,29 +198,29 @@ function Dashboard() {
             {/* Flock data table */}
             <section className="lg:col-span-2">
               <div className="mb-3 flex items-center justify-between">
-                <h2 className="font-sans text-[15px] font-semibold text-flock-soil">
+                <h2 className="font-sans text-[17px] font-bold tracking-tight text-fr-ink">
                   Flock / Batch Records
                 </h2>
                 <Link
                   to="/coops"
-                  className="flex items-center gap-1 rounded border bg-flock-fog px-2.5 py-1 font-sans text-[12px] text-flock-soil transition hover:bg-flock-mist"
+                  className="flex items-center gap-1 rounded-lg border border-fr-card-border bg-white px-3 py-1.5 font-sans text-[12px] font-medium text-fr-ink transition hover:bg-fr-stat"
                 >
                   Manage
                 </Link>
               </div>
-              <div className="overflow-x-auto rounded border bg-flock-paper">
+              <div className="overflow-x-auto rounded-2xl border border-fr-card-border bg-fr-card shadow-sm">
                 {coops.length === 0 ? (
                   <EmptyCoops />
                 ) : (
                   <table className="w-full text-left">
                     <thead>
-                      <tr className="border-b border-flock-line bg-flock-mist/60 font-sans text-[11px] uppercase tracking-wide text-flock-stone">
-                        <th className="px-4 py-2.5 font-medium">Batch</th>
-                        <th className="px-4 py-2.5 font-medium">Breed</th>
-                        <th className="px-4 py-2.5 font-medium">Age</th>
-                        <th className="px-4 py-2.5 text-right font-medium">Birds</th>
-                        <th className="px-4 py-2.5 font-medium">Type</th>
-                        <th className="px-4 py-2.5 font-medium">Status</th>
+                      <tr className="border-b border-fr-card-border bg-fr-stat font-sans text-[11px] uppercase tracking-wide text-fr-sub">
+                        <th className="px-4 py-3 font-semibold">Batch</th>
+                        <th className="px-4 py-3 font-semibold">Breed</th>
+                        <th className="px-4 py-3 font-semibold">Age</th>
+                        <th className="px-4 py-3 text-right font-semibold">Birds</th>
+                        <th className="px-4 py-3 font-semibold">Type</th>
+                        <th className="px-4 py-3 font-semibold">Status</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -229,16 +229,16 @@ function Dashboard() {
                         return (
                           <tr
                             key={c.id}
-                            className="border-t border-flock-line font-sans text-[13px] text-flock-soil transition-colors hover:bg-flock-mist/40"
+                            className="border-t border-fr-card-border font-sans text-[13px] text-fr-ink transition-colors hover:bg-fr-stat/60"
                           >
 
                             <td className="px-4 py-3 font-medium">{c.name}</td>
-                            <td className="px-4 py-3 text-flock-stone">{c.breed ?? "Mixed"}</td>
-                            <td className="px-4 py-3 text-flock-stone">{c.age_weeks}w</td>
+                            <td className="px-4 py-3 text-fr-sub">{c.breed ?? "Mixed"}</td>
+                            <td className="px-4 py-3 text-fr-sub">{c.age_weeks}w</td>
                             <td className="px-4 py-3 text-right font-mono">
                               {c.count.toLocaleString()}
                             </td>
-                            <td className="px-4 py-3 text-flock-stone capitalize">
+                            <td className="px-4 py-3 text-fr-sub capitalize">
                               {c.production_type ?? "layer"}
                             </td>
                             <td className="px-4 py-3">
@@ -259,18 +259,18 @@ function Dashboard() {
 
             {/* Production chart */}
             <section>
-              <h2 className="mb-3 font-sans text-[15px] font-semibold text-flock-soil">
+              <h2 className="mb-3 font-sans text-[17px] font-bold tracking-tight text-fr-ink">
                 Egg Production
               </h2>
-              <div className="rounded border bg-flock-paper p-4">
+              <div className="rounded-2xl border border-fr-card-border bg-fr-card p-5 shadow-sm">
                 {eggValues.length === 0 ? (
-                  <p className="py-10 text-center font-sans text-[13px] text-flock-stone">
+                  <p className="py-10 text-center font-sans text-[13px] text-fr-sub">
                     No production data yet.
                   </p>
                 ) : (
                   <BarChart values={eggValues} />
                 )}
-                <p className="mt-3 font-sans text-[12px] text-flock-stone">
+                <p className="mt-3 font-sans text-[12px] text-fr-sub">
                   Eggs collected · last {eggValues.length || 0} records
                 </p>
               </div>
@@ -330,32 +330,28 @@ function KpiCard({
   spark: number[];
 }) {
   const colorVar =
-    accent === "field" ? "#3d6b35" : accent === "harvest" ? "#e8a838" : "#8c7b6b";
+    accent === "field" ? "#2fae66" : accent === "harvest" ? "#e8a838" : "#5b6b62";
   const accentClass =
     accent === "field"
-      ? "text-flock-field"
+      ? "text-fr-green-text"
       : accent === "harvest"
         ? "text-flock-harvest"
-        : "text-flock-stone";
+        : "text-fr-sub";
   return (
-    <div className="group relative overflow-hidden rounded border bg-flock-paper p-4 transition-colors hover:border-flock-stone/30">
-      <span
-        className="absolute inset-x-0 top-0 h-0.5"
-        style={{ backgroundColor: colorVar }}
-      />
+    <div className="group relative overflow-hidden rounded-2xl border border-fr-card-border bg-fr-card p-5 shadow-sm transition-colors hover:border-fr-green/40">
       <div className="flex items-start justify-between">
         <div className={`flex items-center gap-1.5 ${accentClass}`}>
           {icon}
-          <span className="font-sans text-[12px] uppercase tracking-wide text-flock-stone">
+          <span className="font-sans text-[12px] uppercase tracking-wide text-fr-sub">
             {label}
           </span>
         </div>
         <Sparkline values={spark} color={colorVar} />
       </div>
-      <p className="mt-3 font-mono text-[26px] leading-none text-flock-soil">{value}</p>
-      <div className="mt-2 flex items-center gap-1 font-sans text-[12px] text-flock-stone">
+      <p className="mt-3 font-sans text-[28px] font-bold leading-none tracking-tight text-fr-ink">{value}</p>
+      <div className="mt-2 flex items-center gap-1 font-sans text-[12px] text-fr-sub">
         {trend === "up" ? (
-          <TrendingUp className="h-3.5 w-3.5 text-flock-field" />
+          <TrendingUp className="h-3.5 w-3.5 text-fr-green-text" />
         ) : trend === "down" ? (
           <TrendingDown className="h-3.5 w-3.5 text-flock-red" />
         ) : null}
@@ -373,7 +369,7 @@ function BarChart({ values }: { values: number[] }) {
       {values.map((v, i) => (
         <div
           key={i}
-          className="flex-1 rounded-t bg-flock-field/70 transition hover:bg-flock-field"
+          className="flex-1 rounded-t bg-fr-green/70 transition hover:bg-fr-green"
           style={{ height: `${Math.max((v / max) * 100, 3)}%` }}
           title={v.toLocaleString()}
         />
@@ -385,11 +381,11 @@ function BarChart({ values }: { values: number[] }) {
 function EmptyCoops() {
   return (
     <div className="flex flex-col items-center gap-2 px-4 py-10 text-center">
-      <Bird className="h-8 w-8 text-flock-stone" />
-      <p className="font-sans text-[14px] text-flock-soil">No flocks yet</p>
+      <Bird className="h-8 w-8 text-fr-sub" />
+      <p className="font-sans text-[14px] font-medium text-fr-ink">No flocks yet</p>
       <Link
         to="/coops"
-        className="mt-1 flex items-center gap-1 rounded bg-flock-harvest px-3 py-1.5 font-sans text-[13px] text-flock-soil"
+        className="mt-1 flex items-center gap-1 rounded-xl bg-fr-green px-3.5 py-2 font-sans text-[13px] font-semibold text-white transition hover:brightness-105"
       >
         <Plus className="h-3.5 w-3.5" /> Add a flock
       </Link>
