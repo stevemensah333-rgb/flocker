@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Apple, Monitor, ArrowUpRight, Wheat, Egg, HeartPulse, Download, WifiOff, Star, Heart, Copy, Check, Smartphone } from "lucide-react";
+import { Apple, Monitor, ArrowUpRight, Wheat, Egg, HeartPulse, Download, WifiOff, Star, Heart, Copy, Check, Smartphone, X } from "lucide-react";
 import QRCode from "qrcode";
 import { DOWNLOADS, detectOS, type DesktopOS } from "@/lib/flock/downloads";
 import { recordDownload, submitFeedback } from "@/lib/flock/tracking";
