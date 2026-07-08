@@ -166,6 +166,21 @@ export default function RationProWidget({
           />
           <span className="font-sans text-[11px] text-flock-stone">kg</span>
         </div>
+        <span className="text-flock-stone">·</span>
+        <label className="font-sans text-[12px] text-flock-stone">Bag</label>
+        <div className="inline-flex items-center gap-1 rounded-sm border bg-flock-mist px-2 py-0.5">
+          <input
+            type="number"
+            min={1}
+            max={200}
+            value={bagKg}
+            onChange={(e) =>
+              setBagKg(Math.min(200, Math.max(1, Number(e.target.value) || 0)))
+            }
+            className="w-12 bg-transparent text-right font-mono text-[12px] outline-none"
+          />
+          <span className="font-sans text-[11px] text-flock-stone">kg/bag</span>
+        </div>
         <button
           onClick={() => setShowIngredients((s) => !s)}
           className={`rounded-sm border px-3 py-1 font-sans text-[12px] font-semibold transition ${
