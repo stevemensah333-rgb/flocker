@@ -508,20 +508,18 @@ function SpreadTable({
                 <input
                   type="number"
                   min={0}
-                  value={row.pricePerBag || ""}
+                  value={row.pricePerKg || ""}
                   placeholder="—"
                   onChange={(e) =>
                     updateRow(row.id, {
-                      pricePerBag: Number(e.target.value) || 0,
+                      pricePerKg: Number(e.target.value) || 0,
                     })
                   }
                   className={`${cellInput} placeholder:text-flock-stone`}
                 />
               </td>
               <td className={`${td} text-flock-stone`}>
-                {row.pricePerBag
-                  ? fmt((row.kg / (bagKg > 0 ? bagKg : 1)) * row.pricePerBag, 2)
-                  : "—"}
+                {row.pricePerKg ? fmt(row.kg * row.pricePerKg, 2) : "—"}
               </td>
               <td className={`${td} text-flock-stone`}>{ing.me || "—"}</td>
               <td className={`${td} text-flock-stone`}>{fmt(ing.cp, 1)}</td>
