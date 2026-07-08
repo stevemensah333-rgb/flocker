@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Apple, Monitor, ArrowUpRight, Wheat, Egg, HeartPulse, Download, WifiOff, Star } from "lucide-react";
+import { Apple, Monitor, ArrowUpRight, Wheat, Egg, HeartPulse, Download, WifiOff, Star, Heart } from "lucide-react";
 import { DOWNLOADS, detectOS, type DesktopOS } from "@/lib/flock/downloads";
 import { recordDownload, submitFeedback } from "@/lib/flock/tracking";
 import RationProWidget from "@/components/ration/RationProWidget";
