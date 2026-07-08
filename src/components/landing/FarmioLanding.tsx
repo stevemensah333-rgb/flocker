@@ -165,6 +165,8 @@ function Hero() {
         alt="Free-range hens on a Ghanaian poultry farm at golden hour"
         width={1920}
         height={1280}
+        fetchPriority="high"
+        decoding="async"
         className="absolute inset-0 h-full w-full object-cover"
       />
       <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(13,19,15,0.55) 0%, rgba(13,19,15,0.25) 40%, rgba(13,19,15,0.92) 100%)" }} />
