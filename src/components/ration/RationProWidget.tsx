@@ -13,7 +13,7 @@ import {
   getIngredient,
   newId,
   fmt,
-  DEFAULT_BAG_KG,
+  
   type RationRow,
   type NutrientStatus,
 } from "@/lib/flock/ration";
