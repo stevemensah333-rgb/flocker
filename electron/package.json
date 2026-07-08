@@ -16,7 +16,9 @@
     "productName": "Flocker",
     "files": [
       "main.cjs",
-      "app/**/*"
+      "preload.cjs",
+      "app/**/*",
+      "assets/**/*"
     ],
     "publish": [
       {
@@ -26,17 +28,20 @@
       }
     ],
     "win": {
-      "target": "nsis"
+      "target": "nsis",
+      "icon": "assets/logo.png"
     },
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true
     },
     "mac": {
-      "target": "dmg"
+      "target": "dmg",
+      "icon": "assets/logo.png"
     },
     "linux": {
-      "target": "AppImage"
+      "target": "AppImage",
+      "icon": "assets/logo.png"
     }
   },
   "devDependencies": {
