@@ -5,6 +5,7 @@ import { z } from "zod";
 const MsgSchema = z.object({
   role: z.enum(["user", "assistant"]),
   content: z.string().min(1).max(4000),
+  imageBase64: z.string().max(15_000_000).optional(),
 });
 
 const FlockSchema = z
