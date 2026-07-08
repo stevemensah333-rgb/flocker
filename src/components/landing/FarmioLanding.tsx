@@ -10,6 +10,7 @@ import heroFarm from "@/assets/flock/hero-farm.jpg";
 import cardFeed from "@/assets/flock/card-feed.jpg";
 import cardEggs from "@/assets/flock/card-eggs.jpg";
 import cardHealth from "@/assets/flock/card-health.jpg";
+import logo from "@/assets/flock/logo.png";
 
 const DISPLAY = '"Sora", system-ui, sans-serif';
 
