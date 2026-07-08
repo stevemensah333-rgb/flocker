@@ -14,7 +14,7 @@ export const Route = createFileRoute("/")({
       {
         property: "og:description",
         content:
-          "AI feed formulation, flock intelligence and health alerts, built for Ghanaian poultry farms.",
+          "Every bird, every batch, every cedi. Flocker is the AI farm OS for Ghanaian poultry farmers — feed formulation, flock intelligence and health alerts in one app.",
       },
     ],
   }),
