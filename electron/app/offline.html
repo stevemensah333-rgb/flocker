@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        background: #f4f8f5;
+        font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+        color: #0e1a12;
+      }
+      .wrap {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        text-align: center;
+        padding: 24px;
+      }
+      img {
+        width: 96px;
+        height: 96px;
+        border-radius: 22px;
+        opacity: 0.9;
+      }
+      h1 {
+        font-size: 20px;
+        margin: 8px 0 0;
+      }
+      p {
+        color: #5b685f;
+        font-size: 14px;
+        max-width: 380px;
+        line-height: 1.5;
+        margin: 0;
+      }
+      button {
+        margin-top: 8px;
+        background: #0e1a12;
+        color: #fff;
+        border: 0;
+        padding: 10px 22px;
+        border-radius: 10px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      button:hover {
+        background: #16341f;
+      }
+      .status {
+        font-size: 12px;
+        color: #8a968e;
+        margin-top: 4px;
+      }
+      .dot {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #b4442e;
+        margin-right: 6px;
+      }
+      .dot.on {
+        background: #16a34a;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <img src="../assets/logo.png" alt="Flocker" />
+      <h1>You're offline</h1>
+      <p>
+        Flocker needs an internet connection to sync your flocks, ledger and to
+        use AI features like VetLine. We'll reconnect automatically the moment
+        you're back online.
+      </p>
+      <div class="status">
+        <span class="dot" id="dot"></span><span id="statusText">No connection</span>
+      </div>
+      <button id="retry">Try again</button>
+    </div>
+    <script>
+      const dot = document.getElementById("dot");
+      const statusText = document.getElementById("statusText");
+      function refresh() {
+        const online = navigator.onLine;
+        dot.classList.toggle("on", online);
+        statusText.textContent = online ? "Back online — reloading…" : "No connection";
+        if (online && window.flockerReload) window.flockerReload();
+      }
+      window.addEventListener("online", refresh);
+      window.addEventListener("offline", refresh);
+      document.getElementById("retry").addEventListener("click", () => {
+        if (window.flockerReload) window.flockerReload();
+      });
+      refresh();
+    </script>
+  </body>
+</html>
