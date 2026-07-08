@@ -4,12 +4,9 @@ export interface RationRow {
   id: string;
   name: string;
   kg: number;
-  /** Price of one bag of this ingredient (in the farm's currency). */
-  pricePerBag?: number;
+  /** Price per kg of this ingredient (in the farm's currency). */
+  pricePerKg?: number;
 }
-
-/** Default weight of a feed bag, in kg. */
-export const DEFAULT_BAG_KG = 50;
 
 export interface RationTotals {
   kg: number;
@@ -22,8 +19,8 @@ export interface RationTotals {
   cf: number;
   /** Total cost of the whole mix. */
   cost: number;
-  /** Cost of one finished bag of feed. */
-  costPerBag: number;
+  /** Cost per kg of finished feed. */
+  costPerKg: number;
 }
 
 export type NutrientStatus = "met" | "close" | "deficit";
