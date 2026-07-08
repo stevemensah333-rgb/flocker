@@ -88,6 +88,7 @@ export default function FarmioLanding() {
       <DemoSection />
       <DownloadSection />
       <Testimonials />
+      <DonateSection />
       <FeedbackSection />
       <Footer />
     </div>
