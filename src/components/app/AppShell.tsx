@@ -87,7 +87,13 @@ function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
   );
 }
 
-function ProfileCard({ onSignOut }: { onSignOut: () => void }) {
+function ProfileCard({
+  onSignOut,
+  onFeedback,
+}: {
+  onSignOut: () => void;
+  onFeedback: () => void;
+}) {
   const [open, setOpen] = useState(false);
   const [profile, setProfile] = useState<{ name: string; email: string; avatar: string | null }>(
     { name: "Farmer", email: "", avatar: null },
