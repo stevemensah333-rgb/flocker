@@ -330,32 +330,28 @@ function KpiCard({
   spark: number[];
 }) {
   const colorVar =
-    accent === "field" ? "#3d6b35" : accent === "harvest" ? "#e8a838" : "#8c7b6b";
+    accent === "field" ? "#2fae66" : accent === "harvest" ? "#e8a838" : "#5b6b62";
   const accentClass =
     accent === "field"
-      ? "text-flock-field"
+      ? "text-fr-green-text"
       : accent === "harvest"
         ? "text-flock-harvest"
-        : "text-flock-stone";
+        : "text-fr-sub";
   return (
-    <div className="group relative overflow-hidden rounded border bg-flock-paper p-4 transition-colors hover:border-flock-stone/30">
-      <span
-        className="absolute inset-x-0 top-0 h-0.5"
-        style={{ backgroundColor: colorVar }}
-      />
+    <div className="group relative overflow-hidden rounded-2xl border border-fr-card-border bg-fr-card p-5 shadow-sm transition-colors hover:border-fr-green/40">
       <div className="flex items-start justify-between">
         <div className={`flex items-center gap-1.5 ${accentClass}`}>
           {icon}
-          <span className="font-sans text-[12px] uppercase tracking-wide text-flock-stone">
+          <span className="font-sans text-[12px] uppercase tracking-wide text-fr-sub">
             {label}
           </span>
         </div>
         <Sparkline values={spark} color={colorVar} />
       </div>
-      <p className="mt-3 font-mono text-[26px] leading-none text-flock-soil">{value}</p>
-      <div className="mt-2 flex items-center gap-1 font-sans text-[12px] text-flock-stone">
+      <p className="mt-3 font-sans text-[28px] font-bold leading-none tracking-tight text-fr-ink">{value}</p>
+      <div className="mt-2 flex items-center gap-1 font-sans text-[12px] text-fr-sub">
         {trend === "up" ? (
-          <TrendingUp className="h-3.5 w-3.5 text-flock-field" />
+          <TrendingUp className="h-3.5 w-3.5 text-fr-green-text" />
         ) : trend === "down" ? (
           <TrendingDown className="h-3.5 w-3.5 text-flock-red" />
         ) : null}
