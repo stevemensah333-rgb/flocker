@@ -13,7 +13,7 @@ import {
   getIngredient,
   newId,
   fmt,
-  DEFAULT_BAG_KG,
+  
   type RationRow,
   type NutrientStatus,
 } from "@/lib/flock/ration";
@@ -77,7 +77,6 @@ export default function RationProWidget({
   const [showAdvice, setShowAdvice] = useState(false);
   const [showIngredients, setShowIngredients] = useState(false);
   const [basisKg, setBasisKg] = useState(100);
-  const [bagKg, setBagKg] = useState(DEFAULT_BAG_KG);
   const [birds, setBirds] = useState(1500);
   const [gramsPerBird, setGramsPerBird] = useState(120);
   const [days, setDays] = useState(14);
@@ -86,7 +85,7 @@ export default function RationProWidget({
     () => STAGE_TARGETS.find((s) => s.stage === stageName)!,
     [stageName],
   );
-  const totals = useMemo(() => computeTotals(rows, bagKg), [rows, bagKg]);
+  const totals = useMemo(() => computeTotals(rows), [rows]);
   const inRation = useMemo(() => new Set(rows.map((r) => r.name)), [rows]);
 
   const filtered = useMemo(() => {
@@ -121,7 +120,6 @@ export default function RationProWidget({
   const batchTotalKg = requiredKg;
   const batchCost =
     totals.kg > 0 ? (totals.cost / totals.kg) * batchTotalKg : 0;
-  const batchBags = bagKg > 0 ? batchTotalKg / bagKg : 0;
 
   const kgDelta = totals.kg - basisKg;
   const kgColor =
@@ -167,20 +165,6 @@ export default function RationProWidget({
           <span className="font-sans text-[11px] text-flock-stone">kg</span>
         </div>
         <span className="text-flock-stone">·</span>
-        <label className="font-sans text-[12px] text-flock-stone">Bag</label>
-        <div className="inline-flex items-center gap-1 rounded-sm border bg-flock-mist px-2 py-0.5">
-          <input
-            type="number"
-            min={1}
-            max={200}
-            value={bagKg}
-            onChange={(e) =>
-              setBagKg(Math.min(200, Math.max(1, Number(e.target.value) || 0)))
-            }
-            className="w-12 bg-transparent text-right font-mono text-[12px] outline-none"
-          />
-          <span className="font-sans text-[11px] text-flock-stone">kg/bag</span>
-        </div>
         <button
           onClick={() => setShowIngredients((s) => !s)}
           className={`rounded-sm border px-3 py-1 font-sans text-[12px] font-semibold transition ${
@@ -288,7 +272,7 @@ export default function RationProWidget({
           <div className="flex flex-wrap items-center justify-end gap-x-4 gap-y-1 px-3 py-1.5">
             {totals.cost > 0 && (
               <span className="font-mono text-[12px] font-semibold text-flock-soil">
-                Cost/bag ({fmt(bagKg, 0)} kg): {fmt(totals.costPerBag, 2)}
+                Cost/kg: {fmt(totals.costPerKg, 2)}
                 <span className="ml-3 text-flock-stone">
                   Mix total: {fmt(totals.cost, 2)}
                 </span>
@@ -307,7 +291,7 @@ export default function RationProWidget({
             totals={totals}
             target={target}
             basisKg={basisKg}
-            bagKg={bagKg}
+            
             updateRow={updateRow}
             removeRow={removeRow}
             qtyRefs={qtyRefs}
@@ -337,9 +321,6 @@ export default function RationProWidget({
         <span className="font-sans text-flock-stone">=</span>
         <span className="font-semibold text-flock-soil">
           {fmt(batchTotalKg, 0)} kg total
-          <span className="ml-1 text-flock-stone">
-            (≈ {fmt(batchBags, 1)} bags)
-          </span>
         </span>
         {batchCost > 0 && (
           <>
@@ -449,7 +430,7 @@ function SpreadTable({
   totals,
   target,
   basisKg,
-  bagKg,
+  
   updateRow,
   removeRow,
   qtyRefs,
@@ -458,7 +439,6 @@ function SpreadTable({
   totals: ReturnType<typeof computeTotals>;
   target: (typeof STAGE_TARGETS)[number];
   basisKg: number;
-  bagKg: number;
   updateRow: (id: string, patch: Partial<RationRow>) => void;
   removeRow: (id: string) => void;
   qtyRefs: React.MutableRefObject<Record<string, HTMLInputElement | null>>;
@@ -477,7 +457,7 @@ function SpreadTable({
           <th className="border w-5"></th>
           <th className={`${th} text-left`}>Ingredient</th>
           <th className={th}>Qty (kg)</th>
-          <th className={th}>Price/bag</th>
+          <th className={th}>Price/kg</th>
           <th className={th}>Cost</th>
           <th className={th}>ME</th>
           <th className={th}>CP%</th>
@@ -528,20 +508,18 @@ function SpreadTable({
                 <input
                   type="number"
                   min={0}
-                  value={row.pricePerBag || ""}
+                  value={row.pricePerKg || ""}
                   placeholder="—"
                   onChange={(e) =>
                     updateRow(row.id, {
-                      pricePerBag: Number(e.target.value) || 0,
+                      pricePerKg: Number(e.target.value) || 0,
                     })
                   }
                   className={`${cellInput} placeholder:text-flock-stone`}
                 />
               </td>
               <td className={`${td} text-flock-stone`}>
-                {row.pricePerBag
-                  ? fmt((row.kg / (bagKg > 0 ? bagKg : 1)) * row.pricePerBag, 2)
-                  : "—"}
+                {row.pricePerKg ? fmt(row.kg * row.pricePerKg, 2) : "—"}
               </td>
               <td className={`${td} text-flock-stone`}>{ing.me || "—"}</td>
               <td className={`${td} text-flock-stone`}>{fmt(ing.cp, 1)}</td>

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Apple, Monitor, ArrowUpRight, Wheat, Egg, HeartPulse, Download, WifiOff, Star } from "lucide-react";
+import { Apple, Monitor, ArrowUpRight, Wheat, Egg, HeartPulse, Download, WifiOff, Star, Heart } from "lucide-react";
 import { DOWNLOADS, detectOS, type DesktopOS } from "@/lib/flock/downloads";
 import { recordDownload, submitFeedback } from "@/lib/flock/tracking";
 import RationProWidget from "@/components/ration/RationProWidget";
@@ -130,13 +130,24 @@ function PillNav() {
             </a>
           ))}
         </div>
-        <a
-          href="#download"
-          className="group inline-flex items-center gap-1.5 rounded-full px-5 py-2 text-sm font-semibold transition-transform hover:-translate-y-0.5"
-          style={{ background: C.lime, color: C.bg }}
-        >
-          Download <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-        </a>
+        <div className="flex items-center gap-2">
+          <a
+            href="#donate"
+            aria-label="Donate to support Flocker"
+            title="Support Flocker"
+            className="group inline-flex h-10 w-10 items-center justify-center rounded-full border transition-transform hover:-translate-y-0.5"
+            style={{ borderColor: "rgba(44,26,14,0.15)", color: C.bg }}
+          >
+            <Heart className="h-4 w-4 transition-transform group-hover:scale-110" />
+          </a>
+          <a
+            href="#download"
+            className="group inline-flex items-center gap-1.5 rounded-full px-5 py-2 text-sm font-semibold transition-transform hover:-translate-y-0.5"
+            style={{ background: C.lime, color: C.bg }}
+          >
+            Download <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          </a>
+        </div>
       </nav>
     </header>
   );

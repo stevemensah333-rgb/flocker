@@ -100,7 +100,7 @@ function RationProPage() {
   return (
     <AppShell
       title="RationPro"
-      subtitle="Build and balance feed rations on a 100 kg basis."
+      subtitle="Build and balance feed rations."
     >
       <RationProWidget
         key={loaded?.id ?? "new"}
