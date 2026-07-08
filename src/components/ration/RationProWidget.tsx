@@ -430,7 +430,7 @@ function SpreadTable({
   totals,
   target,
   basisKg,
-  bagKg,
+  
   updateRow,
   removeRow,
   qtyRefs,
