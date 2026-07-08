@@ -272,7 +272,7 @@ export default function RationProWidget({
           <div className="flex flex-wrap items-center justify-end gap-x-4 gap-y-1 px-3 py-1.5">
             {totals.cost > 0 && (
               <span className="font-mono text-[12px] font-semibold text-flock-soil">
-                Cost/bag ({fmt(bagKg, 0)} kg): {fmt(totals.costPerBag, 2)}
+                Cost/kg: {fmt(totals.costPerKg, 2)}
                 <span className="ml-3 text-flock-stone">
                   Mix total: {fmt(totals.cost, 2)}
                 </span>
