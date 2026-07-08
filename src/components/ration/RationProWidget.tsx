@@ -37,44 +37,38 @@ const statusIcon: Record<NutrientStatus, string> = {
   deficit: "✗",
 };
 
-function defaultRows(priceMap?: Record<string, number>): RationRow[] {
-  const pick = (name: string, kg: number, fallback: number): RationRow => ({
+function defaultRows(): RationRow[] {
+  const pick = (name: string, kg: number): RationRow => ({
     id: newId(),
     name,
     kg,
-    pricePerKg: priceMap?.[name] ?? fallback,
   });
   return [
-    pick("Maize (yellow)", 55, 1.8),
-    pick("Soya bean meal (solvent-ext.)", 20, 3.5),
-    pick("Wheat bran", 8, 1.2),
-    pick("Fish meal (65% CP)", 5, 4.5),
-    pick("Oyster shell", 8.5, 0.6),
-    pick("Dicalcium phosphate (DCP)", 2, 1.8),
-    pick("Vitamin-mineral premix", 1, 8.0),
-    pick("Salt (NaCl)", 0.5, 0.6),
+    pick("Maize (yellow)", 55),
+    pick("Soya bean meal (solvent-ext.)", 20),
+    pick("Wheat bran", 8),
+    pick("Fish meal (65% CP)", 5),
+    pick("Oyster shell", 8.5),
+    pick("Dicalcium phosphate (DCP)", 2),
+    pick("Vitamin-mineral premix", 1),
+    pick("Salt (NaCl)", 0.5),
   ];
 }
 
 export default function RationProWidget({
   onSave,
-  onSavePrices,
   initialRows,
   initialStage,
-  priceMap,
 }: {
   onSave?: (data: {
     rows: RationRow[];
     stage: string;
-    costPerKg: number;
   }) => void;
-  onSavePrices?: (prices: { name: string; pricePerKg: number }[]) => void;
   initialRows?: RationRow[];
   initialStage?: string;
-  priceMap?: Record<string, number>;
 } = {}) {
   const [rows, setRows] = useState<RationRow[]>(
-    initialRows ?? (() => defaultRows(priceMap)),
+    initialRows ?? (() => defaultRows()),
   );
   const [stageName, setStageName] = useState(initialStage ?? STAGE_TARGETS[3].stage);
   const [search, setSearch] = useState("");
@@ -109,10 +103,10 @@ export default function RationProWidget({
     const id = newId();
     setRows((r) => [
       ...r,
-      { id, name, kg: 0, pricePerKg: priceMap?.[name] ?? 0 },
+      { id, name, kg: 0 },
     ]);
     setTimeout(() => qtyRefs.current[id]?.focus(), 0);
-  }, [inRation, priceMap]);
+  }, [inRation]);
 
   const updateRow = (id: string, patch: Partial<RationRow>) =>
     setRows((r) => r.map((row) => (row.id === id ? { ...row, ...patch } : row)));
@@ -122,7 +116,6 @@ export default function RationProWidget({
   const advice = useMemo(() => buildAdvice(totals, target), [totals, target]);
 
   const requiredKg = (birds * gramsPerBird * days) / 1000;
-  const scaleFactor = totals.kg > 0 ? requiredKg / totals.kg : 0;
   const batchTotalKg = requiredKg;
 
   const kgDelta = totals.kg - basisKg;
@@ -184,24 +177,10 @@ export default function RationProWidget({
         >
           Calculate
         </button>
-        {onSavePrices && (
-          <button
-            onClick={() =>
-              onSavePrices(
-                rows
-                  .filter((r) => r.pricePerKg > 0)
-                  .map((r) => ({ name: r.name, pricePerKg: r.pricePerKg })),
-              )
-            }
-            className="rounded-sm border bg-flock-mist px-3 py-1 font-sans text-[12px] font-semibold text-flock-soil hover:bg-flock-fog"
-          >
-            Save prices
-          </button>
-        )}
         {onSave && (
           <button
             onClick={() =>
-              onSave({ rows, stage: stageName, costPerKg: totals.costPerKg })
+              onSave({ rows, stage: stageName })
             }
             className="rounded-sm border bg-flock-mist px-3 py-1 font-sans text-[12px] font-semibold text-flock-soil hover:bg-flock-fog"
           >
@@ -328,7 +307,7 @@ export default function RationProWidget({
         <ScalerInput value={days} onChange={setDays} suffix="days" w="w-12" />
         <span className="font-sans text-flock-stone">=</span>
         <span className="font-semibold text-flock-soil">
-          {fmt(batchTotalKg, 0)} kg total · ₵{fmt(scaleFactor * totals.cost, 0)}
+          {fmt(batchTotalKg, 0)} kg total
         </span>
       </div>
 
@@ -456,7 +435,6 @@ function SpreadTable({
           <th className="border w-5"></th>
           <th className={`${th} text-left`}>Ingredient</th>
           <th className={th}>Qty (kg)</th>
-          <th className={th}>Price/kg</th>
           <th className={th}>ME</th>
           <th className={th}>CP%</th>
           <th className={th}>CP ctr</th>
@@ -465,7 +443,6 @@ function SpreadTable({
           <th className={th}>AvP ctr</th>
           <th className={th}>Lys ctr</th>
           <th className={th}>Meth ctr</th>
-          <th className={th}>Cost ₵</th>
         </tr>
       </thead>
       <tbody>
@@ -503,18 +480,6 @@ function SpreadTable({
                   className={cellInput}
                 />
               </td>
-              <td className={td}>
-                <input
-                  type="number"
-                  value={row.pricePerKg || ""}
-                  onChange={(e) =>
-                    updateRow(row.id, {
-                      pricePerKg: Number(e.target.value) || 0,
-                    })
-                  }
-                  className={cellInput}
-                />
-              </td>
               <td className={`${td} text-flock-stone`}>{ing.me || "—"}</td>
               <td className={`${td} text-flock-stone`}>{fmt(ing.cp, 1)}</td>
               <td className={td}>{fmt(f * ing.cp, 2)}</td>
@@ -523,7 +488,6 @@ function SpreadTable({
               <td className={td}>{fmt(f * ing.avP, 2)}</td>
               <td className={td}>{fmt(f * ing.lys, 2)}</td>
               <td className={td}>{fmt(f * ing.meth, 2)}</td>
-              <td className={td}>{fmt(row.kg * row.pricePerKg, 2)}</td>
             </tr>
           );
         })}
@@ -536,14 +500,12 @@ function SpreadTable({
           </td>
           <td className={td}></td>
           <td className={td}></td>
-          <td className={td}></td>
           <td className={td}>{fmt(totals.cp, 2)}</td>
           <td className={td}>{fmt(totals.me, 0)}</td>
           <td className={td}>{fmt(totals.ca, 2)}</td>
           <td className={td}>{fmt(totals.avP, 2)}</td>
           <td className={td}>{fmt(totals.lys, 2)}</td>
           <td className={td}>{fmt(totals.meth, 2)}</td>
-          <td className={td}>{fmt(totals.cost, 2)}</td>
         </tr>
         {/* TARGET */}
         <tr className="bg-flock-mist italic">
@@ -552,20 +514,17 @@ function SpreadTable({
           <td className={td}>{fmt(basisKg, 0)}</td>
           <td className={td}></td>
           <td className={td}></td>
-          <td className={td}></td>
           <td className={td}>{fmt(target.cp, 2)}</td>
           <td className={td}>{fmt(target.me, 0)}</td>
           <td className={td}>{fmt(target.ca, 2)}</td>
           <td className={td}>{fmt(target.avP, 2)}</td>
           <td className={td}>{fmt(target.lys, 2)}</td>
           <td className={td}>{fmt(target.meth, 2)}</td>
-          <td className={td}>—</td>
         </tr>
         {/* DIFF */}
         <tr className="font-semibold">
           <td className="border"></td>
           <td className="h-6 border px-1.5 text-left font-sans text-[12px]">DIFF</td>
-          <td className={td}></td>
           <td className={td}></td>
           <td className={td}></td>
           <td className={td}></td>
@@ -575,7 +534,6 @@ function SpreadTable({
           <DiffCell achieved={totals.avP} target={target.avP} td={td} dp={2} />
           <DiffCell achieved={totals.lys} target={target.lys} td={td} dp={2} />
           <DiffCell achieved={totals.meth} target={target.meth} td={td} dp={2} />
-          <td className={td}></td>
         </tr>
       </tbody>
     </table>
