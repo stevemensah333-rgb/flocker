@@ -477,6 +477,8 @@ function SpreadTable({
           <th className="border w-5"></th>
           <th className={`${th} text-left`}>Ingredient</th>
           <th className={th}>Qty (kg)</th>
+          <th className={th}>Price/bag</th>
+          <th className={th}>Cost</th>
           <th className={th}>ME</th>
           <th className={th}>CP%</th>
           <th className={th}>CP ctr</th>
