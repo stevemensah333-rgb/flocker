@@ -369,7 +369,7 @@ function BarChart({ values }: { values: number[] }) {
       {values.map((v, i) => (
         <div
           key={i}
-          className="flex-1 rounded-t bg-flock-field/70 transition hover:bg-flock-field"
+          className="flex-1 rounded-t bg-fr-green/70 transition hover:bg-fr-green"
           style={{ height: `${Math.max((v / max) * 100, 3)}%` }}
           title={v.toLocaleString()}
         />
@@ -381,11 +381,11 @@ function BarChart({ values }: { values: number[] }) {
 function EmptyCoops() {
   return (
     <div className="flex flex-col items-center gap-2 px-4 py-10 text-center">
-      <Bird className="h-8 w-8 text-flock-stone" />
-      <p className="font-sans text-[14px] text-flock-soil">No flocks yet</p>
+      <Bird className="h-8 w-8 text-fr-sub" />
+      <p className="font-sans text-[14px] font-medium text-fr-ink">No flocks yet</p>
       <Link
         to="/coops"
-        className="mt-1 flex items-center gap-1 rounded bg-flock-harvest px-3 py-1.5 font-sans text-[13px] text-flock-soil"
+        className="mt-1 flex items-center gap-1 rounded-xl bg-fr-green px-3.5 py-2 font-sans text-[13px] font-semibold text-white transition hover:brightness-105"
       >
         <Plus className="h-3.5 w-3.5" /> Add a flock
       </Link>
