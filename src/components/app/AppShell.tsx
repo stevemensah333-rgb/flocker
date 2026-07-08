@@ -283,7 +283,7 @@ export default function AppShell({
               </button>
             </div>
             <NavLinks onNavigate={() => setMobileOpen(false)} />
-            <ProfileCard onSignOut={signOut} />
+            <ProfileCard onSignOut={signOut} onFeedback={() => setFeedbackOpen(true)} />
           </aside>
         </div>
       )}
