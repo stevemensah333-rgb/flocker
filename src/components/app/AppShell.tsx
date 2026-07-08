@@ -326,3 +326,97 @@ export default function AppShell({
     </div>
   );
 }
+
+function FeedbackModal({ onClose }: { onClose: () => void }) {
+  const [rating, setRating] = useState(0);
+  const [hover, setHover] = useState(0);
+  const [message, setMessage] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+
+  async function submit() {
+    if (rating === 0) {
+      toast.error("Please pick a rating.");
+      return;
+    }
+    if (message.trim().length < 3) {
+      toast.error("Please add a short message.");
+      return;
+    }
+    setSubmitting(true);
+    const { error } = await supabase
+      .from("feedback")
+      .insert({ rating, message: message.trim() });
+    setSubmitting(false);
+    if (error) {
+      toast.error(`Couldn't send — ${error.message}`);
+      return;
+    }
+    toast.success("Thanks for the feedback!");
+    onClose();
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div
+        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        onClick={onClose}
+      />
+      <div className="relative w-full max-w-md overflow-hidden rounded-2xl border border-fr-card-border bg-fr-card shadow-2xl">
+        <div className="flex items-center justify-between border-b border-fr-card-border px-5 py-4">
+          <h2 className="font-sans text-[16px] font-bold text-fr-ink">
+            Send feedback
+          </h2>
+          <button
+            onClick={onClose}
+            aria-label="Close"
+            className="rounded-lg p-1.5 text-fr-sub transition hover:bg-black/5"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+        <div className="space-y-4 px-5 py-5">
+          <div>
+            <p className="mb-2 font-sans text-[13px] text-fr-sub">
+              How is Flocker working for you?
+            </p>
+            <div className="flex gap-1">
+              {[1, 2, 3, 4, 5].map((n) => (
+                <button
+                  key={n}
+                  onMouseEnter={() => setHover(n)}
+                  onMouseLeave={() => setHover(0)}
+                  onClick={() => setRating(n)}
+                  aria-label={`${n} star${n > 1 ? "s" : ""}`}
+                  className="p-0.5"
+                >
+                  <Star
+                    className={`h-7 w-7 transition ${
+                      (hover || rating) >= n
+                        ? "fill-fr-green text-fr-green"
+                        : "text-fr-card-border"
+                    }`}
+                  />
+                </button>
+              ))}
+            </div>
+          </div>
+          <textarea
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            rows={4}
+            placeholder="Tell us what you love or what we can improve…"
+            className="w-full resize-none rounded-xl border border-fr-card-border bg-fr-stat px-3 py-2.5 font-sans text-[14px] text-fr-ink outline-none focus:border-fr-green focus:ring-1 focus:ring-fr-green placeholder:text-fr-sub"
+          />
+          <button
+            onClick={submit}
+            disabled={submitting}
+            className="flex w-full items-center justify-center gap-2 rounded-xl bg-fr-green px-4 py-2.5 font-sans text-[14px] font-semibold text-white transition hover:opacity-90 disabled:opacity-60"
+          >
+            <Send className="h-4 w-4" />
+            {submitting ? "Sending…" : "Send feedback"}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
