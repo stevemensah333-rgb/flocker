@@ -285,7 +285,15 @@ export default function RationProWidget({
 
         {/* Spreadsheet */}
         <div className="overflow-x-auto">
-          <div className="flex items-center justify-end gap-2 px-3 py-1.5">
+          <div className="flex flex-wrap items-center justify-end gap-x-4 gap-y-1 px-3 py-1.5">
+            {totals.cost > 0 && (
+              <span className="font-mono text-[12px] font-semibold text-flock-soil">
+                Cost/bag ({fmt(bagKg, 0)} kg): {fmt(totals.costPerBag, 2)}
+                <span className="ml-3 text-flock-stone">
+                  Mix total: {fmt(totals.cost, 2)}
+                </span>
+              </span>
+            )}
             <span className={`font-mono text-[12px] font-semibold ${kgColor}`}>
               Total: {fmt(totals.kg, 1)} kg
               {Math.abs(kgDelta) >= 0.05 &&
@@ -299,6 +307,7 @@ export default function RationProWidget({
             totals={totals}
             target={target}
             basisKg={basisKg}
+            bagKg={bagKg}
             updateRow={updateRow}
             removeRow={removeRow}
             qtyRefs={qtyRefs}
