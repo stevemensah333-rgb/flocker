@@ -23,6 +23,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import NotificationBell from "@/components/app/NotificationBell";
+import logo from "@/assets/flock/logo.png";
 
 type NavItem = {
   to: string;
