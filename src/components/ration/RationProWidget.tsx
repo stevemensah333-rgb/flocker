@@ -562,6 +562,10 @@ function SpreadTable({
             {fmt(totals.kg, 1)}
           </td>
           <td className={td}></td>
+          <td className={`${td} text-flock-soil`}>
+            {totals.cost > 0 ? fmt(totals.cost, 2) : ""}
+          </td>
+          <td className={td}></td>
           <td className={td}></td>
           <td className={td}>{fmt(totals.cp, 2)}</td>
           <td className={td}>{fmt(totals.me, 0)}</td>
