@@ -15,6 +15,7 @@ import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as GuidesPoultryFeedIngredientsRouteImport } from './routes/guides.poultry-feed-ingredients'
+import { Route as GuidesPoultryBreedsRouteImport } from './routes/guides.poultry-breeds'
 import { Route as AuthenticatedVetlineRouteImport } from './routes/_authenticated/vetline'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
 import { Route as AuthenticatedReportsRouteImport } from './routes/_authenticated/reports'
@@ -57,6 +58,11 @@ const GuidesPoultryFeedIngredientsRoute =
     path: '/guides/poultry-feed-ingredients',
     getParentRoute: () => rootRouteImport,
   } as any)
+const GuidesPoultryBreedsRoute = GuidesPoultryBreedsRouteImport.update({
+  id: '/guides/poultry-breeds',
+  path: '/guides/poultry-breeds',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedVetlineRoute = AuthenticatedVetlineRouteImport.update({
   id: '/vetline',
   path: '/vetline',
@@ -128,6 +134,7 @@ export interface FileRoutesByFullPath {
   '/reports': typeof AuthenticatedReportsRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/vetline': typeof AuthenticatedVetlineRoute
+  '/guides/poultry-breeds': typeof GuidesPoultryBreedsRoute
   '/guides/poultry-feed-ingredients': typeof GuidesPoultryFeedIngredientsRoute
   '/api/public/whatsapp/cron': typeof ApiPublicWhatsappCronRoute
   '/api/public/whatsapp/webhook': typeof ApiPublicWhatsappWebhookRoute
@@ -146,6 +153,7 @@ export interface FileRoutesByTo {
   '/reports': typeof AuthenticatedReportsRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/vetline': typeof AuthenticatedVetlineRoute
+  '/guides/poultry-breeds': typeof GuidesPoultryBreedsRoute
   '/guides/poultry-feed-ingredients': typeof GuidesPoultryFeedIngredientsRoute
   '/api/public/whatsapp/cron': typeof ApiPublicWhatsappCronRoute
   '/api/public/whatsapp/webhook': typeof ApiPublicWhatsappWebhookRoute
@@ -166,6 +174,7 @@ export interface FileRoutesById {
   '/_authenticated/reports': typeof AuthenticatedReportsRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/_authenticated/vetline': typeof AuthenticatedVetlineRoute
+  '/guides/poultry-breeds': typeof GuidesPoultryBreedsRoute
   '/guides/poultry-feed-ingredients': typeof GuidesPoultryFeedIngredientsRoute
   '/api/public/whatsapp/cron': typeof ApiPublicWhatsappCronRoute
   '/api/public/whatsapp/webhook': typeof ApiPublicWhatsappWebhookRoute
@@ -186,6 +195,7 @@ export interface FileRouteTypes {
     | '/reports'
     | '/settings'
     | '/vetline'
+    | '/guides/poultry-breeds'
     | '/guides/poultry-feed-ingredients'
     | '/api/public/whatsapp/cron'
     | '/api/public/whatsapp/webhook'
@@ -204,6 +214,7 @@ export interface FileRouteTypes {
     | '/reports'
     | '/settings'
     | '/vetline'
+    | '/guides/poultry-breeds'
     | '/guides/poultry-feed-ingredients'
     | '/api/public/whatsapp/cron'
     | '/api/public/whatsapp/webhook'
@@ -223,6 +234,7 @@ export interface FileRouteTypes {
     | '/_authenticated/reports'
     | '/_authenticated/settings'
     | '/_authenticated/vetline'
+    | '/guides/poultry-breeds'
     | '/guides/poultry-feed-ingredients'
     | '/api/public/whatsapp/cron'
     | '/api/public/whatsapp/webhook'
@@ -234,6 +246,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRoute
   AuthRoute: typeof AuthRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  GuidesPoultryBreedsRoute: typeof GuidesPoultryBreedsRoute
   GuidesPoultryFeedIngredientsRoute: typeof GuidesPoultryFeedIngredientsRoute
   ApiPublicWhatsappCronRoute: typeof ApiPublicWhatsappCronRoute
   ApiPublicWhatsappWebhookRoute: typeof ApiPublicWhatsappWebhookRoute
@@ -281,6 +294,13 @@ declare module '@tanstack/react-router' {
       path: '/guides/poultry-feed-ingredients'
       fullPath: '/guides/poultry-feed-ingredients'
       preLoaderRoute: typeof GuidesPoultryFeedIngredientsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guides/poultry-breeds': {
+      id: '/guides/poultry-breeds'
+      path: '/guides/poultry-breeds'
+      fullPath: '/guides/poultry-breeds'
+      preLoaderRoute: typeof GuidesPoultryBreedsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/vetline': {
@@ -396,6 +416,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRoute,
   AuthRoute: AuthRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  GuidesPoultryBreedsRoute: GuidesPoultryBreedsRoute,
   GuidesPoultryFeedIngredientsRoute: GuidesPoultryFeedIngredientsRoute,
   ApiPublicWhatsappCronRoute: ApiPublicWhatsappCronRoute,
   ApiPublicWhatsappWebhookRoute: ApiPublicWhatsappWebhookRoute,
