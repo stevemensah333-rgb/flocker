@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Apple, Monitor, ArrowUpRight, Wheat, Egg, HeartPulse, Download, WifiOff, Star, Heart, Copy, Check, Smartphone } from "lucide-react";
+import { Apple, Monitor, ArrowUpRight, Wheat, Egg, HeartPulse, Download, WifiOff, Star, Heart, Copy, Check, Smartphone, X } from "lucide-react";
 import QRCode from "qrcode";
 import { DOWNLOADS, detectOS, type DesktopOS } from "@/lib/flock/downloads";
 import { recordDownload, submitFeedback } from "@/lib/flock/tracking";
@@ -78,9 +78,10 @@ function Reveal({
 }
 
 export default function FarmioLanding() {
+  const [donateOpen, setDonateOpen] = useState(false);
   return (
     <div style={{ background: C.bg, color: C.cream, fontFamily: DISPLAY }} className="min-h-screen overflow-x-hidden">
-      <PillNav />
+      <PillNav onDonate={() => setDonateOpen(true)} />
       <Hero />
       <StatBand />
       <Solutions />
@@ -88,15 +89,15 @@ export default function FarmioLanding() {
       <DemoSection />
       <DownloadSection />
       <Testimonials />
-      <DonateSection />
       <FeedbackSection />
       <Footer />
+      <DonateModal open={donateOpen} onClose={() => setDonateOpen(false)} />
     </div>
   );
 }
 
 /* ============================ NAV ============================ */
-function PillNav() {
+function PillNav({ onDonate }: { onDonate: () => void }) {
   const [scrolled, setScrolled] = useState(false);
   useEffect(() => {
     const on = () => setScrolled(window.scrollY > 20);
@@ -132,15 +133,16 @@ function PillNav() {
           ))}
         </div>
         <div className="flex items-center gap-2">
-          <a
-            href="#donate"
+          <button
+            type="button"
+            onClick={onDonate}
             aria-label="Donate to support Flocker"
             title="Support Flocker"
             className="group inline-flex h-10 w-10 items-center justify-center rounded-full border transition-transform hover:-translate-y-0.5"
             style={{ borderColor: "rgba(44,26,14,0.15)", color: C.bg }}
           >
             <Heart className="h-4 w-4 transition-transform group-hover:scale-110" />
-          </a>
+          </button>
           <a
             href="#download"
             className="group inline-flex items-center gap-1.5 rounded-full px-5 py-2 text-sm font-semibold transition-transform hover:-translate-y-0.5"
@@ -537,11 +539,12 @@ const MOMO = {
   intl: "+233 555 156 128",
 };
 
-function DonateSection() {
+function DonateModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const [qr, setQr] = useState<string>("");
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
+    if (!open) return;
     QRCode.toDataURL(MOMO.number.replace(/\s/g, ""), {
       margin: 1,
       width: 320,
@@ -549,7 +552,14 @@ function DonateSection() {
     })
       .then(setQr)
       .catch(() => setQr(""));
-  }, []);
+  }, [open]);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open, onClose]);
 
   const copyNumber = async () => {
     try {
@@ -561,66 +571,83 @@ function DonateSection() {
     }
   };
 
+  if (!open) return null;
+
   return (
-    <section id="donate" className="py-24 md:py-32" style={{ background: L.bg }}>
-      <div className="mx-auto max-w-3xl px-6 text-center">
-        <Reveal>
+    <div
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Support Flocker"
+    >
+      <div
+        className="absolute inset-0 animate-in fade-in"
+        style={{ background: "rgba(14,26,18,0.6)", backdropFilter: "blur(4px)" }}
+        onClick={onClose}
+      />
+      <div
+        className="relative z-10 flex w-full max-w-md flex-col items-center gap-6 rounded-3xl border p-8 text-center shadow-2xl animate-in fade-in zoom-in-95"
+        style={{ borderColor: L.border, background: L.surface }}
+      >
+        <button
+          type="button"
+          onClick={onClose}
+          aria-label="Close"
+          className="absolute right-4 top-4 inline-flex h-8 w-8 items-center justify-center rounded-full transition-colors hover:bg-black/5"
+          style={{ color: L.muted2 }}
+        >
+          <X className="h-4 w-4" />
+        </button>
+
+        <div>
           <p className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em]" style={{ color: L.accent }}>
             <Heart className="h-3.5 w-3.5" /> Support Flocker
           </p>
-          <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl" style={{ color: L.ink }}>
+          <h2 className="mt-3 text-2xl font-semibold tracking-tight" style={{ color: L.ink }}>
             Help keep Flocker running.
           </h2>
-          <p className="mx-auto mt-4 max-w-xl text-sm md:text-base" style={{ color: L.muted2 }}>
-            Flocker is built for African poultry farmers and its AI tools cost money to run. If it saves you time or money,
-            a small Mobile Money gift keeps the lights on and the features coming.
+          <p className="mx-auto mt-3 max-w-xs text-sm" style={{ color: L.muted2 }}>
+            Flocker's AI tools cost money to run. A small Mobile Money gift keeps the lights on. 🐔
           </p>
-        </Reveal>
+        </div>
 
-        <Reveal delay={120}>
-          <div
-            className="mx-auto mt-10 flex max-w-md flex-col items-center gap-6 rounded-3xl border p-8"
-            style={{ borderColor: L.border, background: L.surface }}
-          >
-            <span
-              className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold"
-              style={{ background: "#FFCC0022", color: "#8A6D00" }}
-            >
-              <Smartphone className="h-3.5 w-3.5" /> {MOMO.network}
-            </span>
+        <span
+          className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-xs font-semibold"
+          style={{ background: "#FFCC0022", color: "#8A6D00" }}
+        >
+          <Smartphone className="h-3.5 w-3.5" /> {MOMO.network}
+        </span>
 
-            {qr ? (
-              <img
-                src={qr}
-                alt={`Mobile Money QR code for ${MOMO.number}`}
-                className="h-44 w-44 rounded-2xl"
-                style={{ background: "#FFFFFF" }}
-              />
-            ) : (
-              <div className="h-44 w-44 animate-pulse rounded-2xl" style={{ background: L.bg }} />
-            )}
+        {qr ? (
+          <img
+            src={qr}
+            alt={`Mobile Money QR code for ${MOMO.number}`}
+            className="h-44 w-44 rounded-2xl"
+            style={{ background: "#FFFFFF" }}
+          />
+        ) : (
+          <div className="h-44 w-44 animate-pulse rounded-2xl" style={{ background: L.bg }} />
+        )}
 
-            <div>
-              <p className="text-2xl font-bold tracking-tight" style={{ color: L.ink }}>{MOMO.number}</p>
-              <p className="mt-1 text-sm" style={{ color: L.muted2 }}>{MOMO.name}</p>
-            </div>
+        <div>
+          <p className="text-2xl font-bold tracking-tight" style={{ color: L.ink }}>{MOMO.number}</p>
+          <p className="mt-1 text-sm" style={{ color: L.muted2 }}>{MOMO.name}</p>
+        </div>
 
-            <button
-              type="button"
-              onClick={copyNumber}
-              className="inline-flex w-full items-center justify-center gap-2 rounded-full py-3 text-sm font-semibold transition-transform hover:-translate-y-0.5"
-              style={{ background: L.accent, color: "#FFFFFF" }}
-            >
-              {copied ? <><Check className="h-4 w-4" /> Copied!</> : <><Copy className="h-4 w-4" /> Copy number</>}
-            </button>
+        <button
+          type="button"
+          onClick={copyNumber}
+          className="inline-flex w-full items-center justify-center gap-2 rounded-full py-3 text-sm font-semibold transition-transform hover:-translate-y-0.5"
+          style={{ background: L.accent, color: "#FFFFFF" }}
+        >
+          {copied ? <><Check className="h-4 w-4" /> Copied!</> : <><Copy className="h-4 w-4" /> Copy number</>}
+        </button>
 
-            <p className="text-xs" style={{ color: L.muted }}>
-              Scan the QR or dial your MoMo menu and send any amount. Thank you! 🐔
-            </p>
-          </div>
-        </Reveal>
+        <p className="text-xs" style={{ color: L.muted }}>
+          Scan the QR or dial your MoMo menu and send any amount. Thank you!
+        </p>
       </div>
-    </section>
+    </div>
   );
 }
 
