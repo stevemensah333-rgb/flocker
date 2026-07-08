@@ -16,8 +16,11 @@ import {
   X,
   MessageSquare,
   PlayCircle,
+  Star,
+  Send,
 } from "lucide-react";
 import { useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import NotificationBell from "@/components/app/NotificationBell";
 
@@ -87,7 +90,13 @@ function NavLinks({ onNavigate }: { onNavigate?: () => void }) {
   );
 }
 
-function ProfileCard({ onSignOut }: { onSignOut: () => void }) {
+function ProfileCard({
+  onSignOut,
+  onFeedback,
+}: {
+  onSignOut: () => void;
+  onFeedback: () => void;
+}) {
   const [open, setOpen] = useState(false);
   const [profile, setProfile] = useState<{ name: string; email: string; avatar: string | null }>(
     { name: "Farmer", email: "", avatar: null },
@@ -138,12 +147,15 @@ function ProfileCard({ onSignOut }: { onSignOut: () => void }) {
           >
             <Settings className="h-4 w-4" /> Settings
           </Link>
-          <a
-            href="mailto:hello@flocker.app?subject=Flocker%20feedback"
-            className="flex items-center gap-2.5 px-4 py-3 font-sans text-[13px] text-fr-muted transition hover:bg-white/[0.05] hover:text-white"
+          <button
+            onClick={() => {
+              setOpen(false);
+              onFeedback();
+            }}
+            className="flex w-full items-center gap-2.5 px-4 py-3 text-left font-sans text-[13px] text-fr-muted transition hover:bg-white/[0.05] hover:text-white"
           >
             <MessageSquare className="h-4 w-4" /> Feedback
-          </a>
+          </button>
           <button
             onClick={onSignOut}
             className="flex w-full items-center gap-2.5 border-t border-white/[0.06] px-4 py-3 text-left font-sans text-[13px] text-fr-muted transition hover:bg-white/[0.05] hover:text-white"
@@ -199,9 +211,14 @@ function SidebarHeader() {
           Flocker
         </span>
       </Link>
-      <span className="flex h-8 w-8 items-center justify-center rounded-lg border border-fr-sidebar-border text-fr-muted">
+      <Link
+        to="/onboarding"
+        title="Farm setup & guide"
+        aria-label="Farm setup and guide"
+        className="flex h-8 w-8 items-center justify-center rounded-lg border border-fr-sidebar-border text-fr-muted transition hover:bg-white/[0.06] hover:text-white"
+      >
         <PlayCircle className="h-4 w-4" />
-      </span>
+      </Link>
     </div>
   );
 }
@@ -220,6 +237,7 @@ export default function AppShell({
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
 
   async function signOut() {
     await queryClient.cancelQueries();
@@ -230,11 +248,12 @@ export default function AppShell({
 
   return (
     <div className="min-h-screen bg-fr-content">
+      {feedbackOpen && <FeedbackModal onClose={() => setFeedbackOpen(false)} />}
       {/* Fixed left sidebar (desktop) */}
       <aside className="fixed inset-y-0 left-0 z-20 hidden w-64 flex-col bg-fr-sidebar md:flex">
         <SidebarHeader />
         <NavLinks />
-        <ProfileCard onSignOut={signOut} />
+        <ProfileCard onSignOut={signOut} onFeedback={() => setFeedbackOpen(true)} />
       </aside>
 
       {/* Mobile drawer */}
@@ -267,7 +286,7 @@ export default function AppShell({
               </button>
             </div>
             <NavLinks onNavigate={() => setMobileOpen(false)} />
-            <ProfileCard onSignOut={signOut} />
+            <ProfileCard onSignOut={signOut} onFeedback={() => setFeedbackOpen(true)} />
           </aside>
         </div>
       )}
@@ -276,7 +295,7 @@ export default function AppShell({
         {/* Content area with soft green gradient header */}
         <main className="relative min-h-screen">
           <div className="pointer-events-none absolute inset-x-0 top-0 h-72 bg-[radial-gradient(120%_100%_at_100%_0%,rgba(47,174,102,0.14),transparent_60%)]" />
-          <div className="relative px-5 py-6 sm:px-10 sm:py-9">
+          <div className="relative mx-auto max-w-[1440px] px-5 py-6 sm:px-10 sm:py-9">
             <div className="mb-8 flex flex-wrap items-start gap-4">
               <button
                 onClick={() => setMobileOpen(true)}
@@ -303,6 +322,100 @@ export default function AppShell({
             <div className="animate-flock-enter">{children}</div>
           </div>
         </main>
+      </div>
+    </div>
+  );
+}
+
+function FeedbackModal({ onClose }: { onClose: () => void }) {
+  const [rating, setRating] = useState(0);
+  const [hover, setHover] = useState(0);
+  const [message, setMessage] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+
+  async function submit() {
+    if (rating === 0) {
+      toast.error("Please pick a rating.");
+      return;
+    }
+    if (message.trim().length < 3) {
+      toast.error("Please add a short message.");
+      return;
+    }
+    setSubmitting(true);
+    const { error } = await supabase
+      .from("feedback")
+      .insert({ rating, message: message.trim() });
+    setSubmitting(false);
+    if (error) {
+      toast.error(`Couldn't send — ${error.message}`);
+      return;
+    }
+    toast.success("Thanks for the feedback!");
+    onClose();
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      <div
+        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+        onClick={onClose}
+      />
+      <div className="relative w-full max-w-md overflow-hidden rounded-2xl border border-fr-card-border bg-fr-card shadow-2xl">
+        <div className="flex items-center justify-between border-b border-fr-card-border px-5 py-4">
+          <h2 className="font-sans text-[16px] font-bold text-fr-ink">
+            Send feedback
+          </h2>
+          <button
+            onClick={onClose}
+            aria-label="Close"
+            className="rounded-lg p-1.5 text-fr-sub transition hover:bg-black/5"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
+        <div className="space-y-4 px-5 py-5">
+          <div>
+            <p className="mb-2 font-sans text-[13px] text-fr-sub">
+              How is Flocker working for you?
+            </p>
+            <div className="flex gap-1">
+              {[1, 2, 3, 4, 5].map((n) => (
+                <button
+                  key={n}
+                  onMouseEnter={() => setHover(n)}
+                  onMouseLeave={() => setHover(0)}
+                  onClick={() => setRating(n)}
+                  aria-label={`${n} star${n > 1 ? "s" : ""}`}
+                  className="p-0.5"
+                >
+                  <Star
+                    className={`h-7 w-7 transition ${
+                      (hover || rating) >= n
+                        ? "fill-fr-green text-fr-green"
+                        : "text-fr-card-border"
+                    }`}
+                  />
+                </button>
+              ))}
+            </div>
+          </div>
+          <textarea
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            rows={4}
+            placeholder="Tell us what you love or what we can improve…"
+            className="w-full resize-none rounded-xl border border-fr-card-border bg-fr-stat px-3 py-2.5 font-sans text-[14px] text-fr-ink outline-none focus:border-fr-green focus:ring-1 focus:ring-fr-green placeholder:text-fr-sub"
+          />
+          <button
+            onClick={submit}
+            disabled={submitting}
+            className="flex w-full items-center justify-center gap-2 rounded-xl bg-fr-green px-4 py-2.5 font-sans text-[14px] font-semibold text-white transition hover:opacity-90 disabled:opacity-60"
+          >
+            <Send className="h-4 w-4" />
+            {submitting ? "Sending…" : "Send feedback"}
+          </button>
+        </div>
       </div>
     </div>
   );
