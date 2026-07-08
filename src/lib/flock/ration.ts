@@ -42,13 +42,17 @@ export function newId(): string {
 
 // Nutrient values are the true weighted percentages of the whole mix, so the
 // batch can be any total weight (100 kg … 5 T), not a fixed 100 kg basis.
-export function computeTotals(rows: RationRow[]): RationTotals {
+export function computeTotals(
+  rows: RationRow[],
+  bagKg: number = DEFAULT_BAG_KG,
+): RationTotals {
   let kg = 0;
   for (const row of rows) {
     kg += row.kg;
   }
   const basis = kg > 0 ? kg : 1;
-  let cp = 0, me = 0, ca = 0, avP = 0, lys = 0, meth = 0, cf = 0;
+  const bag = bagKg > 0 ? bagKg : DEFAULT_BAG_KG;
+  let cp = 0, me = 0, ca = 0, avP = 0, lys = 0, meth = 0, cf = 0, cost = 0;
   for (const row of rows) {
     const ing = ingredientByName.get(row.name);
     if (!ing) continue;
@@ -60,8 +64,10 @@ export function computeTotals(rows: RationRow[]): RationTotals {
     lys += f * ing.lys;
     meth += f * ing.meth;
     cf += f * ing.cf;
+    cost += (row.kg / bag) * (row.pricePerBag ?? 0);
   }
-  return { kg, cp, me, ca, avP, lys, meth, cf };
+  const costPerBag = kg > 0 ? (cost / kg) * bag : 0;
+  return { kg, cp, me, ca, avP, lys, meth, cf, cost, costPerBag };
 }
 
 
