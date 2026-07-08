@@ -337,7 +337,18 @@ export default function RationProWidget({
         <span className="font-sans text-flock-stone">=</span>
         <span className="font-semibold text-flock-soil">
           {fmt(batchTotalKg, 0)} kg total
+          <span className="ml-1 text-flock-stone">
+            (≈ {fmt(batchBags, 1)} bags)
+          </span>
         </span>
+        {batchCost > 0 && (
+          <>
+            <span className="font-sans text-flock-stone">·</span>
+            <span className="font-semibold text-flock-field">
+              {fmt(batchCost, 2)} feed cost
+            </span>
+          </>
+        )}
       </div>
 
       {/* Correction advice */}
