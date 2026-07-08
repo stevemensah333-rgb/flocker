@@ -23,6 +23,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import NotificationBell from "@/components/app/NotificationBell";
+import logo from "@/assets/flock/logo.png";
 
 type NavItem = {
   to: string;
@@ -204,9 +205,7 @@ function SidebarHeader() {
   return (
     <div className="flex h-[68px] items-center justify-between px-5">
       <Link to="/dashboard" className="flex items-center gap-2">
-        <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-fr-green/20">
-          <Bird className="h-[18px] w-[18px] text-fr-green" />
-        </span>
+        <img src={logo} alt="Flocker" className="h-7 w-7 rounded-lg" />
         <span className="font-sans text-lg font-bold tracking-tight text-white">
           Flocker
         </span>
@@ -270,9 +269,7 @@ export default function AppShell({
                 onClick={() => setMobileOpen(false)}
                 className="flex items-center gap-2"
               >
-                <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-fr-green/20">
-                  <Bird className="h-[18px] w-[18px] text-fr-green" />
-                </span>
+                <img src={logo} alt="Flocker" className="h-7 w-7 rounded-lg" />
                 <span className="font-sans text-lg font-bold tracking-tight text-white">
                   Flocker
                 </span>
