@@ -198,29 +198,29 @@ function Dashboard() {
             {/* Flock data table */}
             <section className="lg:col-span-2">
               <div className="mb-3 flex items-center justify-between">
-                <h2 className="font-sans text-[15px] font-semibold text-flock-soil">
+                <h2 className="font-sans text-[17px] font-bold tracking-tight text-fr-ink">
                   Flock / Batch Records
                 </h2>
                 <Link
                   to="/coops"
-                  className="flex items-center gap-1 rounded border bg-flock-fog px-2.5 py-1 font-sans text-[12px] text-flock-soil transition hover:bg-flock-mist"
+                  className="flex items-center gap-1 rounded-lg border border-fr-card-border bg-white px-3 py-1.5 font-sans text-[12px] font-medium text-fr-ink transition hover:bg-fr-stat"
                 >
                   Manage
                 </Link>
               </div>
-              <div className="overflow-x-auto rounded border bg-flock-paper">
+              <div className="overflow-x-auto rounded-2xl border border-fr-card-border bg-fr-card shadow-sm">
                 {coops.length === 0 ? (
                   <EmptyCoops />
                 ) : (
                   <table className="w-full text-left">
                     <thead>
-                      <tr className="border-b border-flock-line bg-flock-mist/60 font-sans text-[11px] uppercase tracking-wide text-flock-stone">
-                        <th className="px-4 py-2.5 font-medium">Batch</th>
-                        <th className="px-4 py-2.5 font-medium">Breed</th>
-                        <th className="px-4 py-2.5 font-medium">Age</th>
-                        <th className="px-4 py-2.5 text-right font-medium">Birds</th>
-                        <th className="px-4 py-2.5 font-medium">Type</th>
-                        <th className="px-4 py-2.5 font-medium">Status</th>
+                      <tr className="border-b border-fr-card-border bg-fr-stat font-sans text-[11px] uppercase tracking-wide text-fr-sub">
+                        <th className="px-4 py-3 font-semibold">Batch</th>
+                        <th className="px-4 py-3 font-semibold">Breed</th>
+                        <th className="px-4 py-3 font-semibold">Age</th>
+                        <th className="px-4 py-3 text-right font-semibold">Birds</th>
+                        <th className="px-4 py-3 font-semibold">Type</th>
+                        <th className="px-4 py-3 font-semibold">Status</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -229,16 +229,16 @@ function Dashboard() {
                         return (
                           <tr
                             key={c.id}
-                            className="border-t border-flock-line font-sans text-[13px] text-flock-soil transition-colors hover:bg-flock-mist/40"
+                            className="border-t border-fr-card-border font-sans text-[13px] text-fr-ink transition-colors hover:bg-fr-stat/60"
                           >
 
                             <td className="px-4 py-3 font-medium">{c.name}</td>
-                            <td className="px-4 py-3 text-flock-stone">{c.breed ?? "Mixed"}</td>
-                            <td className="px-4 py-3 text-flock-stone">{c.age_weeks}w</td>
+                            <td className="px-4 py-3 text-fr-sub">{c.breed ?? "Mixed"}</td>
+                            <td className="px-4 py-3 text-fr-sub">{c.age_weeks}w</td>
                             <td className="px-4 py-3 text-right font-mono">
                               {c.count.toLocaleString()}
                             </td>
-                            <td className="px-4 py-3 text-flock-stone capitalize">
+                            <td className="px-4 py-3 text-fr-sub capitalize">
                               {c.production_type ?? "layer"}
                             </td>
                             <td className="px-4 py-3">
@@ -259,18 +259,18 @@ function Dashboard() {
 
             {/* Production chart */}
             <section>
-              <h2 className="mb-3 font-sans text-[15px] font-semibold text-flock-soil">
+              <h2 className="mb-3 font-sans text-[17px] font-bold tracking-tight text-fr-ink">
                 Egg Production
               </h2>
-              <div className="rounded border bg-flock-paper p-4">
+              <div className="rounded-2xl border border-fr-card-border bg-fr-card p-5 shadow-sm">
                 {eggValues.length === 0 ? (
-                  <p className="py-10 text-center font-sans text-[13px] text-flock-stone">
+                  <p className="py-10 text-center font-sans text-[13px] text-fr-sub">
                     No production data yet.
                   </p>
                 ) : (
                   <BarChart values={eggValues} />
                 )}
-                <p className="mt-3 font-sans text-[12px] text-flock-stone">
+                <p className="mt-3 font-sans text-[12px] text-fr-sub">
                   Eggs collected · last {eggValues.length || 0} records
                 </p>
               </div>
