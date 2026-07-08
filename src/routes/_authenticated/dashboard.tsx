@@ -119,19 +119,19 @@ function Dashboard() {
     <>
       <Link
         to="/coops"
-        className="hidden items-center gap-1.5 rounded border bg-flock-fog px-3 py-2 font-sans text-[13px] text-flock-soil transition hover:bg-flock-mist sm:flex"
+        className="hidden items-center gap-1.5 rounded-xl border border-fr-card-border bg-white px-3.5 py-2.5 font-sans text-[13px] font-medium text-fr-ink transition hover:bg-fr-stat sm:flex"
       >
         <ClipboardList className="h-3.5 w-3.5" /> Record Entry
       </Link>
       <Link
         to="/reports"
-        className="hidden items-center gap-1.5 rounded border bg-flock-fog px-3 py-2 font-sans text-[13px] text-flock-soil transition hover:bg-flock-mist sm:flex"
+        className="hidden items-center gap-1.5 rounded-xl border border-fr-card-border bg-white px-3.5 py-2.5 font-sans text-[13px] font-medium text-fr-ink transition hover:bg-fr-stat sm:flex"
       >
         <FileText className="h-3.5 w-3.5" /> Generate Report
       </Link>
       <Link
         to="/coops"
-        className="flex items-center gap-1.5 rounded bg-flock-harvest px-3 py-2 font-sans text-[13px] font-medium text-flock-soil transition hover:opacity-90"
+        className="flex items-center gap-1.5 rounded-xl bg-fr-green px-3.5 py-2.5 font-sans text-[13px] font-semibold text-white transition hover:brightness-105"
       >
         <Plus className="h-3.5 w-3.5" /> Add Flock
       </Link>
