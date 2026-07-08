@@ -291,7 +291,7 @@ export default function RationProWidget({
             totals={totals}
             target={target}
             basisKg={basisKg}
-            bagKg={bagKg}
+            
             updateRow={updateRow}
             removeRow={removeRow}
             qtyRefs={qtyRefs}
