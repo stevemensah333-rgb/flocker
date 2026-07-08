@@ -78,9 +78,10 @@ function Reveal({
 }
 
 export default function FarmioLanding() {
+  const [donateOpen, setDonateOpen] = useState(false);
   return (
     <div style={{ background: C.bg, color: C.cream, fontFamily: DISPLAY }} className="min-h-screen overflow-x-hidden">
-      <PillNav />
+      <PillNav onDonate={() => setDonateOpen(true)} />
       <Hero />
       <StatBand />
       <Solutions />
@@ -88,9 +89,9 @@ export default function FarmioLanding() {
       <DemoSection />
       <DownloadSection />
       <Testimonials />
-      <DonateSection />
       <FeedbackSection />
       <Footer />
+      <DonateModal open={donateOpen} onClose={() => setDonateOpen(false)} />
     </div>
   );
 }
