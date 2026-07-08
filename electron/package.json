@@ -16,7 +16,9 @@
     "productName": "Flocker",
     "files": [
       "main.cjs",
-      "app/**/*"
+      "preload.cjs",
+      "app/**/*",
+      "assets/**/*"
     ],
     "publish": [
       {
