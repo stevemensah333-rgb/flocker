@@ -118,9 +118,7 @@ function PillNav() {
         }}
       >
         <a href="#top" className="flex items-center gap-2" aria-label="Flocker home">
-          <span className="flex h-8 w-8 items-center justify-center rounded-full" style={{ background: C.lime }}>
-            <Egg className="h-4 w-4" style={{ color: C.bg }} />
-          </span>
+          <img src={logo} alt="Flocker" className="h-8 w-8 rounded-lg" />
           <span className="text-lg font-bold" style={{ color: C.bg }}>Flocker</span>
         </a>
         <div className="hidden items-center gap-7 md:flex">
