@@ -234,6 +234,7 @@ export default function AppShell({
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
 
   async function signOut() {
     await queryClient.cancelQueries();
@@ -244,11 +245,12 @@ export default function AppShell({
 
   return (
     <div className="min-h-screen bg-fr-content">
+      {feedbackOpen && <FeedbackModal onClose={() => setFeedbackOpen(false)} />}
       {/* Fixed left sidebar (desktop) */}
       <aside className="fixed inset-y-0 left-0 z-20 hidden w-64 flex-col bg-fr-sidebar md:flex">
         <SidebarHeader />
         <NavLinks />
-        <ProfileCard onSignOut={signOut} />
+        <ProfileCard onSignOut={signOut} onFeedback={() => setFeedbackOpen(true)} />
       </aside>
 
       {/* Mobile drawer */}
