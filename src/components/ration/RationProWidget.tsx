@@ -449,6 +449,7 @@ function SpreadTable({
   totals,
   target,
   basisKg,
+  bagKg,
   updateRow,
   removeRow,
   qtyRefs,
@@ -457,6 +458,7 @@ function SpreadTable({
   totals: ReturnType<typeof computeTotals>;
   target: (typeof STAGE_TARGETS)[number];
   basisKg: number;
+  bagKg: number;
   updateRow: (id: string, patch: Partial<RationRow>) => void;
   removeRow: (id: string) => void;
   qtyRefs: React.MutableRefObject<Record<string, HTMLInputElement | null>>;
