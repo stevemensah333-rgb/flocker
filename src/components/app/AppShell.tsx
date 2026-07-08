@@ -199,9 +199,14 @@ function SidebarHeader() {
           Flocker
         </span>
       </Link>
-      <span className="flex h-8 w-8 items-center justify-center rounded-lg border border-fr-sidebar-border text-fr-muted">
+      <Link
+        to="/onboarding"
+        title="Farm setup & guide"
+        aria-label="Farm setup and guide"
+        className="flex h-8 w-8 items-center justify-center rounded-lg border border-fr-sidebar-border text-fr-muted transition hover:bg-white/[0.06] hover:text-white"
+      >
         <PlayCircle className="h-4 w-4" />
-      </span>
+      </Link>
     </div>
   );
 }
